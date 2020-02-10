@@ -42,7 +42,7 @@ function initialData () {
   }
 
   // Phase track data
-  for (n = 0; n < N; n++) {
+  for (n = 0; n < 100; n++) {
     x.push(15 + t*v*kx/k);
     y.push(15 + t*v*ky/k);
     colour.push('rgb(0, 0, 255)');
@@ -97,14 +97,16 @@ function updateData () {
   
   var x = [], y = [];
   
+  // Lattice data
   for (l = 0; l < N; l++) {
     for (m = 0; m < N; m++) {
       x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a - w*t));
       y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a - w*t));
     }
   }
+
   // Phase track data
-  for (n = 0; n < N; n++) {
+  for (n = 0; n < 100; n++) {
     x.push(15 + t*v*kx/k);
     y.push(15 + t*v*ky/k);
     x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);

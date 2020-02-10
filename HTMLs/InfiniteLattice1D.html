@@ -53,8 +53,31 @@
                     </h2>
                     <hr>
                     <p>
+                        Imagine having an infinitely long chain of identical atoms.
+                        Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
+
+                        The most general solution is:
                         $$ u_n(t) = Re \sum_{k}\tilde{u_k} e^{i(nka-\omega_kt)} $$
+
+                        where                        
+                        $u_n$ is the displacement of the $n^{th}$ atom
+                        and
+                        $k$ is the wavevector of the incoming wave.
+                    </p>
+                    <p>
+                        Here we simulate for a single $k$:
                         $$ u_n(t) = u_k \cos(nka-\omega_kt)$$
+
+                        For any given $k$:
+                        $$ \omega_k = 2 \omega_D |\sin(k a/2)|$$
+                        where
+                        $$ \omega_D = \sqrt{\frac{\kappa}{m}}$$
+                        $\kappa$ is the spring constant,
+                        $m$ is the mass of a single atom,
+                        $a$ is the atomic spacing
+                        and
+                        $\omega_D$ is also known as the Debye frequency.
+                        Here, we assume $\omega_D = 1$ for simplicity.
                     </p>                    
                 </div>
             </div>
