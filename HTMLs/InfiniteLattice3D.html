@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--Title-->
-    <title>Infinite Lattice 2D</title>
+    <title>Infinite Lattice 3D</title>
     <!--css links-->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -79,17 +79,11 @@
                         $a$ is the atomic spacing
                         and
                         $\omega_D$ is also known as the Debye frequency.
-                        Here, we assume $a$ = $\omega_D = 1$ for simplicity.
+                        Here, we assume $\omega_D = 1$ for simplicity.
                     </p>
                     <p>
                         We also trace the wave, which travels at phase velocity $\mathbf{v}=\frac{\mathbf{k}}{w}$.
-                    </p>
-                    <p>
-                        $\textbf{u}_k$ represents the responds of the $n^{th}$ atom to wave $\textbf{k}$.
-                        Notice that $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$
-                        determine the type of wave: longitudinal, transverse or a combination of both. 
-                        Try making $|\textbf{k} \cdot \textbf{u}_k| = 0 $ or $|\textbf{k} \times \textbf{u}_k| = 0 $.
-                    </p>                  
+                    </p>                    
                 </div>
             </div>
         </div>
@@ -100,7 +94,7 @@
         <div class="banner">
             <!--    Visualisation Title    -->
             <h1 class="" id="vis-title">
-                Infinite Lattice (2D)
+                Infinite Lattice (3D)
             </h1>
             <a href="https://www.imperialvisualisations.com/learn/">
                 <img id="vis-logo" src="./assets/VisualisationsLogoWhite2.png">
@@ -146,8 +140,19 @@
                         <span class="sliderMax">1</span>
                     </label>
                     <!--END Slider-->
+                    <!--BEGIN Slider-->
+                    <label class="slider-label">
+                        $r_z$ :
+                        <span id="rz-display">0.1</span>
+                    </label>
+                    <label class="slider">
+                        <span class="sliderMin">-1</span>
+                        <input id="rz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
+                        <span class="sliderMax">1</span>
+                    </label>
+                    <!--END Slider-->
                 </div>
-                <div style="width: 50%; float: left;">              
+                <div style="width: 50%; float: left;">                 
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $u_{k_x}$:
@@ -171,6 +176,17 @@
                         <span class="sliderMax">1</span>
                     </label>
                     <!--END Slider-->
+                    <!--BEGIN Slider-->
+                    <label class="slider-label">
+                        $u_{k_z}$:
+                        <span id="ukz-display">0.5</span>
+                    </label>
+                    <label class="slider">
+                        <span class="sliderMin">-1</span>
+                        <input id="ukz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
+                        <span class="sliderMax">1</span>
+                    </label>
+                    <!--END Slider-->
                 </div>
         
         <!--Buttons/Sliders-->
@@ -186,7 +202,7 @@
     </div>
 
 </div>
-<script src="./scripts/2D.js"></script>
+<script src="./scripts/3D.js"></script>
 
 </body>
 </html>

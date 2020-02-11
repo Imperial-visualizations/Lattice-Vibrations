@@ -4,7 +4,7 @@
 */
 
 // Some global constant
-var N = 25;          // N atoms 
+var N = 10;          // N atoms 
 var a = 1;           // atomic spacing
 var wd = 1;          // Debye wavelength 
 
@@ -15,28 +15,34 @@ function initialData () {
 
   var rx = 0.1; 
   var ry = 0.1; 
+  var rz = 0.1;
   var kx = rx*Math.PI/a;
   var ky = ry*Math.PI/a;
-  var k  = Math.sqrt(Math.pow(kx, 2) + Math.pow(ky, 2));
+  var kz = rz*Math.PI/a;
+  var k  = Math.sqrt(Math.pow(kx, 2) + Math.pow(ky, 2) + Math.pow(kz, 2));
   var lamb = 2*Math.PI/k; 
-  var w = Math.sqrt(4*wd*(Math.pow(Math.sin(kx*a/2), 2)) + Math.pow(Math.sin(ky*a/2), 2));
+  var w = Math.sqrt(4*wd*(Math.pow(Math.sin(kx*a/2), 2)) + Math.pow(Math.sin(ky*a/2), 2) + Math.pow(Math.sin(kz*a/2), 2));
   var v = w/k; 
 
   var ukx = 0.5; 
   var uky = 0.5; 
+  var ukz = 0.5;
   
   var t = 0;
-  var x = [], y = [];
+  var x = [], y = []; z = [];
   var colour = [];
 
   // Lattice data
   for (l = 0; l < N; l++) {
     for (m = 0; m < N; m++) {
-      x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a - w*t));
-      y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a - w*t));
-      colour.push('rgb(17, 157, 255)');
-      if (l == 15 && m == 15) {
-        colour.push('rgb(0, 0, 0)');         //To trace single atom
+      for (n = 0; n < N; n++) {
+        x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
+        y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
+        z.push(n*a + ukz*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
+        colour.push('rgb(17, 157, 255)');
+        if (l == 15 && m == 15) {
+          colour.push('rgb(0, 0, 0)');         //To trace single atom
+        }
       }
     }
   }
@@ -45,19 +51,24 @@ function initialData () {
   for (n = 0; n < 100; n++) {
     x.push(15 + t*v*kx/k);
     y.push(15 + t*v*ky/k);
+    z.push(15 + t*v*kz/k);
     colour.push('rgb(0, 0, 255)');
     x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
     y.push(15 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
+    z.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
     colour.push('rgb(0, 0, 255)');
     x.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
     y.push(15 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
+    z.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
     colour.push('rgb(0, 0, 255)');
   }
 
   return [{
       x: x,
       y: y,
+      z: z,
       mode: 'markers',
+      type: 'scatter3d',
       marker: {
         color: colour,
         size: 10,
@@ -66,9 +77,11 @@ function initialData () {
 
 }
 
-Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
+Plotly.newPlot("plotly-div", initialData(), 
+{title: 'Infinite lattice',
   xaxis: {range: [0.1*N*a, 0.95*N*a]},
-  yaxis: {range: [0.1*N*a, 0.95*N*a]}
+  yaxis: {range: [0.1*N*a, 0.95*N*a]},
+  zaxis: {range: [0.1*N*a, 0.95*N*a]}
 });
 
 
@@ -87,15 +100,19 @@ function updateData () {
   document.getElementById("ry-display").innerHTML = ry.toString();
   var uky = document.getElementById("uky").value;
   document.getElementById("uky-display").innerHTML = uky.toString();
-  
+  var rz = document.getElementById("rz").value;
+  document.getElementById("rz-display").innerHTML = rz.toString();
+  var ukz = document.getElementById("uky").value;
+  document.getElementById("uky-display").innerHTML = ukz.toString();
 
-  var ukvec = [ukx, uky, 0];
+  var ukvec = [ukx, uky, ukz];
   var kx = rx*Math.PI/a;
   var ky = ry*Math.PI/a;
-  var kvec = [kx, ky, 0];
-  var k  = Math.sqrt(Math.pow(kx, 2) + Math.pow(ky, 2));
+  var kz = rz*Math.PI/a;
+  var kvec = [kx, ky, kz];
+  var k  = Math.sqrt(Math.pow(kx, 2) + Math.pow(ky, 2) + Math.pow(kz, 2));
   var lamb = 2*Math.PI/k; 
-  var w = Math.sqrt(4*wd*(Math.pow(Math.sin(kx*a/2), 2)) + Math.pow(Math.sin(ky*a/2), 2));
+  var w = Math.sqrt(4*wd*(Math.pow(Math.sin(kx*a/2), 2)) + Math.pow(Math.sin(ky*a/2), 2) + Math.pow(Math.sin(kz*a/2), 2));
   var v = w/k; 
 
   var dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
@@ -103,13 +120,17 @@ function updateData () {
   var crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2) ), 0.5)))/100;
   document.getElementById("crossproduct").innerHTML = crossproduct.toString();
 
-  var x = [], y = [];
+  var x = [], y = [], z = [];
   
+
   // Lattice data
   for (l = 0; l < N; l++) {
     for (m = 0; m < N; m++) {
-      x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a - w*t));
-      y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a - w*t));
+      for (n = 0; n < N; n++) {
+        x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
+        y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
+        z.push(n*a + ukz*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
+      }
     }
   }
 
@@ -117,16 +138,19 @@ function updateData () {
   for (n = 0; n < 100; n++) {
     x.push(15 + t*v*kx/k);
     y.push(15 + t*v*ky/k);
+    z.push(15 + t*v*kz/k);
     x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
     y.push(15 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
+    z.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
     x.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
     y.push(15 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
+    z.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
   }
 
 
 
 
-return [{x: x, y: y}];
+return [{x: x, y: y, z: z}];
 
 }
 
