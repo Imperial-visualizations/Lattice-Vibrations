@@ -102,21 +102,24 @@
         </div>
         
         <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-            <div id="plotly-div"></div>
-            <div style="width: 33%; float: left;">
-                <span class="mathJaxInline">$\textbf{k} = \frac{\pi}{a} \begin{bmatrix} r_x \\ r_y \end{bmatrix} $</span>
-            </div>
-            <div style="width: 33%; float: left;">
-                <span class="mathJaxInline">$\textbf{k} \cdot \textbf{u}_\textbf{k} = $</span>
-                <span id = "dotproduct"> 123 </span>
-            </div>
-            <div style="width: 33%; float: left;">
-                <span class="mathJaxInline">$| \textbf{k} \times \textbf{u}_\textbf{k}| = $</span>
-                <span id = "crossproduct"> 456 </span>
-            </div>
+            <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
+
             <!--Buttons/Sliders-->
-            <div class="overall-sliders-container" style="width: 100%; overflow: hidden;">
-                <div style="width: 50%; float: left;">                 
+            <div class="overall-sliders-container" style="float: left;">
+                <div style="width: 100%; float: left;">
+                    <span class="mathJaxInline">$\textbf{k} = \frac{\pi}{a} \begin{bmatrix} r_x \\ r_y \\ r_z \end{bmatrix} $</span>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <span class="mathJaxInline">$\textbf{k} \cdot \textbf{u}_\textbf{k} = $</span>
+                    <span id = "dotproduct"> 123 </span>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <span class="mathJaxInline">$| \textbf{k} \times \textbf{u}_\textbf{k}| = $</span>
+                    <span id = "crossproduct"> 456 </span>
+                </div>
+            <!--Buttons/Sliders-->
+            <div>
+                <div style="width: 100%; float: left;">                 
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $r_x$ :
@@ -140,6 +143,7 @@
                         <span class="sliderMax">1</span>
                     </label>
                     <!--END Slider-->
+
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $r_z$ :
@@ -152,7 +156,7 @@
                     </label>
                     <!--END Slider-->
                 </div>
-                <div style="width: 50%; float: left;">                 
+                <div style="width: 100%; float: left;">              
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $u_{k_x}$:
@@ -176,6 +180,7 @@
                         <span class="sliderMax">1</span>
                     </label>
                     <!--END Slider-->
+
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $u_{k_z}$:
@@ -189,14 +194,11 @@
                     <!--END Slider-->
                 </div>
         
-        <!--Buttons/Sliders-->
-        <div class="overall-sliders-container">
-
-
-
- 
             </div>
+
         </div>
+
+
 
         
     </div>

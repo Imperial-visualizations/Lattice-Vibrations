@@ -67,6 +67,15 @@ function initialData () {
 }
 
 Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
+  width: 500,
+  height: 500,
+  margin: {
+    l: 50,
+    r: 50,
+    b: 50,
+    t: 50,
+    pad: 4
+  },
   xaxis: {range: [0.1*N*a, 0.95*N*a]},
   yaxis: {range: [0.1*N*a, 0.95*N*a]}
 });

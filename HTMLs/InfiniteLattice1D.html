@@ -57,7 +57,7 @@
                         Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
 
                         The most general solution is:
-                        $$ u_n(t) = Re \sum_{k}\tilde{u_k} e^{i(nka-\omega_kt)} $$
+                        $$ u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} $$
 
                         where                        
                         $u_n$ is the displacement of the $n^{th}$ atom
@@ -100,11 +100,12 @@
         </div>
         
         <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-            <div id="plotly-div"></div>
-            <span class="mathJaxInline">$ k = r \frac{\pi}{a} $</span>
+            <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
+
             <!--Buttons/Sliders-->
-            <div class="overall-sliders-container" style="width: 100%; overflow: hidden;">
-                <div style="width: 50%; float: left;">                 
+            <div class="overall-sliders-container" style="float: left;">
+                <span class="mathJaxInline">$ k = r \frac{\pi}{a} $</span>
+                <div style="width: 200%;">                 
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         r:
@@ -117,7 +118,7 @@
                     </label>
                     <!--END Slider--> 
                 </div>
-                <div style="width: 50%; float: left;">                 
+                <div style="width: 200%;">                 
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $u_k$:

@@ -59,7 +59,7 @@
                         Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
 
                         The most general solution is:
-                        $$ \textbf{u}_n(t) = Re \sum_{k}\tilde{\textbf{u}}_k e^{i(\textbf{k} \cdot \textbf{r} - \omega_k t)} $$
+                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{r} - \omega_\textbf{k} t)} $$
                         
                         where
                         $\textbf{u}_n$ is the displacement of the $n^{th}$ atom
@@ -68,7 +68,7 @@
                     </p>
                     <p>
                         Here we simulate for a single $\mathbf{k}$:
-                        $$ \textbf{u}_n(t) = \textbf{u}_k \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
+                        $$ \textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
 
                         For any given $\mathbf{k}$:
                         $$ \omega^2_{\mathbf{k}} = 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2)]$$
@@ -108,21 +108,24 @@
         </div>
         
         <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-            <div id="plotly-div"></div>
-            <div style="width: 33%; float: left;">
-                <span class="mathJaxInline">$\textbf{k} = \frac{\pi}{a} \begin{bmatrix} r_x \\ r_y \end{bmatrix} $</span>
-            </div>
-            <div style="width: 33%; float: left;">
-                <span class="mathJaxInline">$\textbf{k} \cdot \textbf{u}_\textbf{k} = $</span>
-                <span id = "dotproduct"> 123 </span>
-            </div>
-            <div style="width: 33%; float: left;">
-                <span class="mathJaxInline">$| \textbf{k} \times \textbf{u}_\textbf{k}| = $</span>
-                <span id = "crossproduct"> 456 </span>
-            </div>
+            <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
+
             <!--Buttons/Sliders-->
-            <div class="overall-sliders-container" style="width: 100%; overflow: hidden;">
-                <div style="width: 50%; float: left;">                 
+            <div class="overall-sliders-container" style="float: left;">
+                <div style="width: 100%; float: left;">
+                    <span class="mathJaxInline">$\textbf{k} = \frac{\pi}{a} \begin{bmatrix} r_x \\ r_y \end{bmatrix} $</span>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <span class="mathJaxInline">$\textbf{k} \cdot \textbf{u}_\textbf{k} = $</span>
+                    <span id = "dotproduct"> 123 </span>
+                </div>
+                <div style="width: 50%; float: left;">
+                    <span class="mathJaxInline">$| \textbf{k} \times \textbf{u}_\textbf{k}| = $</span>
+                    <span id = "crossproduct"> 456 </span>
+                </div>
+            <!--Buttons/Sliders-->
+            <div>
+                <div style="width: 100%; float: left;">                 
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $r_x$ :
@@ -147,7 +150,7 @@
                     </label>
                     <!--END Slider-->
                 </div>
-                <div style="width: 50%; float: left;">              
+                <div style="width: 100%; float: left;">              
                     <!--BEGIN Slider-->
                     <label class="slider-label">
                         $u_{k_x}$:
@@ -173,14 +176,11 @@
                     <!--END Slider-->
                 </div>
         
-        <!--Buttons/Sliders-->
-        <div class="overall-sliders-container">
-
-
-
- 
             </div>
+
         </div>
+
+
 
         
     </div>

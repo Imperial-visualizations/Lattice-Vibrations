@@ -68,20 +68,29 @@ function initialData () {
       y: y,
       z: z,
       mode: 'markers',
-      type: 'scatter3d',
       marker: {
         color: colour,
         size: 10,
-    }}];
+      },
+      type: 'scatter3d'
+  }];
 
 
 }
 
-Plotly.newPlot("plotly-div", initialData(), 
-{title: 'Infinite lattice',
-  xaxis: {range: [0.1*N*a, 0.95*N*a]},
-  yaxis: {range: [0.1*N*a, 0.95*N*a]},
-  zaxis: {range: [0.1*N*a, 0.95*N*a]}
+Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
+width: 500,
+height: 500,
+margin: {
+  l: 50,
+  r: 50,
+  b: 50,
+  t: 50,
+  pad: 4
+},
+xaxis: {range: [0.1*N*a, 0.95*N*a]},
+yaxis: {range: [0.1*N*a, 0.95*N*a]},
+zaxis: {range: [0.1*N*a, 0.95*N*a]},
 });
 
 
