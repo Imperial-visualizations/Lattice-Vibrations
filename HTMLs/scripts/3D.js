@@ -179,4 +179,4 @@ function animatePlot(){
     requestAnimationFrame(animatePlot);
 
 }
-requestAnimationFrame(animatePlot);
+//requestAnimationFrame(animatePlot);
