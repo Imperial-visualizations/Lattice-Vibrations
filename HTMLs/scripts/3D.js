@@ -1,3 +1,4 @@
+//Author: Darren Lean
 
 /*
 *   Plotly
@@ -40,7 +41,7 @@ function initialData () {
         y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
         z.push(n*a + ukz*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
         colour.push('rgb(17, 157, 255)');
-        if (l == 15 && m == 15) {
+        if (l == 6 && m == 6 && n == 6) {
           colour.push('rgb(0, 0, 0)');         //To trace single atom
         }
       }
@@ -49,17 +50,17 @@ function initialData () {
 
   // Phase track data
   for (n = 0; n < 100; n++) {
-    x.push(15 + t*v*kx/k);
-    y.push(15 + t*v*ky/k);
-    z.push(15 + t*v*kz/k);
+    x.push(5 + t*v*kx/k);
+    y.push(5 + t*v*ky/k);
+    z.push(5 + t*v*kz/k);
     colour.push('rgb(0, 0, 255)');
-    x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
-    y.push(15 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    z.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
+    x.push(5 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
+    y.push(5 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
+    z.push(5 + n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
     colour.push('rgb(0, 0, 255)');
-    x.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
-    y.push(15 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    z.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
+    x.push(5 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
+    y.push(5 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
+    z.push(5 - n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
     colour.push('rgb(0, 0, 255)');
   }
 
@@ -68,11 +69,11 @@ function initialData () {
       y: y,
       z: z,
       mode: 'markers',
+      type: 'scatter3d',
       marker: {
         color: colour,
-        size: 10,
-      },
-      type: 'scatter3d'
+        size: 5,
+      }
   }];
 
 
@@ -88,9 +89,9 @@ margin: {
   t: 50,
   pad: 4
 },
-xaxis: {range: [0.1*N*a, 0.95*N*a]},
-yaxis: {range: [0.1*N*a, 0.95*N*a]},
-zaxis: {range: [0.1*N*a, 0.95*N*a]},
+xaxis: {title: '$x$', range: [0.1*N*a, 0.95*N*a]},
+yaxis: {title: '$y$', range: [0.1*N*a, 0.95*N*a]},
+zaxis: {title: '$z$', range: [0.1*N*a, 0.95*N*a]},
 });
 
 

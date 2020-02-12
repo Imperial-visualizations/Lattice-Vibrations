@@ -1,3 +1,4 @@
+//Author: Darren Lean
 
 /*
 *   Plotly
@@ -76,8 +77,8 @@ Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
     t: 50,
     pad: 4
   },
-  xaxis: {range: [0.1*N*a, 0.95*N*a]},
-  yaxis: {range: [0.1*N*a, 0.95*N*a]}
+  xaxis: {title: '$x$', range: [0.1*N*a, 0.95*N*a]},
+  yaxis: {title: '$y$', range: [0.1*N*a, 0.95*N*a]}
 });
 
 
