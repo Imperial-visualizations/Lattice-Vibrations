@@ -36,6 +36,7 @@
     </script>
     <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+    <script src="./scripts/2D_canvas.js"></script>
 </head>
 
 <body>
@@ -111,8 +112,8 @@
         </div>
         
         <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-            <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
-
+            <div id="canvas-div" style="width: 50%; float: left; margin-right:10%"></div>
+            
             <!--Buttons/Sliders-->
             <div class="overall-sliders-container" style="float: left;">
                 <div style="width: 100%; float: left;">
@@ -178,7 +179,7 @@
                     </label>
                     <!--END Slider-->
                 </div>
-
+            
                 <svg id='interactive-arrow'></svg>
         
             </div>
@@ -191,7 +192,6 @@
     </div>
 
 </div>
-<script src="./scripts/2D.js"></script>
 
 </body>
 </html>
