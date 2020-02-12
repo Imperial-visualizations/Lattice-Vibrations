@@ -38,71 +38,7 @@
 </head>
 
 <body>
-<div id="app">
-    <!--   Title of non-current sections to appear on hovering above respective number in navbar     -->
-    <!--    Left Side of Window - containing mainly text    -->
-    <div class="vis-container left" id="left-container">
-        <!--     Dynamic Navigation Bar and Section Headings       -->
-        <div class="" id="progress-container" style="background-color: #003E74">
-         
-        </div>
-        <!--    Container for text content split into sections    -->
-        <div class="journey" id="main-journey">
-            <!--    Section Text Containers   -->
-            <div class="section-container" id="sc1">
-                <div class="placeholder" id="ph1">
-                    <hr>
-                    <h2 class="text section-head" id="s1">
-                        Monatomic Sheet Harmonic Approximation
-                    </h2>
-                    <hr>
-                    <p>
-                        Imagine having an infinitely wide sheet of identical atoms.
-                        Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
-
-                        The most general solution is:
-                        $$ \textbf{u}_n(t) = Re \sum_{k}\tilde{\textbf{u}}_k e^{i(\textbf{k} \cdot \textbf{r} - \omega_k t)} $$
-                        
-                        where
-                        $\textbf{u}_n$ is the displacement of the $n^{th}$ atom
-                        and
-                        $\textbf{k}$ is the wavevector of the incoming wave.
-                    </p>
-                    <p>
-                        Here we simulate for a single $\mathbf{k}$:
-                        $$ \textbf{u}_n(t) = \textbf{u}_k \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
-
-                        For any given $\mathbf{k}$:
-                        $$ \omega^2_{\mathbf{k}} = $$
-                        $$ 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2) + \sin^2(k_z a/2)]$$
-                        where
-                        $$ \omega_D = \sqrt{\frac{\kappa}{m}}$$
-                        $\kappa$ is the spring constant,
-                        $m$ is the mass of a single atom,
-                        $a$ is the atomic spacing
-                        and
-                        $\omega_D$ is also known as the Debye frequency.
-                        We also assume $a = \omega_D = 1$ and $\tilde{\textbf{u}}_\textbf{k}$ has zero phase for simplicity.
-                    </p>
-                    <p>
-                        We also trace the wave, which travels at phase velocity $\mathbf{v}=\frac{\mathbf{k}}{w}$.
-                    </p>                    
-                </div>
-            </div>
-        </div>
-    </div>
     <!--    Right Side of Window - containing mainly interactive and visual content    -->
-    <div class="vis-container right" id="right-container">
-        <!--    Title Banner above Right Side    -->
-        <div class="banner">
-            <!--    Visualisation Title    -->
-            <h1 class="" id="vis-title">
-                Infinite Lattice (3D)
-            </h1>
-            <a href="https://www.imperialvisualisations.com/learn/">
-                <img id="vis-logo" src="./assets/VisualisationsLogoWhite2.png">
-            </a>
-        </div>
         
         <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
             <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
@@ -206,7 +142,7 @@
         
     </div>
 
-</div>
+
 <script src="./scripts/3D.js"></script>
 
 </body>

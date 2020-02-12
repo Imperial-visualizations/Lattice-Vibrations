@@ -153,7 +153,7 @@
                             $a$ is the atomic spacing
                             and
                             $\omega_D$ is also known as the Debye frequency.
-                            Here, we assume $a$ = $\omega_D = 1$ for simplicity.
+                            Here, we assume $a = \omega_D = 1$ and $\tilde{u}_k$ has zero phase for simplicity.
                         </p>  
                         <p>
                             $u_k$ represents the responds of the $n^{th}$ atom to wave $k$.
@@ -198,7 +198,7 @@
                         $a$ is the atomic spacing
                         and
                         $\omega_D$ is also known as the Debye frequency.
-                        We also assume $a$ = $\omega_D = 1$ for simplicity.
+                        We also assume $a = \omega_D = 1$ and $\tilde{\textbf{u}}_\textbf{k}$ has zero phase for simplicity.
                     </p>
                     <p>
                         We also trace the wave, which travels at phase velocity $\mathbf{v}=\frac{\mathbf{k}}{w}$.
@@ -208,6 +208,7 @@
                         Notice that $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$
                         determine the type of wave: longitudinal, transverse or a combination of both. 
                         Try making $|\textbf{k} \cdot \textbf{u}_k| = 0 $ or $|\textbf{k} \times \textbf{u}_k| = 0 $.
+                        What are the types of wave you see in these respective cases?
                     </p>   
                 </div>
             </div>
@@ -224,78 +225,28 @@
                 </div>
                 <!--  functionality 3: button with dropdown contents-->
                 <div class="text section-body odd" id="p4">
-                    <!--    Sub-Section Tabs    -->
-                    <ul class="nav nav-tabs nav-justified">
-                        <li :class="[subSection[3] === 1 ? 'shaded' : '', 'active', 'tabLeft']">
-                            <a data-toggle="tab" href="#die-disp" @click="subScrollTo(4); subSection[3]=1; loadSubScripts(); $forceUpdate();">Dielectric</a>
-                        </li>
-                        <li :class="[subSection[3] === 2 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#con-disp" @click="subScrollTo(4); subSection[3]=2; loadSubScripts(); $forceUpdate();">Conductor</a>
-                        </li>
-                        <li :class="[subSection[3] === 3 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#plas-disp" @click="subScrollTo(4); subSection[3]=3; loadSubScripts(); $forceUpdate();">Plasma</a>
-                        </li>
-                    </ul>
-                    <!--    Sub-Section Text Containers    -->
-                    <div class="tab-content">
-                        <div id="die-disp" class="tab-pane fade in active show">
-                            <center><h5>subtitle</h5></center>
-    Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris.
+                    <p>
+                        Finally, we look at a three dimensional infinite crystal lattice.
+                    </p>
+                    <p>A reminder of the general solution:
+                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{r} - \omega_\textbf{k} t)} $$
+                        For a single $\mathbf{k}$:
+                        $$ \textbf{u}_n(t) = \textbf{u}_k \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
 
-                            <!--  set data-target="#the-id-of-the-div-that-contain-dropdown-content"-->
-                            <!--  always add the style="background-color: white;!important;" to distinguish the dropdown content to other contents-->
-                            <span class="section-extra-head-container">
-            <button class="section-extra-head" data-toggle="collapse"  @click="hideShowToggle($event)"
-                    data-target="#regroupexplainContainer"> Define Terms </button>
-            </span>
-            <div id="regroupexplainContainer" class="collapse extra-content-container">
-                <div id="defineterms" class="extra-content" style="background-color: white;!important;">
-                            <p id="termDefinitions">
-                $\omega_j$ - Resonant frequencies of dielectric;<br>
-                $\omega$ - Frequency of electromagnetic wave;<br>
-                $\gamma_j$ - Damping in each molecule;<br>
-                $f_j$ - Number of electrons per molecule;<br>
-                $m$ - Electron mass;<br>
-                $q$ - Electron charge;<br>
-                $N$ - Number of molecules per unit volume.
-            </p>
-                        </div>
-                    </div>
+                        For any given $\mathbf{k}$:
+                        $$ \omega^2_{\mathbf{k}} = $$
+                        $$ 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2) + \sin^2(k_z a/2)]$$
 
-
-                           <p> Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. </p>
-                        </div>
-                        <div id="con-disp" class="tab-pane fade">
-                            <h3>Note that if the text of the last section is not long enough, add "br" at the end to make sure the right side can work properly</h3>
-                            ed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris.
-
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                        </div>
-                        <div id="plas-disp" class="tab-pane fade">
-                            <h5 style = "text-align:center">Sub-Title</h5>
-
-
-    Morbi in dui quis est pulvinar ullamcorper. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede.
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                        </div>
-
-                    </div>
+                        where all the symbols have the same meanings as before.
+                    </p>
+                    <p>
+                        The types of waves available are still longitudinal, transverse or a combination of both.
+                        This is indicated by $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$.
+                    </p>
+                    <p>
+                        This simulation is meant for completeness. 
+                        If this looks confusing for you, you may wish to return to the two dimensional case as it encompasses all the essentials of physics involved.
+                    </p>
                 </div>
             </div>
 
@@ -371,15 +322,7 @@
                     <!--Interactive Zone Sub Containers-->
                     <div class="rightload text" id='loadout4sub1' key="loadout4sub1"
                          v-if="subSection[3] === 1">
-
-                    </div>
-                    <div class="rightload text" id='loadout4sub2' key="loadout4sub2" v-else-if="subSection[3]===2">
-
-
-
-                    </div>
-                <div class="rightload text" id='loadout4sub3' key="loadout4sub3" v-else-if="subSection[3] === 3">
-
+                         <iframe src="3Dright.html" style='width: 100%; height: 100%'></iframe>
                     </div>
 
             </div>
