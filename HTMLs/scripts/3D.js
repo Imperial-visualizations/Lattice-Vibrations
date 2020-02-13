@@ -80,18 +80,21 @@ function initialData () {
 }
 
 Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
-width: 500,
-height: 500,
-margin: {
-  l: 50,
-  r: 50,
-  b: 50,
-  t: 50,
-  pad: 4
-},
-xaxis: {title: '$x$', range: [0.1*N*a, 0.95*N*a]},
-yaxis: {title: '$y$', range: [0.1*N*a, 0.95*N*a]},
-zaxis: {title: '$z$', range: [0.1*N*a, 0.95*N*a]},
+  width: 500,
+  height: 500,
+  margin: {
+    l: 50,
+    r: 50,
+    b: 50,
+    t: 50,
+    pad: 4
+  },
+  scene: {
+    aspectmode: 'cube',                     //This stops the camera from zooming
+    xaxis: {title: 'x', range: [0.1*N*a, 0.95*N*a]},
+    yaxis: {title: 'y', range: [0.1*N*a, 0.95*N*a]},
+    zaxis: {title: 'z', range: [0.1*N*a, 0.95*N*a]}
+  },
 });
 
 
@@ -112,8 +115,8 @@ function updateData () {
   document.getElementById("uky-display").innerHTML = uky.toString();
   var rz = document.getElementById("rz").value;
   document.getElementById("rz-display").innerHTML = rz.toString();
-  var ukz = document.getElementById("uky").value;
-  document.getElementById("uky-display").innerHTML = ukz.toString();
+  var ukz = document.getElementById("ukz").value;
+  document.getElementById("ukz-display").innerHTML = ukz.toString();
 
   var ukvec = [ukx, uky, ukz];
   var kx = rx*Math.PI/a;
@@ -179,4 +182,4 @@ function animatePlot(){
     requestAnimationFrame(animatePlot);
 
 }
-//requestAnimationFrame(animatePlot);
+requestAnimationFrame(animatePlot);

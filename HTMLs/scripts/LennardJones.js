@@ -50,8 +50,8 @@ margin: {
   pad: 4
 },
 showlegend: false,
-  xaxis: {title: '$r$'},
-  yaxis: {title: '$V(r)$'}
+  xaxis: {title: 'r'},
+  yaxis: {title: 'V(r)'}
 });
 
 

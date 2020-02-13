@@ -55,7 +55,7 @@ margin: {
   t: 50,
   pad: 4
 },
-  xaxis: {title: '$x$', range: [0.1*N*a, 0.95*N*a]},
+  xaxis: {title: 'x', range: [0.1*N*a, 0.95*N*a]},
   yaxis: {showgrid: false, showticklabels: false, range: [-1, 1]}
 });
 
