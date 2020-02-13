@@ -25,6 +25,10 @@ function initialData () {
 
   var ukx = 0.5; 
   var uky = 0.5; 
+
+  var latticeColour = 'rgb(17, 157, 255)';
+  var trackSingleColour = 'rgb(0, 0, 0)';
+  var trackPhaseColour = 'rgb(255, 0, 0)';
   
   var t = 0;
   var x = [], y = [];
@@ -35,26 +39,27 @@ function initialData () {
     for (m = 0; m < N; m++) {
       x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a - w*t));
       y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a - w*t));
-      colour.push('rgb(17, 157, 255)');
       if (l == 15 && m == 15) {
-        colour.push('rgb(0, 0, 0)');         //To trace single atom
+        colour.push(trackSingleColour);         //To trace single atom
+      } else {
+        colour.push(latticeColour);
       }
     }
   }
 
   // Phase track data
-  for (n = 0; n < 100; n++) {
+  for (n = 0; n < N; n++) {
     x.push(15 + t*v*kx/k);
     y.push(15 + t*v*ky/k);
-    colour.push('rgb(0, 0, 255)');
+    colour.push(trackPhaseColour);
     x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
     y.push(15 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    colour.push('rgb(0, 0, 255)');
+    colour.push(trackPhaseColour);
     x.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
     y.push(15 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    colour.push('rgb(0, 0, 255)');
+    colour.push(trackPhaseColour);
   }
-
+  
   return [{
       x: x,
       y: y,
@@ -124,7 +129,7 @@ function updateData () {
   }
 
   // Phase track data
-  for (n = 0; n < 100; n++) {
+  for (n = 0; n < N; n++) {
     x.push(15 + t*v*kx/k);
     y.push(15 + t*v*ky/k);
     x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);

@@ -19,6 +19,9 @@ function initialData () {
   var w = Math.sqrt(4*wd*(Math.pow(Math.sin(k*a/2), 2)));
   
   var uk = 0.5; 
+
+  var latticeColour = 'rgb(17, 157, 255)';
+  var trackSingleColour = 'rgb(0, 0, 0)';
   
   var t = 0;
   var x = [], y = [];
@@ -27,9 +30,9 @@ function initialData () {
   for (l = 0; l < N; l++) {
     x.push(l*a + uk*Math.cos(l*k*a - w*t));
     y.push(0);
-    colour[l] = 'rgb(17, 157, 255)';
+    colour.push(latticeColour);
     if (l == 15) {
-      colour[l] = 'rgb(0, 0, 0)';         //To trace single atom
+      colour.push(trackSingleColour);         //To trace single atom
     }
   }
 
