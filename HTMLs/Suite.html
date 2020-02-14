@@ -96,18 +96,24 @@
                 </div>
                 <!--  Functionality 1 : change the right side within the section-->
                 <div class="text section-body odd" id="p1">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero.
-
-Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum.
-
-                    <!--  check the scrollFunc function in the nav_Script.js  -->
-<h3 class="section-sub-head" id="innerchange" class="innerchange">Switch point</h3>
-Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices.
-
-Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. Morbi in dui quis est pulvinar ullamcorper.
-
-Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede.
-    </div></div>
+                    <p>
+                        Given a piece of solid, how can we model sound waves moving through it?
+                    </p>
+                    <p>
+                        Let us assume that this is a simple solid, made of identical atoms spaced evenly.
+                        We know that atoms in a solid lattice is held together by binding forces, e.g. ionic, covalent or metallic.
+                        Think about the Lennard-Jones potential.
+                    </p>
+                    <p>
+                        Let us model the binding forces using springs, 
+                        i.e. all atoms are connected to their nearest neighbours by identical springs.
+                        This works in the small displacement limit, or at a temperature lower than melting point.
+                    </p>
+                    <p>
+                        How does this model look like?
+                    </p>
+  
+</div></div>
 
 
             <div class="section-container" id="sc2">
@@ -120,38 +126,41 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                 </div>
                 <!--  Functionality 2: section with 3 tabs-->
                 <div class="text section-body odd" id="p2">
-                    <!--    Sub-Section Tabs    -->
-                    <ul class="nav nav-tabs nav-justified">
-                        <!--  always active the first button, click the tab will change the subSection[i] to different values, and use v-if, v-else-if
-                        to switch visualizations on the right,-->
-                        <li :class="[subSection[1] === 1 ? 'shaded' : '', 'active', 'tabLeft']">
-                            <a data-toggle="tab" href="#ttab1" @click="subScrollTo(2); subSection[1]=1; loadSubScripts(); $forceUpdate();">Tab 1</a>
-                        </li>
-                        <li :class="[subSection[1] === 2 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#ttab2" @click="subScrollTo(2); subSection[1]=2; loadSubScripts(); $forceUpdate();">Tab 2</a>
-                        </li>
-                        <li :class="[subSection[1] === 3 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#ttab3" @click="subScrollTo(2); subSection[1]=3; loadSubScripts(); $forceUpdate();">Tab 3</a>
-                        </li>
-                    </ul>
-                    <!--    Sub-Section Text Containers    -->
-                    <div class="tab-content">
-                        <div id="ttab1" class="tab-pane fade in active show">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam. In scelerisque sem at dolor. Maecenas mattis. Sed convallis tristique sem. Proin ut ligula vel nunc egestas porttitor. Morbi lectus risus, iaculis vel, suscipit quis, luctus non, massa. Fusce ac turpis quis ligula lacinia aliquet. Mauris ipsum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices. Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem.
 
-                                                </div>
+                        <p>
+                            We start with the one dimensional case: 
+                            imagine having an infinitely long chain of identical atoms.
+                            Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
+                        
+                            The most general solution is:
+                            $$ u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} $$
+                        
+                            where                        
+                            $u_n$ is the displacement of the $n^{th}$ atom
+                            and
+                            $k$ is the wavevector of the incoming wave.
+                        </p>
+                        <p>
+                            Here we simulate for a single $k$:
+                            $$ u_n(t) = u_k \cos(nka-\omega_kt)$$
+                        
+                            For any given $k$:
+                            $$ \omega_k = 2 \omega_D |\sin(k a/2)|$$
+                            where
+                            $$ \omega_D = \sqrt{\frac{\kappa}{m}}$$
+                            $\kappa$ is the spring constant,
+                            $m$ is the mass of a single atom,
+                            $a$ is the atomic spacing
+                            and
+                            $\omega_D$ is also known as the Debye frequency.
+                            Here, we assume $a = \omega_D = 1$ and $\tilde{u}_k$ has zero phase for simplicity.
+                        </p>  
+                        <p>
+                            $u_k$ represents the responds of the $n^{th}$ atom to wave $k$.
+                            Notice that when $r \to \pm 1$, there are two standing waves. The alternating atoms move in phase.
+                            (Reduce $u_k$ to see this effect better.)
+                        </p>
 
-                                <div id="ttab2" class="tab-pane fade">
-                                        Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh. Quisque volutpat condimentum velit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nam nec ante. Sed lacinia, urna non tincidunt mattis, tortor neque adipiscing diam, a cursus ipsum ante quis turpis. Nulla facilisi. Ut fringilla. Suspendisse potenti. Nunc feugiat mi a tellus consequat imperdiet. Vestibulum sapien. Proin quam. Etiam ultrices.
-
-
-
-                                                </div>
-                                                <div id="ttab3" class="tab-pane fade">
-
-                            Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris.
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -165,118 +174,42 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                 </div>
                 <!--  an example section with content and 2 tabs-->
                 <div class="text section-body odd" id="p3">
-                    <!--    Sub-Section Tabs    -->
-                    <ul class="nav nav-tabs nav-justified">
-                        <li :class="[subSection[2] === 1 ? 'shaded' : '', 'active', 'tabLeft']">
-                            <a data-toggle="tab" href="#E-field" @click="subScrollTo(3); subSection[2]=1; loadSubScripts(); $forceUpdate();">D-field</a>
-                        </li>
-                        <li :class="[subSection[2] === 2 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#M-field" @click="subScrollTo(3); subSection[2]=2; loadSubScripts(); $forceUpdate();">H-field</a>
-                        </li>
-                    </ul>
-                    <!--    Sub-Section Text Containers    -->
-                    <div class="tab-content">
-                        <div id="E-field" class="tab-pane fade in active show">
-                            <span style="font-weight: bold">The key idea behind D field - </span>
-                            <br>
-                            Consider an ideal dielectric (perfect insulator) that stretches to infinity.
-                            Placing it in a uniform electric field $\mathbf{E}_{applied}$ will induce a <span style ="color:#D24000;font-weight:bold">polarisation
-                            field</span> $\mathbf{P}$ in it.
-                            This will give rise to a <span style="color:#02893B; font-weight:bold">total electric field </span> $\mathbf{E}_{total}$ within the dielectric.
-                            <br><br>
-                            In general, $ \nabla \cdot \mathbf{P} = -\rho_p $, where $\rho_p$ is the polarisation charge density.
-                            However, $ \nabla \times \mathbf{P} $ depends on the material.
-                            <br><br>
-                            Define the <span style="color:#9F004E;font-weight:bold">electric displacement field</span>, $\mathbf{D}$ as
-                            $ \mathbf{D} = \epsilon_{0}\mathbf{E}_{total} + \mathbf{P} $.
-                            In general, $ \nabla \cdot \mathbf{D} = \rho_f $, where $\rho_f$ is the free charge density.
-                            <br><br>
-                            In true vacuum, where there is no dipole by definition,
-                            $$ \mathbf{P} = 0 $$
-                            so,
-                            $$ \mathbf{D}_{vacuum} = \epsilon_{0}\mathbf{E}_{applied} $$
-                            $$ \nabla \cdot \mathbf{D}_{vacuum} = \nabla \cdot (\epsilon_{0}\mathbf{E}_{applied}) = 0 $$
-                            $$ \nabla \times \mathbf{D}_{vacuum} = \nabla \times (\epsilon_{0}\mathbf{E}_{applied}) = 0 $$
-                            <br>
-                            In a homogenous, isotropic and linear dielectric (HIL),
-                            $$ \mathbf{P} = \chi_{e}\epsilon_{0}\mathbf{E}_{total} $$
-                            where the electric susceptibility $\chi_{e}$ is a constant of proportionality, or
-                            $$ \mathbf{P} = \epsilon_{r}\mathbf{E}_{total} $$
-                            where $\epsilon_r = \chi_{e}\epsilon_{0}$.
-                            So,
-                            $$ \mathbf{D}_{dielectric} = \epsilon_{0}(1 + \chi_{e})\mathbf{E}_{total} $$
-                            $$ = \epsilon_{0}\mathbf{E}_{applied} $$
-                            $$ = \mathbf{D}_{vacuum} $$
-                            $$ \nabla \cdot \mathbf{D}_{dielectric} = \nabla \cdot [\epsilon_{0}(1 + \chi_{e})\mathbf{E}_{total}] $$
-                            $$ = 0 $$
-                            $$ \nabla \times \mathbf{D}_{dielectric} = \nabla \times [\epsilon_{0}(1 + \chi_{e})\mathbf{E}_{total}] $$
-                            $$ = 0 $$
-                            <br>
-                            <p>Note: The units of the E-field are different to those of the P and D fields, hence field line density in this visualisation only provides a qualitative representation of field strength</p>
+                    <p>
+                        Now consider an infinitely wide sheet of identical atoms.
 
-                            <span style="font-weight: bold">The subtlety - </span>
-                            <br>
-                            You might notice that the <span style="color:#02893B; font-weight:bold"> total E field </span> is weaker in a dielectric than in vacuum but
-                            the <span style="color:#9F004E;font-weight:bold">D field</span> remains <b>constant</b>.
-                            <br><br>
-                            A polarised material indeed weakens the <span style="color:#02893B; font-weight:bold">total E field </span>.
-                            However, the <span style="color:#9F004E;font-weight:bold">D field</span> remains constant because:
-                            <br>
-                            (1) $ \nabla \cdot \mathbf{D} = \rho_f $ and $\rho_f$ is 0 in both the vacuum and the ideal dielectric here,
-                            <br>
-                            (2) $ \mathbf{D} = \epsilon_{0}\mathbf{E}_{total} + \mathbf{P} $ is defined in terms of the <b>total</b> <span style="color:#02893B; font-weight:bold">E field </span> everywhere, so
-                            the reduction in <span style="color:#02893B; font-weight:bold">total E field </span> is complemented by the presence of <span style ="color:#D24000;font-weight:bold">P field</span>
-                            to keep the <span style="color:#9F004E;font-weight:bold">D field</span> constant.
-                            <br><br>
-                            Also note that $\mathbf{D}_{vacuum} = \mathbf{D}_{dielectric}$ in the derivation above.
-                            <br><br>
+                        The most general solution is:
+                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{r} - \omega_\textbf{k} t)} $$
+                        
+                        where
+                        $\textbf{u}_n$ is the displacement of the $n^{th}$ atom
+                        and
+                        $\textbf{k}$ is the wavevector of the incoming wave.
+                    </p>
+                    <p>
+                        We simulate for a single $\mathbf{k}$:
+                        $$ \textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
 
-                            <span style="font-weight: bold">Time variant D field - </span>
-                            Before we talk about H field, we want to consider time variant D field.
-                            Similar to time variant E field gives rise to curl in B field, time variant D field gives rise to curl in H field.
-                            More importantly, changing this electric displacement field gives rise to displacement current density, i.e.
-                            $$\frac{\partial \mathbf{D}}{\partial t} = \mathbf{J}_d$$
-                                                </div>
-                                                <div id="M-field" class="tab-pane fade">
-                                                    <span style="font-weight: bold">The key idea behind H field - </span>
-                            <br>
-                            Consider a magnetic material that stretches to infinity.
-                            Placing it in a uniform magnetic field $\mathbf{B}_{applied}$ will induce a
-                            <span style ="color:#D24000;font-weight:bold">magnetisation field</span> $\mathbf{M}$ in it.
-                            This will give rise to a <span style="color:#0281d6; font-weight:bold">total magnetic field </span> $\mathbf{B}_{total}$.
-                            <br><br>
-                            In general, $ \nabla \times \mathbf{M} = \mathbf{J}_m $, where $\mathbf{J}_m $ is the magnetisation current density.
-                            However, $ \nabla \cdot \mathbf{M} $ depends on the material.
-                            <br><br>
-                            Define the <span style="color:#9F004E;font-weight:bold">magnetising field</span>, $\mathbf{H}$ as
-                            $ \mathbf{H} = \frac{1}{\mu_0}\mathbf{B}_{total} - \mathbf{M} $, where $\mu_0$ is the permeability of free space.
-                            In general, $ \nabla \cdot \mathbf{H} = - \nabla \cdot \mathbf{M} $ and
-                            $ \nabla \times \mathbf{H} = \mathbf{J}_c + \frac{\partial \mathbf{D}}{\partial t} $, where $\mathbf{J}_c$ is the conduction current density.
-                            (Note: $\frac{\partial \mathbf{D}}{\partial t} = \mathbf{J}_d$ - displacement current density.)
-                            <br><br>
-                            In a magnetic material, $\mathbf{M} = \chi_m \mathbf{H}$,
-                            where $\chi_m$ is the magnetic susceptibility of the material.
-                            So, $ \mathbf{H} = \frac{1}{\mu_0\mu_r}\mathbf{B}_{total} $,
-                            where $\mu_r = 1 + \chi_m$.
-                            <br><br>
-                            <p>Note: The units of the B-field are different to those of the M and H fields, hence field line density in this visualisation only provides a qualitative representation of field strength</p>
-
-                            <span style="font-weight: bold">The subtlety - </span>
-                            <br>
-                            You might notice that the <span style="color:#0281d6; font-weight:bold">total magnetic field </span> remaining <b>constant</b> when $\mu_r$ is varied.
-                            The logic behind is similar to that of D field remains constant with varying $\epsilon_r$.
-                            The change in <span style="color:#0281d6; font-weight:bold">total magnetic field </span> is complemented by
-                            the change in <span style ="color:#D24000;font-weight:bold">magnetisation field</span>
-                            to keep the <span style="color:#0281d6; font-weight:bold">total magnetic field </span> constant.
-                            <br><br>
-                            Now let us state the Maxwell's equations (differential) in matter:
-                            $$\nabla \cdot \mathbf{D} = \rho_f$$
-                            $$\nabla \cdot \mathbf{B} = 0$$
-                            $$\nabla \times \mathbf{E} = -\frac{\partial \mathbf{B}}{\partial t}$$
-                            $$\nabla \times \mathbf{H} = \mathbf{J}_c + \frac{\partial \mathbf{D}}{\partial t}$$
-                            We shall use these equations to study dielectrics, conductors and plasmas in the following visualisations.
-                        </div>
-                    </div>
+                        For any given $\mathbf{k}$:
+                        $$ \omega^2_{\mathbf{k}} = 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2)]$$
+                        where
+                        $$ \omega_D = \sqrt{\frac{\kappa}{m}}$$
+                        $\kappa$ is the spring constant,
+                        $m$ is the mass of a single atom,
+                        $a$ is the atomic spacing
+                        and
+                        $\omega_D$ is also known as the Debye frequency.
+                        We also assume $a = \omega_D = 1$ and $\tilde{\textbf{u}}_\textbf{k}$ has zero phase for simplicity.
+                    </p>
+                    <p>
+                        We also trace the wave, which travels at phase velocity $\mathbf{v}=\frac{\mathbf{k}}{w}$.
+                    </p>
+                    <p>
+                        $\textbf{u}_k$ represents the responds of the $n^{th}$ atom to wave $\textbf{k}$.
+                        Notice that $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$
+                        determine the type of wave: longitudinal, transverse or a combination of both. 
+                        Try making $|\textbf{k} \cdot \textbf{u}_k| = 0 $ or $|\textbf{k} \times \textbf{u}_k| = 0 $.
+                        What are the types of wave you see in these respective cases?
+                    </p>   
                 </div>
             </div>
 
@@ -292,78 +225,29 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                 </div>
                 <!--  functionality 3: button with dropdown contents-->
                 <div class="text section-body odd" id="p4">
-                    <!--    Sub-Section Tabs    -->
-                    <ul class="nav nav-tabs nav-justified">
-                        <li :class="[subSection[3] === 1 ? 'shaded' : '', 'active', 'tabLeft']">
-                            <a data-toggle="tab" href="#die-disp" @click="subScrollTo(4); subSection[3]=1; loadSubScripts(); $forceUpdate();">Dielectric</a>
-                        </li>
-                        <li :class="[subSection[3] === 2 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#con-disp" @click="subScrollTo(4); subSection[3]=2; loadSubScripts(); $forceUpdate();">Conductor</a>
-                        </li>
-                        <li :class="[subSection[3] === 3 ? 'shaded' : '', 'tabRight']">
-                            <a data-toggle="tab" href="#plas-disp" @click="subScrollTo(4); subSection[3]=3; loadSubScripts(); $forceUpdate();">Plasma</a>
-                        </li>
-                    </ul>
-                    <!--    Sub-Section Text Containers    -->
-                    <div class="tab-content">
-                        <div id="die-disp" class="tab-pane fade in active show">
-                            <center><h5>subtitle</h5></center>
-    Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris.
+                    <p>
+                        Finally, we look at a three dimensional infinite crystal lattice.
+                        Note that you may experience difficulties in rotating the camera - try 'orbital rotation' found on the top right corner of the plot.
+                    </p>
+                    <p>A reminder of the general solution:
+                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{r} - \omega_\textbf{k} t)} $$
+                        For a single $\mathbf{k}$:
+                        $$ \textbf{u}_n(t) = \textbf{u}_k \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
 
-                            <!--  set data-target="#the-id-of-the-div-that-contain-dropdown-content"-->
-                            <!--  always add the style="background-color: white;!important;" to distinguish the dropdown content to other contents-->
-                            <span class="section-extra-head-container">
-            <button class="section-extra-head" data-toggle="collapse"  @click="hideShowToggle($event)"
-                    data-target="#regroupexplainContainer"> Define Terms </button>
-            </span>
-            <div id="regroupexplainContainer" class="collapse extra-content-container">
-                <div id="defineterms" class="extra-content" style="background-color: white;!important;">
-                            <p id="termDefinitions">
-                $\omega_j$ - Resonant frequencies of dielectric;<br>
-                $\omega$ - Frequency of electromagnetic wave;<br>
-                $\gamma_j$ - Damping in each molecule;<br>
-                $f_j$ - Number of electrons per molecule;<br>
-                $m$ - Electron mass;<br>
-                $q$ - Electron charge;<br>
-                $N$ - Number of molecules per unit volume.
-            </p>
-                        </div>
-                    </div>
+                        For any given $\mathbf{k}$:
+                        $$ \omega^2_{\mathbf{k}} = $$
+                        $$ 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2) + \sin^2(k_z a/2)]$$
 
-
-                           <p> Suspendisse in justo eu magna luctus suscipit. Sed lectus. Integer euismod lacus luctus magna. Quisque cursus, metus vitae pharetra auctor, sem massa mattis sem, at interdum magna augue eget diam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Morbi lacinia molestie dui. Praesent blandit dolor. Sed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris. </p>
-                        </div>
-                        <div id="con-disp" class="tab-pane fade">
-                            <h3>Note that if the text of the last section is not long enough, add "br" at the end to make sure the right side can work properly</h3>
-                            ed non quam. In vel mi sit amet augue congue elementum. Morbi in ipsum sit amet pede facilisis laoreet. Donec lacus nunc, viverra nec, blandit vel, egestas et, augue. Vestibulum tincidunt malesuada tellus. Ut ultrices ultrices enim. Curabitur sit amet mauris.
-
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                        </div>
-                        <div id="plas-disp" class="tab-pane fade">
-                            <h5 style = "text-align:center">Sub-Title</h5>
-
-
-    Morbi in dui quis est pulvinar ullamcorper. Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risus a tortor. Integer id quam. Morbi mi. Quisque nisl felis, venenatis tristique, dignissim in, ultrices sit amet, augue. Proin sodales libero eget ante. Nulla quam. Aenean laoreet. Vestibulum nisi lectus, commodo ac, facilisis ac, ultricies eu, pede.
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                        </div>
-
-                    </div>
+                        where all the symbols have the same meanings as before.
+                    </p>
+                    <p>
+                        The types of waves available are still longitudinal, transverse or a combination of both.
+                        This is indicated by $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$.
+                    </p>
+                    <p>
+                        This simulation is meant for completeness. 
+                        If this looks confusing for you, you may wish to return to the two dimensional case as it encompasses all the essentials of physics involved.
+                    </p>
                 </div>
             </div>
 
@@ -399,12 +283,9 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                 <div class="rightload text" id='loadout1sub1' key="loadout2sub1"
                          v-if="subSection[0] === 1">
                         <!--  add iframe link to the file here-->
-                    <iframe src="1Dright.html" style="width: 67vw; height: 96vh"></iframe>
+                    <iframe src="Introright.html" style="width: 67vw; height: 96vh"></iframe>
 
 
-                </div>
-                <div class="rightload text" id='loadout1sub2' key="loadout2sub2" v-else>
-                    <iframe src="2Dright.html" style="width: 67vw; height: 96vh"></iframe>
                 </div>
 
             </div>
@@ -415,15 +296,9 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                     <!--Interactive Zone Sub Containers-->
                     <div class="rightload text" id='loadout2sub1' key="loadout2sub1"
                          v-if="subSection[1] === 1">
-                        <iframe src="Files/2-1.html" style="width: 67vw; height: 96vh"></iframe>
+                        <iframe src="1Dright.html" style="width: 67vw; height: 96vh"></iframe>
 
 
-                    </div>
-                    <div class="rightload text" id='loadout2sub2' key="loadout2sub2" v-else-if="subSection[1] === 2">
-                        <iframe src="Files/2-2.html" style="width: 67vw; height: 96vh"></iframe>
-                    </div>
-                <div class="rightload text" id='loadout2sub3' key="loadout2sub3" v-else-if="subSection[1] === 3">
-                    <iframe src="Files/2-3.html" style="width: 67vw; height: 96vh"></iframe>
                     </div>
 
             </div>
@@ -434,13 +309,10 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                 <div class="rightload text" id='loadout3sub1' key="loadout3sub1"
                      v-if="subSection[2] === 1">
 
-                    <iframe src="EM2-example/2aFour_Field_interactive.html" style='width: 100%; height: 100%'></iframe>
+                    <iframe src="2Dright.html" style='width: 100%; height: 100%'></iframe>
 
 
 
-                </div>
-                <div class="rightload text" id='loadout3sub2' key="loadout3sub2" v-else-if="subSection[2] === 2">
-                    <iframe src="EM2-example/2bFour_Field_interactive.html" style="width: 67vw; height: 96vh"></iframe>
                 </div>
 
 
@@ -451,15 +323,7 @@ Nulla facilisi. Integer lacinia sollicitudin massa. Cras metus. Sed aliquet risu
                     <!--Interactive Zone Sub Containers-->
                     <div class="rightload text" id='loadout4sub1' key="loadout4sub1"
                          v-if="subSection[3] === 1">
-
-                    </div>
-                    <div class="rightload text" id='loadout4sub2' key="loadout4sub2" v-else-if="subSection[3]===2">
-
-
-
-                    </div>
-                <div class="rightload text" id='loadout4sub3' key="loadout4sub3" v-else-if="subSection[3] === 3">
-
+                         <iframe src="3Dright.html" style='width: 100%; height: 100%'></iframe>
                     </div>
 
             </div>

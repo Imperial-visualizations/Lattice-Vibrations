@@ -28,9 +28,14 @@ function initialData () {
   var ukx = 0.5; 
   var uky = 0.5; 
   var ukz = 0.5;
+
+  var latticeColour = 'rgb(17, 157, 255)';
+  var trackSingleColour = 'rgb(0, 0, 0)';
+  var trackPhaseColour = 'rgb(255, 0, 0)';
   
   var t = 0;
   var x = [], y = []; z = [];
+
   var colour = [];
 
   // Lattice data
@@ -40,28 +45,29 @@ function initialData () {
         x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
         y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
         z.push(n*a + ukz*Math.cos(l*kx*a + m*ky*a + n*kz*a - w*t));
-        colour.push('rgb(17, 157, 255)');
         if (l == 6 && m == 6 && n == 6) {
-          colour.push('rgb(0, 0, 0)');         //To trace single atom
+          colour.push(trackSingleColour);         //To trace single atom
+        } else {
+          colour.push(latticeColour);
         }
       }
     }
   }
 
   // Phase track data
-  for (n = 0; n < 100; n++) {
+  for (n = 0; n < 25; n++) {
     x.push(5 + t*v*kx/k);
     y.push(5 + t*v*ky/k);
     z.push(5 + t*v*kz/k);
-    colour.push('rgb(0, 0, 255)');
-    x.push(5 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
-    y.push(5 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    z.push(5 + n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
-    colour.push('rgb(0, 0, 255)');
-    x.push(5 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
-    y.push(5 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    z.push(5 - n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
-    colour.push('rgb(0, 0, 255)');
+    colour.push(trackPhaseColour);
+    x.push(5 + n*N*a*kx/k + t*v*kx/k);
+    y.push(5 + n*N*a*ky/k + t*v*ky/k);
+    z.push(5 + n*N*a*kz/k + t*v*kz/k);
+    colour.push(trackPhaseColour);
+    x.push(5 - n*N*a*kx/k + t*v*kx/k);
+    y.push(5 - n*N*a*ky/k + t*v*ky/k);
+    z.push(5 - n*N*a*kz/k + t*v*kz/k);
+    colour.push(trackPhaseColour);
   }
 
   return [{
@@ -80,18 +86,21 @@ function initialData () {
 }
 
 Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
-width: 500,
-height: 500,
-margin: {
-  l: 50,
-  r: 50,
-  b: 50,
-  t: 50,
-  pad: 4
-},
-xaxis: {title: '$x$', range: [0.1*N*a, 0.95*N*a]},
-yaxis: {title: '$y$', range: [0.1*N*a, 0.95*N*a]},
-zaxis: {title: '$z$', range: [0.1*N*a, 0.95*N*a]},
+  width: 500,
+  height: 500,
+  margin: {
+    l: 50,
+    r: 50,
+    b: 50,
+    t: 50,
+    pad: 4
+  },
+  scene: {
+    aspectmode: 'cube',                     //This stops the camera from zooming
+    xaxis: {title: 'x', range: [0.1*N*a, 0.95*N*a]},
+    yaxis: {title: 'y', range: [0.1*N*a, 0.95*N*a]},
+    zaxis: {title: 'z', range: [0.1*N*a, 0.95*N*a]}
+  },
 });
 
 
@@ -112,8 +121,8 @@ function updateData () {
   document.getElementById("uky-display").innerHTML = uky.toString();
   var rz = document.getElementById("rz").value;
   document.getElementById("rz-display").innerHTML = rz.toString();
-  var ukz = document.getElementById("uky").value;
-  document.getElementById("uky-display").innerHTML = ukz.toString();
+  var ukz = document.getElementById("ukz").value;
+  document.getElementById("ukz-display").innerHTML = ukz.toString();
 
   var ukvec = [ukx, uky, ukz];
   var kx = rx*Math.PI/a;
@@ -145,16 +154,16 @@ function updateData () {
   }
 
   // Phase track data
-  for (n = 0; n < 100; n++) {
-    x.push(15 + t*v*kx/k);
-    y.push(15 + t*v*ky/k);
-    z.push(15 + t*v*kz/k);
-    x.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
-    y.push(15 + n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    z.push(15 + n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
-    x.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kx/k + t*v*kx/k);
-    y.push(15 - n*Math.round(N*a/lamb - 1)*lamb*ky/k + t*v*ky/k);
-    z.push(15 - n*Math.round(N*a/lamb - 1)*lamb*kz/k + t*v*kz/k);
+  for (n = 0; n < 25; n++) {
+    x.push(5 + t*v*kx/k);
+    y.push(5 + t*v*ky/k);
+    z.push(5 + t*v*kz/k);
+    x.push(5 + n*N*a*kx/k + t*v*kx/k);
+    y.push(5 + n*N*a*ky/k + t*v*ky/k);
+    z.push(5 + n*N*a*kz/k + t*v*kz/k);
+    x.push(5 - n*N*a*kx/k + t*v*kx/k);
+    y.push(5 - n*N*a*ky/k + t*v*ky/k);
+    z.push(5 - n*N*a*kz/k + t*v*kz/k);
   }
 
 
