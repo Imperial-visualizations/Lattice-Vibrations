@@ -145,7 +145,7 @@
                             $$ u_n(t) = u_k \cos(nka-\omega_kt)$$
                         
                             For any given $k$:
-                            $$ \omega_k = 2 \omega_D |\sin(k a/2)|$$
+                            $$ \omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|$$
                             where
                             $$ \omega_D = \sqrt{\frac{\kappa}{m}}$$
                             $\kappa$ is the spring constant,
@@ -190,7 +190,7 @@
                         $$ \textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
 
                         For any given $\mathbf{k}$:
-                        $$ \omega^2_{\mathbf{k}} = 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2)]$$
+                        $$ \omega^2_{\mathbf{k}} = 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) \right]$$
                         where
                         $$ \omega_D = \sqrt{\frac{\kappa}{m}}$$
                         $\kappa$ is the spring constant,
@@ -227,6 +227,10 @@
                 <div class="text section-body odd" id="p4">
                     <p>
                         Finally, we look at a three dimensional infinite crystal lattice.
+                        This simulation is meant for completeness. 
+                        If this looks confusing for you, you may wish to return to the two dimensional case as it encompasses all the essentials of physics involved.
+                    </p>
+                    <p>
                         Note that you may experience difficulties in rotating the camera - try 'orbital rotation' found on the top right corner of the plot.
                     </p>
                     <p>A reminder of the general solution:
@@ -236,17 +240,13 @@
 
                         For any given $\mathbf{k}$:
                         $$ \omega^2_{\mathbf{k}} = $$
-                        $$ 4 \omega^2_D [\sin^2(k_x a/2) + \sin^2(k_y a/2) + \sin^2(k_z a/2)]$$
+                        $$ 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) + \sin^2 \left(\frac{k_z a}{2} \right) \right]$$
 
                         where all the symbols have the same meanings as before.
                     </p>
                     <p>
                         The types of waves available are still longitudinal, transverse or a combination of both.
                         This is indicated by $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$.
-                    </p>
-                    <p>
-                        This simulation is meant for completeness. 
-                        If this looks confusing for you, you may wish to return to the two dimensional case as it encompasses all the essentials of physics involved.
                     </p>
                 </div>
             </div>

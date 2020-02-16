@@ -20,8 +20,8 @@ function initialData () {
 var x = [], y = [];
 
 for (i = 0; i < 10000; i++) {
-  x.push((0.8 + (0.4/10000)*i)*r0);
-  y.push(LennardJones((0.8 + (0.4/10000)*i)*r0));
+  x.push((0.8 + (0.6/10000)*i)*r0);
+  y.push(LennardJones((0.8 + (0.6/10000)*i)*r0));
 }
 
 var trace1 = {
@@ -65,8 +65,8 @@ function updateData () {
   var x = [], y = [];
 
   for (i = 0; i < 10000; i++) {
-    x.push((0.8 + (0.4/10000)*i)*r0);
-    y.push(LennardJones((0.8 + (0.4/10000)*i)*r0));
+    x.push((0.8 + (0.6/10000)*i)*r0);
+    y.push(LennardJones((0.8 + (0.6/10000)*i)*r0));
   }
   
   var trace1 = {
