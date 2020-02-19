@@ -112,6 +112,7 @@ Vis.core = {
 
 Vis.workers = {
     calcParams: function() {
+        Vis.k = Math.sqrt(Vis.kx**2 + Vis.ky**2);
         Vis.kx = Vis.rx * Math.PI / Vis.a;
         Vis.ky = Vis.ry * Math.PI / Vis.a;
 
@@ -131,15 +132,43 @@ Vis.workers = {
     },
 
     calcPhase: function() { //broken in general...
-        let k = Math.sqrt(Vis.kx**2 + Vis.ky**2);
-        let v = Vis.w / k; // broken at small values of k
-        let wl = 2 * Math.PI / k;
-        let nx = Math.round(Vis.Nx*Vis.a/wl);
-        let ny = Math.round(Vis.Ny*Vis.a/wl);
-        
-        for (let i=-5; i <= 5; i++) {
-            Vis.phasex[i+5] = (Vis.t*v*Vis.kx/k + i*Vis.Nx*Vis.a/2) % (nx * wl);
-            Vis.phasey[i+5] = (Vis.t*v*Vis.ky/k + i*Vis.Ny*Vis.a/2) % (ny * wl);
+        let v = Vis.w / Vis.k;
+        let vx = v * Vis.kx / Vis.k;
+        let vy = v * Vis.ky / Vis.k;
+
+        let m = vy / vx;
+
+        if (m >= -1 && m <= 1) {
+            // do y processing
+            let spacing = Vis.dphase * Vis.ky / Vis.k;
+            var t_space = spacing / vy;
+
+
+        } else {
+            // do x processing
+            let spacing = Vis.dphase * Vis.ky / Vis.k;
+            var t_space = spacing / vx;
+        }
+        let t = Vis.t % t_space;
+
+        Vis.t_space = t_space;
+
+
+        for (let i=0; i < Vis.Nphase; i++) {
+            let T = t + i*t_space;
+            if (m >= -1 && m <= 1) {
+                // do y processing
+                Vis.phasex[i] = (1/m)*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
+                Vis.phasey[i] = T*vy;
+    
+    
+            } else {
+                // do x processing
+                Vis.phasex[i] = T*vx;
+                Vis.phasey[i] = m*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
+            }
+
+            
         }
     }
 }
@@ -152,6 +181,9 @@ Vis.setup = {
         Vis.Nx = 20; // # of atoms in x direction
         Vis.Ny = 20; // # of atoms in y direction
         Vis.N = Vis.Nx * Vis.Ny;
+
+        Vis.Nphase = Vis.N;
+        Vis.dphase = Vis.a;
 
         Vis.canvasx = 450;
         Vis.canvasy = 450;
@@ -171,8 +203,8 @@ Vis.setup = {
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
 
-        Vis.phasex = new Array(11);
-        Vis.phasey = new Array(11);
+        Vis.phasex = new Array(Vis.Nphase);
+        Vis.phasey = new Array(Vis.Nphase);
     },
 
     initGraph: function() {
