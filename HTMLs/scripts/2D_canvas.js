@@ -63,6 +63,14 @@ Vis.core = {
                                 , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
             Vis.context.fill();
         }
+        
+        // pick the middle particle to track with a black dot 
+        Vis.context.fillStyle = 'black';
+        Vis.context.beginPath();
+        Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2 - Vis.Ny/2)])
+                            , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2 - Vis.Ny/2)])
+                            , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
+        Vis.context.fill();
 
         Vis.context.fillStyle = 'green';
         for (let i=0; i < 11; i++) {
@@ -128,6 +136,7 @@ Vis.workers = {
         let wl = 2 * Math.PI / k;
         let nx = Math.round(Vis.Nx*Vis.a/wl);
         let ny = Math.round(Vis.Ny*Vis.a/wl);
+        
         for (let i=-5; i <= 5; i++) {
             Vis.phasex[i+5] = (Vis.t*v*Vis.kx/k + i*Vis.Nx*Vis.a/2) % (nx * wl);
             Vis.phasey[i+5] = (Vis.t*v*Vis.ky/k + i*Vis.Ny*Vis.a/2) % (ny * wl);
