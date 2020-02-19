@@ -1,3 +1,7 @@
+//---------------------------------//
+// Visualisation Object            //
+//---------------------------------//
+
 window.Vis = window.Vis || {};
 
 Vis.init = function() {
@@ -8,9 +12,10 @@ Vis.init = function() {
 
     Arrow.init(); // init arrows
 
+    Vis.setup.initDisplay();
     Vis.setup.initGraph();
     //Vis.setup.initButton();
-    //Vis.setup.initSlider();
+    Vis.setup.initSlider();
 
     Vis.start();
 };
@@ -70,16 +75,30 @@ Vis.core = {
 
     updateSliders: function() {
         Vis.rxRange.value = Vis.rx;
-        Vis.rxDisplay.textContent = 'rx = ' + Number(Vis.rx).toFixed(2);
+        Vis.rxDisplay.textContent = Number(Vis.rx).toFixed(2);
 
         Vis.ryRange.value = Vis.ry;
-        Vis.ryDisplay.textContent = 'ry = ' + Number(Vis.ry).toFixed(2);
+        Vis.ryDisplay.textContent = Number(Vis.ry).toFixed(2);
 
         Vis.uxRange.value = Vis.ux;
-        Vis.uxDisplay.textContent = 'ux = ' + Number(Vis.ux).toFixed(2);
+        Vis.uxDisplay.textContent = Number(Vis.ux).toFixed(2);
 
         Vis.uyRange.value = Vis.uy;
-        Vis.uyDisplay.textContent = 'uy = ' + Number(Vis.uy).toFixed(2);
+        Vis.uyDisplay.textContent = Number(Vis.uy).toFixed(2);
+
+        Vis.core.updateDisplay();
+    },
+
+    updateDisplay: function() {
+        var ukvec = [Vis.ux, Vis.uy, 0];
+        var kx = Vis.rx*Math.PI/Vis.a;
+        var ky = Vis.ry*Math.PI/Vis.a;
+        var kvec = [kx, ky, 0];
+
+        var dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
+        Vis.dotDisplay.textContent = dotproduct.toString();
+        var crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2) ), 0.5)))/100;
+        Vis.crossDisplay.textContent = crossproduct.toString();
     }
 }
 
@@ -181,10 +200,12 @@ Vis.setup = {
 
         Vis.rxRange.addEventListener('input', function() {
             Vis.rx = Vis.rxRange.value;
-            Vis.rxDisplay.textContent = 'rx = ' + Vis.rx;
+            Vis.rxDisplay.textContent = Vis.rx;
 
             Arrow.rArrow.x = parseFloat(Vis.rx);
             Arrow.core.draw();
+
+            Vis.core.updateDisplay();
         });
 
         Vis.ryRange = document.getElementById('ry-range');
@@ -192,38 +213,53 @@ Vis.setup = {
 
         Vis.ryRange.addEventListener('input', function() {
             Vis.ry = Vis.ryRange.value;
-            Vis.ryDisplay.textContent = 'ry = ' + Vis.ry;
+            Vis.ryDisplay.textContent = Vis.ry;
 
             Arrow.rArrow.y = parseFloat(Vis.ry);
             Arrow.core.draw();
+
+            Vis.core.updateDisplay();
         });
 
         // u sliders
-        Vis.uxRange = document.getElementById('ux-range');
-        Vis.uxDisplay = document.getElementById('ux-display');
+        Vis.uxRange = document.getElementById('ukx-range');
+        Vis.uxDisplay = document.getElementById('ukx-display');
 
         Vis.uxRange.addEventListener('input', function() {
             Vis.ux = Vis.uxRange.value;
-            Vis.uxDisplay.textContent = 'ux = ' + Vis.ux;
+            Vis.uxDisplay.textContent = Vis.ux;
 
             Arrow.uArrow.x = parseFloat(Vis.ux);
             Arrow.core.draw();
+
+            Vis.core.updateDisplay();
         });
 
-        Vis.uyRange = document.getElementById('uy-range');
-        Vis.uyDisplay = document.getElementById('uy-display');
+        Vis.uyRange = document.getElementById('uky-range');
+        Vis.uyDisplay = document.getElementById('ukx-display');
 
         Vis.uyRange.addEventListener('input', function() {
             Vis.uy = Vis.uyRange.value;
-            Vis.uyDisplay.textContent = 'uy = ' + Vis.uy;
+            Vis.uyDisplay.textContent = Vis.uy;
 
             Arrow.uArrow.y = parseFloat(Vis.uy);
             Arrow.core.draw();
+
+            Vis.core.updateDisplay();
         });
 
         Vis.core.updateSliders();
+    },
+
+    initDisplay: function() {
+        Vis.dotDisplay = document.getElementById("dotproduct");
+        Vis.crossDisplay = document.getElementById("crossproduct");
     }
 }
+
+//---------------------------------//
+// Interactive Arrow Object        //
+//---------------------------------//
 
 window.Arrow = window.Arrow || {};
 
@@ -314,7 +350,7 @@ Arrow.setup = {
                 arrow.y = xy[1];
                 Arrow.helpers.updateArrow(arrow);
                 Arrow.helpers.updateAPP(); // sync arrow values with main vis
-                //Vis.core.updateSliders(); // trigger update of sliders in vis
+                Vis.core.updateSliders(); // trigger update of sliders in vis
             }
         };
         Arrow.rArrow.tip.call(d3.drag().on('drag', dragged(Arrow.rArrow)));
