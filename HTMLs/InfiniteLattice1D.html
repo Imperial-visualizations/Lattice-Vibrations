@@ -55,12 +55,13 @@
                     </h2>
                     <hr>
                     <p>
-                        Imagine having an infinitely long chain of identical atoms.
+                        We start with the one dimensional case: 
+                        imagine having an infinitely long chain of identical atoms.
                         Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
-
+                    
                         The most general solution is:
                         $$ u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} $$
-
+                    
                         where                        
                         $u_n$ is the displacement of the $n^{th}$ atom
                         and
@@ -69,7 +70,7 @@
                     <p>
                         Here we simulate for a single $k$:
                         $$ u_n(t) = u_k \cos(nka-\omega_kt)$$
-
+                    
                         For any given $k$:
                         $$ \omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|$$
                         where
@@ -83,9 +84,22 @@
                     </p>  
                     <p>
                         $u_k$ represents the responds of the $n^{th}$ atom to wave $k$.
-                        Notice that when $r \to \pm 1$, there are two standing waves. The alternating atoms move in phase.
+                        Notice that the overall motion is unaffected if $2n \pi$ for any interger $n$ is added to $k$.
+                        Mathematically, this is due to the factor $e^{i2n\pi} = 1$ in the general solution.
+                        Physically, it makes sense due to the given trigonometric dispersion relation for $\omega_k$ - 
+                        $k + 2n\pi$ has the same energy as $k$. 
+                        (Try adding integer multiple of 2 to the your $r$ value!)
+                    </p>
+                    <p>
+                        For the upcoming visualisations, we will ignore this redundancy by taking 
+                        $-\pi \lt ka \leqslant \pi $, known as the first Brillouin Zone. 
+                        This applies to components in the higher dimensions too.
+                    </p>
+                    <p>                            
+                        Also notice that when $r \to \pm 1$, there are two standing waves. 
+                        The alternating atoms move in phase or neighbouring ones move in anti-phase.
                         (Reduce $u_k$ to see this effect better.)
-                    </p>                  
+                    </p>              
                 </div>
             </div>
         </div>
@@ -112,13 +126,11 @@
                 <div style="width: 200%;">                 
                     <!--BEGIN Slider-->
                     <label class="slider-label">
-                        r:
+                        $r$:
                         <span id="r-display">0.1</span>
                     </label>
-                    <label class="slider">
-                        <span class="sliderMin">-1</span>
-                        <input id="r" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
-                        <span class="sliderMax">1</span>
+                    <label>
+                        <input id="r" type="text" value="0.1"/>
                     </label>
                     <!--END Slider--> 
                 </div>
