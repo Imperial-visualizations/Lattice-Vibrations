@@ -118,6 +118,8 @@ Vis.workers = {
 
         Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
                                      + Math.sin(Vis.ky * Vis.a / 2)**2);
+
+        Vis.dphase = 2*Math.PI/Vis.k;
     },
 
     calcPos: function() {
@@ -179,7 +181,6 @@ Vis.setup = {
         Vis.N = Vis.Nx * Vis.Ny;
 
         Vis.Nphase = 2*Vis.Nx;
-        Vis.dphase = 3*Vis.a;
 
         Vis.canvasx = 450;
         Vis.canvasy = 450;
@@ -273,7 +274,7 @@ Vis.setup = {
         });
 
         Vis.uyRange = document.getElementById('uky-range');
-        Vis.uyDisplay = document.getElementById('ukx-display');
+        Vis.uyDisplay = document.getElementById('uky-display');
 
         Vis.uyRange.addEventListener('input', function() {
             Vis.uy = Vis.uyRange.value;
