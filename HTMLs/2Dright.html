@@ -14,6 +14,7 @@
     <link href="styles/style.css" rel="stylesheet">
 
     <!--Required JS resources-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
@@ -38,7 +39,12 @@
 <body>
     <!--    Right Side of Window - containing mainly interactive and visual content    -->
     <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-        <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
+            
+        <!--Visualisation main canvas-->
+        <div id="canvas-div" style="width: 50%; float: left; margin-right:10%"></div>
+        
+        <!--Interactive arrow element-->
+        <svg id='interactive-arrow' style="float: left"></svg>
 
         <!--Buttons/Sliders-->
         <div class="overall-sliders-container" style="float: left;">
@@ -63,7 +69,7 @@
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="rx" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
+                    <input id="rx-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
@@ -75,7 +81,7 @@
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="ry" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
+                    <input id="ry-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
@@ -88,7 +94,7 @@
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="ukx" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
+                    <input id="ukx-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
@@ -100,11 +106,13 @@
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="uky" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
+                    <input id="uky-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
             </div>
+        
+            
     
         </div>
 
@@ -114,7 +122,7 @@
 
     
 </div>
-<script src="./scripts/2D.js"></script>
+<script src="./scripts/2D_canvas.js"></script>
 
 </body>
 </html>
