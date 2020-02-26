@@ -98,14 +98,17 @@ Vis.core = {
     },
 
     updateDisplay: function() {
-        var ukvec = [Vis.ux, Vis.uy, 0];
-        var kx = Vis.rx*Math.PI/Vis.a;
-        var ky = Vis.ry*Math.PI/Vis.a;
-        var kvec = [kx, ky, 0];
+        let ukvec = [Vis.ux, Vis.uy, 0];
+        let kx = Vis.rx*Math.PI/Vis.a;
+        let ky = Vis.ry*Math.PI/Vis.a;
+        let kvec = [kx, ky, 0];
 
-        var dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
+        let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
         Vis.dotDisplay.textContent = dotproduct.toString();
-        var crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2) ), 0.5)))/100;
+
+        let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2)
+                                                           + Math.pow(math.cross(kvec, ukvec)[1], 2)
+                                                           + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
         Vis.crossDisplay.textContent = crossproduct.toString();
     }
 }
@@ -119,7 +122,7 @@ Vis.workers = {
         Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
                                      + Math.sin(Vis.ky * Vis.a / 2)**2);
 
-        Vis.dphase = 2*Math.PI/Vis.k;
+        Vis.dphase = 2*Math.PI/Vis.k; // update spacing of phase tracker 
     },
 
     calcPos: function() {
