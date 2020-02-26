@@ -73,7 +73,7 @@ Vis.core = {
         Vis.context.fill();
 
         Vis.context.fillStyle = 'green';
-        for (let i=0; i < 11; i++) {
+        for (let i=0; i < Vis.Nphase; i++) {
             Vis.context.beginPath();
             Vis.context.arc(Vis.convertCanvasX(Vis.phasex[i]), Vis.convertCanvasY(Vis.phasey[i])
                                 , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
@@ -116,7 +116,8 @@ Vis.workers = {
         Vis.kx = Vis.rx * Math.PI / Vis.a;
         Vis.ky = Vis.ry * Math.PI / Vis.a;
 
-        Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 + Math.sin(Vis.ky * Vis.a / 2)**2);
+        Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
+                                     + Math.sin(Vis.ky * Vis.a / 2)**2);
     },
 
     calcPos: function() {
@@ -131,7 +132,7 @@ Vis.workers = {
         }
     },
 
-    calcPhase: function() { //broken in general...
+    calcPhase: function() {
         let v = Vis.w / Vis.k;
         let vx = v * Vis.kx / Vis.k;
         let vy = v * Vis.ky / Vis.k;
@@ -140,32 +141,27 @@ Vis.workers = {
 
         if (m >= -1 && m <= 1) {
             // do y processing
-            let spacing = Vis.dphase * Vis.ky / Vis.k;
+            let spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
             var t_space = spacing / vy;
-
-
         } else {
             // do x processing
-            let spacing = Vis.dphase * Vis.ky / Vis.k;
+            let spacing = Vis.dphase * Vis.kx / Vis.k;
             var t_space = spacing / vx;
-        }
-        let t = Vis.t % t_space;
+        };
 
-        Vis.t_space = t_space;
-
+        let t = Vis.t % (Vis.Nx*t_space/2); // heuristic # of time spacings until wrap around 
 
         for (let i=0; i < Vis.Nphase; i++) {
-            let T = t + i*t_space;
+            let T = t + (i - Vis.Nphase/2)*t_space; // shift each phase particle 
+
             if (m >= -1 && m <= 1) {
+                // do x processing
+                Vis.phasex[i] = T*vx;
+                Vis.phasey[i] = (m)*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
+            } else {
                 // do y processing
                 Vis.phasex[i] = (1/m)*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
                 Vis.phasey[i] = T*vy;
-    
-    
-            } else {
-                // do x processing
-                Vis.phasex[i] = T*vx;
-                Vis.phasey[i] = m*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
             }
 
             
@@ -182,8 +178,8 @@ Vis.setup = {
         Vis.Ny = 20; // # of atoms in y direction
         Vis.N = Vis.Nx * Vis.Ny;
 
-        Vis.Nphase = Vis.N;
-        Vis.dphase = Vis.a;
+        Vis.Nphase = 2*Vis.Nx;
+        Vis.dphase = 3*Vis.a;
 
         Vis.canvasx = 450;
         Vis.canvasy = 450;
