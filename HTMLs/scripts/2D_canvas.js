@@ -197,8 +197,8 @@ Vis.setup = {
         Vis.rx = 0.10; // % of max x wavenumber, (-1, 1)
         Vis.ry = 0.10; // % of max y wavenumber, (-1, 1)
 
-        Vis.ux = 0.50; // x amplitude
-        Vis.uy = 0.50; // y amplitude
+        Vis.ux = -0.50; // x amplitude
+        Vis.uy = -0.50; // y amplitude
 
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
@@ -354,8 +354,8 @@ Arrow.helpers = {
 
 Arrow.setup = {
     initConst: function() {
-        Arrow.width = window.innerHeight*0.45;
-        Arrow.height = window.innerHeight*0.45;
+        Arrow.width = window.innerHeight*0.35;
+        Arrow.height = window.innerHeight*0.35;
 
         Arrow.strokeWidth = 2;
         Arrow.tipRadius = 5;
