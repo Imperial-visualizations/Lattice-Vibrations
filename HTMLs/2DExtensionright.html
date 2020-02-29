@@ -14,6 +14,7 @@
     <link href="styles/style.css" rel="stylesheet">
 
     <!--Required JS resources-->
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
@@ -38,7 +39,8 @@
 <body>
     <!--    Right Side of Window - containing mainly interactive and visual content    -->
     <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-        <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
+        <!--Visualisation main canvas-->
+        <div id="canvas-div" style="width: 50%; float: left; margin-right:10%"></div>
 
         <!--Buttons/Sliders-->
         <div class="overall-sliders-container" style="float: left;">
@@ -53,11 +55,11 @@
                 <!--BEGIN Slider-->
                 <label class="slider-label">
                     $\bar{k}$ :
-                    <span id="kpeak-display">1</span>
+                    <span id="kbar-display">1</span>
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-10</span>
-                    <input id="kpeak" class="inputs" max="10" min="-10" step="0.01" type="range" value="1"/>
+                    <input id="kbar-range" class="inputs" max="10" min="-10" step="0.01" type="range" value="1"/>
                     <span class="sliderMax">10</span>
                 </label>
                 <!--END Slider-->
@@ -67,8 +69,8 @@
                     <span id="sigma-display">1</span>
                 </label>
                 <label class="slider">
-                    <span class="sliderMin">-10</span>
-                    <input id="sigma" class="inputs" max="10" min="-10" step="0.01" type="range" value="1"/>
+                    <span class="sliderMin">1</span>
+                    <input id="sigma-range" class="inputs" max="10" min="1" step="0.01" type="range" value="1"/>
                     <span class="sliderMax">10</span>
                 </label>
                 <!--END Slider-->
@@ -84,7 +86,7 @@
 
     
 </div>
-<script src="./scripts/2DExtension.js"></script>
+<script src="./scripts/2DExtension_canvas.js"></script>
 
 </body>
 </html>
