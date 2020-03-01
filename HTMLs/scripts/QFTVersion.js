@@ -15,7 +15,7 @@ Vis.init = function() {
     Vis.setup.initSlider();
 
     Vis.start();
-    Vis.stop();
+    //Vis.stop();
 };
 
 Vis.start = function() {
@@ -87,20 +87,22 @@ Vis.workers = {
 
     calcPos: function() {
 
-        var A = 1000;     //Scaling
+        var A = Math.pow(2*Math.PI*Math.pow(Vis.sigma, 2), -2)/10000;     //Scaling
 
         for (let i=0; i < Vis.Nx; i++) {
             for (let j=0; j < Vis.Ny; j++) {
                 var n = Vis.Ny * i + j;
-                var phi = 0;
+                var phiReal = 0;
+                var phiImag = 0;
                 for (pxcurrent = Vis.pxbar - 2*Vis.sigma; pxcurrent < Vis.pxbar + 2*Vis.sigma; pxcurrent += 0.1) {
                     for (pycurrent = Vis.pybar - 2*Vis.sigma; pycurrent < Vis.pybar + 2*Vis.sigma; pycurrent += 0.1) {
                       E = (Math.pow(pxcurrent, 2) + Math.pow(pycurrent, 2))/(2*Vis.m);
-                      fp = Math.pow(2*Math.PI*Math.pow(Vis.sigma, 2), -1)*Math.exp(-0.5*(Math.pow(pxcurrent-Vis.pxbar, 2)+Math.pow(pycurrent-Vis.pybar, 2)/Math.pow(Vis.sigma, 2)))*Math.cos(-(pxcurrent*Vis.xbar+pycurrent*Vis.ybar));
-                      phi += fp*Math.cos(pxcurrent*Vis.a*i + pycurrent*Vis.a*j - E*Vis.t);
+                      fpmag = Math.exp(-0.5*(Math.pow(pxcurrent-Vis.pxbar, 2)+Math.pow(pycurrent-Vis.pybar, 2)/Math.pow(Vis.sigma, 2)));
+                      phiReal += fpmag*Math.cos((pxcurrent*Vis.a*i + pycurrent*Vis.a*j) - (pxcurrent*Vis.xbar + pycurrent*Vis.ybar) - E*Vis.t);
+                      phiImag += fpmag*Math.sin((pxcurrent*Vis.a*i + pycurrent*Vis.a*j) - (pxcurrent*Vis.xbar + pycurrent*Vis.ybar) - E*Vis.t);
                     }
                 }
-                Vis.pointR[n] = Math.pow(phi, 2) / A;
+                Vis.pointR[n] = A*(Math.pow(phiReal, 2) + Math.pow(phiImag, 2));
             }
         }
     },
@@ -159,27 +161,21 @@ Vis.setup = {
     },
 
     initButton: function() {
-        Vis.buttonPlay = document.getElementById('buttonPlay');
-        Vis.buttonReset = document.getElementById('buttonReset');
+        //Vis.buttonPlay = document.getElementById('buttonPlay');
+        Vis.buttonRestart = document.getElementById('buttonRestart');
 
-        Vis.buttonPlay.addEventListener('click', function() {
-            if (Vis.isRunning) {
-                Vis.stop();
-                document.getElementById('buttonPlay').innerHTML = 'Play';
-            } else {
-                Vis.start();
-                document.getElementById('buttonPlay').innerHTML = 'Stop';
-            }
-        });
+        //Vis.buttonPlay.addEventListener('click', function() {
+        //    if (Vis.isRunning) {
+        //        Vis.stop();
+        //        document.getElementById('buttonPlay').innerHTML = 'Play';
+        //    } else {
+        //        Vis.start();
+        //        document.getElementById('buttonPlay').innerHTML = 'Stop';
+        //    }
+        //});
 
-        Vis.buttonReset.addEventListener('click', function() {
+        Vis.buttonRestart.addEventListener('click', function() {
             Vis._then = Date.now();
-            Vis.xbar = 5;
-            Vis.ybar = 5;
-            Vis.pxbar = 0.5;
-            Vis.pybar = 0.5;
-            Vis.sigma = 0.5;
-            Vis.core.updateSliders();
         });
     },
 
