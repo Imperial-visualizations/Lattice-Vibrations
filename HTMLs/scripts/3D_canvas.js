@@ -231,9 +231,12 @@ Vis.setup = {
         Vis.camera.position.set(-0.8, -0.6, -0.8);
         Vis.camera.lookAt(new THREE.Vector3(0,0,0));
 
-        Vis.renderer = new THREE.WebGLRenderer({ antialias: true });
+        Vis.renderer = new THREE.WebGLRenderer({ 
+            antialias: true,
+            canvas: document.getElementById('canvas-div')
+        });
         Vis.renderer.setSize(Vis.canvasx, Vis.canvasy);
-        document.getElementById('canvas-div').appendChild(Vis.renderer.domElement);
+        // document.getElementById('canvas-div').appendChild(Vis.renderer.domElement);
 
         for (let n=0; n<Vis.N; n++) {
             let geometry = new THREE.SphereBufferGeometry(Vis.pointR, 10, 10);
