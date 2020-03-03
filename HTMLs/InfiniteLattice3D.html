@@ -18,6 +18,8 @@
     <!--Required JS resources-->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.2.2/math.min.js"
     integrity="sha256-D/MkugLuxx4Xx0Kb92cUhpxlCMhUvQ0eOtEL8Ol23jM=" crossorigin="anonymous"></script>
@@ -112,7 +114,8 @@
         </div>
         
         <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-            <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div>
+            <!-- <div id="plotly-div" style="width: 50%; float: left; margin-right:10%"></div> -->
+            <div id="canvas-div"></div>
 
             <!--Buttons/Sliders-->
             <div class="overall-sliders-container" style="float: left;">

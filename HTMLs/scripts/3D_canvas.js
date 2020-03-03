@@ -13,7 +13,7 @@ Vis.init = function() {
     Vis.setup.initDisplay();
     Vis.setup.initGraph();
     //Vis.setup.initButton();
-    Vis.setup.initSlider();
+    Vis.setup.initSliders();
 
     Vis.start();
 };
@@ -63,12 +63,12 @@ Vis.core = {
         }
         
         // pick the middle particle to track with a black dot 
-        Vis.context.fillStyle = 'black';
-        Vis.context.beginPath();
-        Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2 - Vis.Ny/2)])
-                            , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2 - Vis.Ny/2)])
-                            , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
-        Vis.context.fill();
+        // Vis.context.fillStyle = 'black';
+        // Vis.context.beginPath();
+        // Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2 - Vis.Ny/2)])
+        //                     , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2 - Vis.Ny/2)])
+        //                     , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
+        // Vis.context.fill();
 
         // Vis.context.fillStyle = 'green';
         // for (let i=0; i < Vis.Nphase; i++) {
@@ -86,6 +86,9 @@ Vis.core = {
         Vis.ryRange.value = Vis.ry;
         Vis.ryDisplay.textContent = Number(Vis.ry).toFixed(2);
 
+        Vis.ryRange.value = Vis.rz;
+        Vis.ryDisplay.textContent = Number(Vis.rz).toFixed(2);
+
 
         Vis.uxRange.value = Vis.ux;
         Vis.uxDisplay.textContent = Number(Vis.ux).toFixed(2);
@@ -93,14 +96,17 @@ Vis.core = {
         Vis.uyRange.value = Vis.uy;
         Vis.uyDisplay.textContent = Number(Vis.uy).toFixed(2);
 
+        Vis.uyRange.value = Vis.uz;
+        Vis.uyDisplay.textContent = Number(Vis.uz).toFixed(2);
+
         Vis.core.updateDisplay();
     },
 
     updateDisplay: function() {
-        let ukvec = [Vis.ux, Vis.uy, 0];
-        let kx = Vis.rx*Math.PI/Vis.a;
-        let ky = Vis.ry*Math.PI/Vis.a;
-        let kvec = [kx, ky, 0];
+        Vis.workers.calcParams();
+
+        let ukvec = [Vis.ux, Vis.uy, Vis.uz];
+        let kvec = [Vis.kx, Vis.ky, Vis.kz];
 
         let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
         Vis.dotDisplay.textContent = dotproduct.toString();
@@ -147,6 +153,7 @@ Vis.workers = {
         let v = Vis.w / Vis.k;
         let vx = v * Vis.kx / Vis.k;
         let vy = v * Vis.ky / Vis.k;
+        let vy = v * Vis.kz / Vis.k;
 
         let m = vy / vx;
 
@@ -185,9 +192,9 @@ Vis.setup = {
         Vis.a = 1; // atomic spacing
         Vis.dw = 1; // debye wavelength
 
-        Vis.Nx = 20; // # of atoms in x direction
-        Vis.Ny = 20; // # of atoms in y direction
-        Vis.Nz = 20; // # of atoms in z direction
+        Vis.Nx = 10; // # of atoms in x direction
+        Vis.Ny = 10; // # of atoms in y direction
+        Vis.Nz = 10; // # of atoms in z direction
         Vis.N = Vis.Nx * Vis.Ny * Vis.Nz;
 
         Vis.Nphase = 2*Vis.Nx;
@@ -205,9 +212,23 @@ Vis.setup = {
         Vis.ry = 0.50; // % of max y wavenumber, (-1, 1)
         Vis.rz = 0.50; // % of max z wavenumber, (-1, 1)
 
+        // % of max wavenumber, (-1, 1)
+        Vis.r = {
+            x: 0.20,
+            y: 0.50,
+            z: 0.50
+        };
+
         Vis.ux = -0.30; // x amplitude
         Vis.uy = 0.60; // y amplitude
         Vis.uz = 0.30; // z amplitude
+
+        // amplitude
+        Vis.u = {
+            x: 0.20,
+            y: 0.50,
+            z: 0.50
+        };
 
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
@@ -245,7 +266,7 @@ Vis.setup = {
         });
     },
 
-    initSlider: function() {
+    initSliders: function() {
         // r sliders
         Vis.rxRange = document.getElementById('rx');
         Vis.rxDisplay = document.getElementById('rx-display');
@@ -316,3 +337,5 @@ Vis.setup = {
         Vis.crossDisplay = document.getElementById("crossproduct");
     }
 }
+
+document.addEventListener('DOMContentLoaded', Vis.init);
