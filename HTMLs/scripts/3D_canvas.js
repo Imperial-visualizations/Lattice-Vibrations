@@ -11,8 +11,9 @@ Vis.init = function() {
     Vis.setup.initVars();
 
     Vis.setup.initDisplay();
-    Vis.setup.initGraph();
-    //Vis.setup.initButton();
+
+    Vis.setup.initScene();
+
     Vis.setup.initSliders();
 
     Vis.start();
@@ -52,31 +53,12 @@ Vis.core = {
     },
 
     animate: function() {
-        Vis.context.clearRect(0, 0, Vis.canvasx, Vis.canvasy);
-        
-        Vis.context.fillStyle = 'orange';
-        for (let i=0; i < Vis.N; i++) {
-            Vis.context.beginPath();
-            Vis.context.arc(Vis.convertCanvasX(Vis.x[i]), Vis.convertCanvasY(Vis.y[i])
-                                , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
-            Vis.context.fill();
+        for (let n=0; n<Vis.N; n++) {
+            Vis.spheres[n].position.set(Vis.x[n], Vis.y[n], Vis.z[n]);
         }
-        
-        // pick the middle particle to track with a black dot 
-        // Vis.context.fillStyle = 'black';
-        // Vis.context.beginPath();
-        // Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2 - Vis.Ny/2)])
-        //                     , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2 - Vis.Ny/2)])
-        //                     , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
-        // Vis.context.fill();
 
-        // Vis.context.fillStyle = 'green';
-        // for (let i=0; i < Vis.Nphase; i++) {
-        //     Vis.context.beginPath();
-        //     Vis.context.arc(Vis.convertCanvasX(Vis.phasex[i]), Vis.convertCanvasY(Vis.phasey[i])
-        //                         , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
-        //     Vis.context.fill();
-        // }
+        Vis.renderer.render(Vis.scene, Vis.camera);
+        
     },
 
     updateSliders: function() {
@@ -153,7 +135,7 @@ Vis.workers = {
         let v = Vis.w / Vis.k;
         let vx = v * Vis.kx / Vis.k;
         let vy = v * Vis.ky / Vis.k;
-        let vy = v * Vis.kz / Vis.k;
+        let vz = v * Vis.kz / Vis.k;
 
         let m = vy / vx;
 
@@ -202,7 +184,7 @@ Vis.setup = {
         Vis.canvasx = 450;
         Vis.canvasy = 450;
 
-        Vis.pointR = 0.20 * Vis.a;
+        Vis.pointR = 0.10 * Vis.a;
     },
 
     initVars: function() {
@@ -212,27 +194,14 @@ Vis.setup = {
         Vis.ry = 0.50; // % of max y wavenumber, (-1, 1)
         Vis.rz = 0.50; // % of max z wavenumber, (-1, 1)
 
-        // % of max wavenumber, (-1, 1)
-        Vis.r = {
-            x: 0.20,
-            y: 0.50,
-            z: 0.50
-        };
-
         Vis.ux = -0.30; // x amplitude
         Vis.uy = 0.60; // y amplitude
         Vis.uz = 0.30; // z amplitude
 
-        // amplitude
-        Vis.u = {
-            x: 0.20,
-            y: 0.50,
-            z: 0.50
-        };
-
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
         Vis.z = new Array(Vis.N);
+        Vis.spheres = new Array(Vis.N);
 
         Vis.phasex = new Array(Vis.Nphase);
         Vis.phasey = new Array(Vis.Nphase);
@@ -252,6 +221,28 @@ Vis.setup = {
         Vis.convertCanvasY = d3.scaleLinear()
                                 .domain([0, Vis.Ny*Vis.a])
                                 .range([Vis.canvasy, 0]);
+    },
+
+    initScene: function() {
+        Vis.scene = new THREE.Scene();
+        Vis.scene.background = new THREE.Color( 0xffffff );
+        
+        Vis.camera = new THREE.PerspectiveCamera( 75, Vis.canvasx/Vis.canvasy, 0.1, 1000 );
+        Vis.camera.position.set(-0.8, -0.6, -0.8);
+        Vis.camera.lookAt(new THREE.Vector3(0,0,0));
+
+        Vis.renderer = new THREE.WebGLRenderer();
+        Vis.renderer.setSize(Vis.canvasx, Vis.canvasy);
+        document.getElementById('canvas-div').appendChild(Vis.renderer.domElement);
+
+        for (let n=0; n<Vis.N; n++) {
+            let geometry = new THREE.SphereBufferGeometry(Vis.pointR, 5, 5);
+            let material = new THREE.MeshBasicMaterial( { color: 0xffa000 } );
+            let sphere = new THREE.Mesh( geometry, material );
+            Vis.spheres[n] = sphere;
+            
+            Vis.scene.add(sphere);
+        }
     },
 
     initButton: function() {
