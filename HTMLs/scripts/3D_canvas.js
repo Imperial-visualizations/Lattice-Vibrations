@@ -190,13 +190,13 @@ Vis.setup = {
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.rx = 0.20; // % of max x wavenumber, (-1, 1)
-        Vis.ry = 0.50; // % of max y wavenumber, (-1, 1)
-        Vis.rz = 0.50; // % of max z wavenumber, (-1, 1)
+        Vis.rx = -0.06; // % of max x wavenumber, (-1, 1)
+        Vis.ry = 0.07; // % of max y wavenumber, (-1, 1)
+        Vis.rz = 0.12; // % of max z wavenumber, (-1, 1)
 
-        Vis.ux = -0.30; // x amplitude
-        Vis.uy = 0.60; // y amplitude
-        Vis.uz = 0.30; // z amplitude
+        Vis.ux = -0.24; // x amplitude
+        Vis.uy = 0.37; // y amplitude
+        Vis.uz = 0.10; // z amplitude
 
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
@@ -231,7 +231,7 @@ Vis.setup = {
         Vis.camera.position.set(-0.8, -0.6, -0.8);
         Vis.camera.lookAt(new THREE.Vector3(0,0,0));
 
-        Vis.renderer = new THREE.WebGLRenderer();
+        Vis.renderer = new THREE.WebGLRenderer({ antialias: true });
         Vis.renderer.setSize(Vis.canvasx, Vis.canvasy);
         document.getElementById('canvas-div').appendChild(Vis.renderer.domElement);
 
