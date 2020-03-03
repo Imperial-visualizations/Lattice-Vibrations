@@ -10,8 +10,6 @@ Vis.init = function() {
     Vis.setup.initConsts();
     Vis.setup.initVars();
 
-    Arrow.init(); // init arrows
-
     Vis.setup.initDisplay();
     Vis.setup.initGraph();
     //Vis.setup.initButton();
@@ -243,9 +241,6 @@ Vis.setup = {
             Vis.rx = Vis.rxRange.value;
             Vis.rxDisplay.textContent = Vis.rx;
 
-            Arrow.rArrow.x = parseFloat(Vis.rx);
-            Arrow.core.draw();
-
             Vis.core.updateDisplay();
         });
 
@@ -255,9 +250,6 @@ Vis.setup = {
         Vis.ryRange.addEventListener('input', function() {
             Vis.ry = Vis.ryRange.value;
             Vis.ryDisplay.textContent = Vis.ry;
-
-            Arrow.rArrow.y = parseFloat(Vis.ry);
-            Arrow.core.draw();
 
             Vis.core.updateDisplay();
         });
@@ -270,9 +262,6 @@ Vis.setup = {
             Vis.ux = Vis.uxRange.value;
             Vis.uxDisplay.textContent = Vis.ux;
 
-            Arrow.uArrow.x = parseFloat(Vis.ux);
-            Arrow.core.draw();
-
             Vis.core.updateDisplay();
         });
 
@@ -282,9 +271,6 @@ Vis.setup = {
         Vis.uyRange.addEventListener('input', function() {
             Vis.uy = Vis.uyRange.value;
             Vis.uyDisplay.textContent = Vis.uy;
-
-            Arrow.uArrow.y = parseFloat(Vis.uy);
-            Arrow.core.draw();
 
             Vis.core.updateDisplay();
         });
@@ -297,137 +283,3 @@ Vis.setup = {
         Vis.crossDisplay = document.getElementById("crossproduct");
     }
 }
-
-//---------------------------------//
-// Interactive Arrow Object        //
-//---------------------------------//
-
-window.Arrow = window.Arrow || {};
-
-Arrow.init = function() {
-    Arrow.setup.initConst();
-    Arrow.setup.initObjects();
-    Arrow.setup.initDrag();
-
-};
-
-Arrow.core = {
-    draw: function() {
-        Arrow.core.drawArrow(Arrow.rArrow);
-        Arrow.core.drawArrow(Arrow.uArrow);
-    },
-
-    drawArrow: function(arrow) {
-        Arrow.helpers.updateArrow(arrow);
-    }
-}
-
-Arrow.helpers = {
-    updateArrow: function(arrow) {
-        let tipx = (arrow.x + 1)*Arrow.width/2;
-        let tipy = (1 - arrow.y)*Arrow.height/2;
-
-        arrow.body.attr('x2', tipx)
-                  .attr('y2', tipy);
-        arrow.tip.attr('cx', tipx)
-                 .attr('cy', tipy);
-        arrow.text.attr('x', tipx + 5)
-                  .attr('y', tipy - 5)
-                  .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) 
-                     + ', ' + Number(arrow.y).toFixed(2) + ')');
-    },
-
-    convertCoords: function(sx, sy) {
-        x = 2*sx/Arrow.width - 1;
-        y = 1 - 2*sy/Arrow.height;
-        return [x, y]
-    },
-
-    updateAPP: function() {
-        Vis.rx = Arrow.rArrow.x;
-        Vis.ry = Arrow.rArrow.y;
-
-        Vis.ux = Arrow.uArrow.x;
-        Vis.uy = Arrow.uArrow.y;
-    }
-}
-
-Arrow.setup = {
-    initConst: function() {
-        Arrow.width = window.innerHeight*0.45;
-        Arrow.height = window.innerHeight*0.45;
-
-        Arrow.strokeWidth = 2;
-        Arrow.tipRadius = 5;
-    },
-
-    initObjects: function() {
-        Arrow.svg = d3.select('#interactive-arrow');
-        Arrow.svg.attr('width', Arrow.width)
-                 .attr('height', Arrow.height)
-                 .attr('style', 'border: 10px grey');
-
-        Arrow.rArrow = {
-            x: Vis.rx,
-            y: Vis.ry,
-            stext: 'r'
-        };
-
-        Arrow.uArrow = {
-            x: Vis.ux,
-            y: Vis.uy,
-            stext: 'u'
-        };
-
-        Arrow.setup.initArrow(Arrow.rArrow);
-        Arrow.setup.initArrow(Arrow.uArrow);
-    },
-
-    initDrag: function() {
-        function dragged(arrow) {
-            return function() {
-                let xy = Arrow.helpers.convertCoords(d3.event.x, d3.event.y);
-                arrow.x = xy[0];
-                arrow.y = xy[1];
-                Arrow.helpers.updateArrow(arrow);
-                Arrow.helpers.updateAPP(); // sync arrow values with main vis
-                Vis.core.updateSliders(); // trigger update of sliders in vis
-            }
-        };
-        Arrow.rArrow.tip.call(d3.drag().on('drag', dragged(Arrow.rArrow)));
-        Arrow.uArrow.tip.call(d3.drag().on('drag', dragged(Arrow.uArrow)));
-    },
-
-    initArrow: function(arrow) {
-        arrow.container = Arrow.setup.createArrowContainer();
-        arrow.body = Arrow.setup.createArrowBody(arrow);
-        arrow.tip = Arrow.setup.createArrowTip(arrow);
-        arrow.text = Arrow.setup.createArrowText(arrow);
-
-        Arrow.helpers.updateArrow(arrow);
-    },
-
-    createArrowContainer: function() {
-        return Arrow.svg.append('svg')
-                        .attr('width', Arrow.width)
-                        .attr('height', Arrow.height)
-    },
-
-    createArrowBody: function(arrow) {
-        return arrow.container.append('line')
-                                  .attr('x1', Arrow.width/2).attr('y1', Arrow.width/2)
-                                  .attr('stroke-width', Arrow.strokeWidth)
-                                  .attr('stroke', 'black');
-    },
-
-    createArrowTip: function(arrow) {
-        return arrow.container.append('circle')
-                              .attr('r', Arrow.tipRadius);
-    },
-
-    createArrowText: function(arrow) {
-        return arrow.container.append('text');
-    }
-};
-
-document.addEventListener('DOMContentLoaded', Vis.init);
