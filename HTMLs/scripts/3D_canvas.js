@@ -48,7 +48,7 @@ Vis.core = {
     update: function() {
         Vis.workers.calcParams();
         Vis.workers.calcPos();
-        Vis.workers.calcPhase();
+        // Vis.workers.calcPhase();
     },
 
     animate: function() {
@@ -70,13 +70,13 @@ Vis.core = {
                             , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
         Vis.context.fill();
 
-        Vis.context.fillStyle = 'green';
-        for (let i=0; i < Vis.Nphase; i++) {
-            Vis.context.beginPath();
-            Vis.context.arc(Vis.convertCanvasX(Vis.phasex[i]), Vis.convertCanvasY(Vis.phasey[i])
-                                , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
-            Vis.context.fill();
-        }
+        // Vis.context.fillStyle = 'green';
+        // for (let i=0; i < Vis.Nphase; i++) {
+        //     Vis.context.beginPath();
+        //     Vis.context.arc(Vis.convertCanvasX(Vis.phasex[i]), Vis.convertCanvasY(Vis.phasey[i])
+        //                         , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
+        //     Vis.context.fill();
+        // }
     },
 
     updateSliders: function() {
@@ -85,6 +85,7 @@ Vis.core = {
 
         Vis.ryRange.value = Vis.ry;
         Vis.ryDisplay.textContent = Number(Vis.ry).toFixed(2);
+
 
         Vis.uxRange.value = Vis.ux;
         Vis.uxDisplay.textContent = Number(Vis.ux).toFixed(2);
@@ -113,12 +114,14 @@ Vis.core = {
 
 Vis.workers = {
     calcParams: function() {
-        Vis.k = Math.sqrt(Vis.kx**2 + Vis.ky**2);
+        Vis.k = Math.sqrt(Vis.kx**2 + Vis.ky**2 + Vis.kz**2);
         Vis.kx = Vis.rx * Math.PI / Vis.a;
         Vis.ky = Vis.ry * Math.PI / Vis.a;
+        Vis.kz = Vis.rz * Math.PI / Vis.a;
 
         Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
-                                     + Math.sin(Vis.ky * Vis.a / 2)**2);
+                                     + Math.sin(Vis.ky * Vis.a / 2)**2
+                                     + Math.sin(Vis.kz * Vis.a / 2)**2);
 
         Vis.dphase = 2*Math.PI/Vis.k; // update spacing of phase tracker 
     },
@@ -126,11 +129,16 @@ Vis.workers = {
     calcPos: function() {
         for (let i=0; i < Vis.Nx; i++) {
             for (let j=0; j < Vis.Ny; j++) {
-                let n = Vis.Ny * i + j;
-                let offset = Math.cos(Vis.kx*Vis.a*i + Vis.ky*Vis.a*j - Vis.w*Vis.t);
-
-                Vis.x[n] = i*Vis.a + Vis.ux * offset;
-                Vis.y[n] = j*Vis.a + Vis.uy * offset;
+                for (let k=0; k < Vis.Nz; k++) {
+                    let n = Vis.Ny*Vis.Nz*i + Vis.Nz*j + k;
+                    let offset = Math.cos( Vis.kx*Vis.a*i
+                                         + Vis.ky*Vis.a*j
+                                         + Vis.kz*Vis.a*k - Vis.w*Vis.t);
+    
+                    Vis.x[n] = i*Vis.a + Vis.ux * offset;
+                    Vis.y[n] = j*Vis.a + Vis.uy * offset;
+                    Vis.z[n] = k*Vis.a + Vis.uz * offset;
+                }
             }
         }
     },
@@ -179,7 +187,8 @@ Vis.setup = {
 
         Vis.Nx = 20; // # of atoms in x direction
         Vis.Ny = 20; // # of atoms in y direction
-        Vis.N = Vis.Nx * Vis.Ny;
+        Vis.Nz = 20; // # of atoms in z direction
+        Vis.N = Vis.Nx * Vis.Ny * Vis.Nz;
 
         Vis.Nphase = 2*Vis.Nx;
 
@@ -194,15 +203,19 @@ Vis.setup = {
 
         Vis.rx = 0.20; // % of max x wavenumber, (-1, 1)
         Vis.ry = 0.50; // % of max y wavenumber, (-1, 1)
+        Vis.rz = 0.50; // % of max z wavenumber, (-1, 1)
 
         Vis.ux = -0.30; // x amplitude
         Vis.uy = 0.60; // y amplitude
+        Vis.uz = 0.30; // z amplitude
 
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
+        Vis.z = new Array(Vis.N);
 
         Vis.phasex = new Array(Vis.Nphase);
         Vis.phasey = new Array(Vis.Nphase);
+        Vis.phasez = new Array(Vis.Nphase);
     },
 
     initGraph: function() {
@@ -234,7 +247,7 @@ Vis.setup = {
 
     initSlider: function() {
         // r sliders
-        Vis.rxRange = document.getElementById('rx-range');
+        Vis.rxRange = document.getElementById('rx');
         Vis.rxDisplay = document.getElementById('rx-display');
 
         Vis.rxRange.addEventListener('input', function() {
@@ -244,7 +257,7 @@ Vis.setup = {
             Vis.core.updateDisplay();
         });
 
-        Vis.ryRange = document.getElementById('ry-range');
+        Vis.ryRange = document.getElementById('ry');
         Vis.ryDisplay = document.getElementById('ry-display');
 
         Vis.ryRange.addEventListener('input', function() {
@@ -254,8 +267,18 @@ Vis.setup = {
             Vis.core.updateDisplay();
         });
 
+        Vis.rzRange = document.getElementById('rz');
+        Vis.rzDisplay = document.getElementById('rz-display');
+
+        Vis.rzRange.addEventListener('input', function() {
+            Vis.rz = Vis.rzRange.value;
+            Vis.rzDisplay.textContent = Vis.rz;
+
+            Vis.core.updateDisplay();
+        });
+
         // u sliders
-        Vis.uxRange = document.getElementById('ukx-range');
+        Vis.uxRange = document.getElementById('ukx');
         Vis.uxDisplay = document.getElementById('ukx-display');
 
         Vis.uxRange.addEventListener('input', function() {
@@ -265,12 +288,22 @@ Vis.setup = {
             Vis.core.updateDisplay();
         });
 
-        Vis.uyRange = document.getElementById('uky-range');
+        Vis.uyRange = document.getElementById('uky');
         Vis.uyDisplay = document.getElementById('uky-display');
 
         Vis.uyRange.addEventListener('input', function() {
             Vis.uy = Vis.uyRange.value;
             Vis.uyDisplay.textContent = Vis.uy;
+
+            Vis.core.updateDisplay();
+        });
+
+        Vis.uzRange = document.getElementById('ukz');
+        Vis.uzDisplay = document.getElementById('ukz-display');
+
+        Vis.uzRange.addEventListener('input', function() {
+            Vis.uz = Vis.uzRange.value;
+            Vis.uzDisplay.textContent = Vis.uz;
 
             Vis.core.updateDisplay();
         });
