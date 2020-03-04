@@ -240,7 +240,9 @@ Vis.setup = {
 
         for (let n=0; n<Vis.N; n++) {
             let geometry = new THREE.SphereBufferGeometry(Vis.pointR, 10, 10);
-            let material = new THREE.MeshBasicMaterial( { color: 0xffa000 } );
+            let material = new THREE.MeshBasicMaterial( { 
+                color: new THREE.Color("hsl(" + Number(360*n/(Vis.N-1)).toFixed(0) + ", 80%, 50%)") 
+            } );
             let sphere = new THREE.Mesh( geometry, material );
             Vis.spheres[n] = sphere;
             
