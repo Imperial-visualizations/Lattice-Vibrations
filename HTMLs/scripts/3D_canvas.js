@@ -38,7 +38,7 @@ Vis.stop = function() {
 
 Vis.core = {
     frame: function() {
-        Vis.t = (Date.now() - Vis._then) / 1000; // time since start in seconds
+        Vis.t = (Date.now() - Vis._then) / 500; // time since start in seconds
 
         Vis.core.update();
         Vis.core.animate();
@@ -68,18 +68,18 @@ Vis.core = {
         Vis.ryRange.value = Vis.ry;
         Vis.ryDisplay.textContent = Number(Vis.ry).toFixed(2);
 
-        Vis.ryRange.value = Vis.rz;
-        Vis.ryDisplay.textContent = Number(Vis.rz).toFixed(2);
+        Vis.rzRange.value = Vis.rz;
+        Vis.rzDisplay.textContent = Number(Vis.rz).toFixed(2);
 
 
-        Vis.uxRange.value = Vis.ux;
-        Vis.uxDisplay.textContent = Number(Vis.ux).toFixed(2);
+        Vis.ukxRange.value = Vis.ukx;
+        Vis.ukxDisplay.textContent = Number(Vis.ukx).toFixed(2);
 
-        Vis.uyRange.value = Vis.uy;
-        Vis.uyDisplay.textContent = Number(Vis.uy).toFixed(2);
+        Vis.ukyRange.value = Vis.uky;
+        Vis.ukyDisplay.textContent = Number(Vis.uky).toFixed(2);
 
-        Vis.uyRange.value = Vis.uz;
-        Vis.uyDisplay.textContent = Number(Vis.uz).toFixed(2);
+        Vis.ukzRange.value = Vis.ukz;
+        Vis.ukzDisplay.textContent = Number(Vis.ukz).toFixed(2);
 
         Vis.core.updateDisplay();
     },
@@ -87,7 +87,7 @@ Vis.core = {
     updateDisplay: function() {
         Vis.workers.calcParams();
 
-        let ukvec = [Vis.ux, Vis.uy, Vis.uz];
+        let ukvec = [Vis.ukx, Vis.uky, Vis.ukz];
         let kvec = [Vis.kx, Vis.ky, Vis.kz];
 
         let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
@@ -123,9 +123,9 @@ Vis.workers = {
                                          + Vis.ky*Vis.a*j
                                          + Vis.kz*Vis.a*k - Vis.w*Vis.t);
     
-                    Vis.x[n] = i*Vis.a + Vis.ux * offset;
-                    Vis.y[n] = j*Vis.a + Vis.uy * offset;
-                    Vis.z[n] = k*Vis.a + Vis.uz * offset;
+                    Vis.x[n] = i*Vis.a + Vis.ukx * offset;
+                    Vis.y[n] = j*Vis.a + Vis.uky * offset;
+                    Vis.z[n] = k*Vis.a + Vis.ukz * offset;
                 }
             }
         }
@@ -190,13 +190,13 @@ Vis.setup = {
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.rx = -0.06; // % of max x wavenumber, (-1, 1)
-        Vis.ry = 0.07; // % of max y wavenumber, (-1, 1)
-        Vis.rz = 0.12; // % of max z wavenumber, (-1, 1)
+        Vis.rx = 0.1; // % of max x wavenumber, (-1, 1)
+        Vis.ry = 0.1; // % of max y wavenumber, (-1, 1)
+        Vis.rz = 0.1; // % of max z wavenumber, (-1, 1)
 
-        Vis.ux = -0.24; // x amplitude
-        Vis.uy = 0.37; // y amplitude
-        Vis.uz = 0.10; // z amplitude
+        Vis.ukx = 0.5; // x amplitude
+        Vis.uky = 0.5; // y amplitude
+        Vis.ukz = 0.5; // z amplitude
 
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
@@ -295,32 +295,32 @@ Vis.setup = {
         });
 
         // u sliders
-        Vis.uxRange = document.getElementById('ukx');
-        Vis.uxDisplay = document.getElementById('ukx-display');
+        Vis.ukxRange = document.getElementById('ukx');
+        Vis.ukxDisplay = document.getElementById('ukx-display');
 
-        Vis.uxRange.addEventListener('input', function() {
-            Vis.ux = Vis.uxRange.value;
-            Vis.uxDisplay.textContent = Vis.ux;
-
-            Vis.core.updateDisplay();
-        });
-
-        Vis.uyRange = document.getElementById('uky');
-        Vis.uyDisplay = document.getElementById('uky-display');
-
-        Vis.uyRange.addEventListener('input', function() {
-            Vis.uy = Vis.uyRange.value;
-            Vis.uyDisplay.textContent = Vis.uy;
+        Vis.ukxRange.addEventListener('input', function() {
+            Vis.ukx = Vis.ukxRange.value;
+            Vis.ukxDisplay.textContent = Vis.ukx;
 
             Vis.core.updateDisplay();
         });
 
-        Vis.uzRange = document.getElementById('ukz');
-        Vis.uzDisplay = document.getElementById('ukz-display');
+        Vis.ukyRange = document.getElementById('uky');
+        Vis.ukyDisplay = document.getElementById('uky-display');
 
-        Vis.uzRange.addEventListener('input', function() {
-            Vis.uz = Vis.uzRange.value;
-            Vis.uzDisplay.textContent = Vis.uz;
+        Vis.ukyRange.addEventListener('input', function() {
+            Vis.uky = Vis.ukyRange.value;
+            Vis.ukyDisplay.textContent = Vis.uky;
+
+            Vis.core.updateDisplay();
+        });
+
+        Vis.ukzRange = document.getElementById('ukz');
+        Vis.ukzDisplay = document.getElementById('ukz-display');
+
+        Vis.ukzRange.addEventListener('input', function() {
+            Vis.ukz = Vis.ukzRange.value;
+            Vis.ukzDisplay.textContent = Vis.ukz;
 
             Vis.core.updateDisplay();
         });
