@@ -69,11 +69,18 @@ Vis.core = {
     },
 
     updateSliders: function() {
-        Vis.kbarRange.value = Vis.kbar;
-        Vis.kbarDisplay.textContent = Number(Vis.kbar).toFixed(2);
 
-        Vis.sigmaRange.value = Vis.sigma;
-        Vis.sigmaDisplay.textContent = Number(Vis.sigma).toFixed(2);
+        Vis.kxbarRange.value = Vis.kxbar;
+        Vis.kxbarDisplay.textContent = Vis.kxbar;
+
+        Vis.kybarRange.value = Vis.kybar;
+        Vis.kybarDisplay.textContent = Vis.kybar;
+
+        Vis.sigmaxRange.value = Vis.sigmax;
+        Vis.sigmaxDisplay.textContent = Vis.sigmax;
+
+        Vis.sigmayRange.value = Vis.sigmay;
+        Vis.sigmayDisplay.textContent = Vis.sigmay;
 
     },
 
@@ -83,32 +90,27 @@ Vis.workers = {
 
     calcPos: function() {
 
-        function uk (kx, ky, kx0, ky0, sigma, x0, y0) {
-            return Math.pow(2*Math.PI*Math.pow(sigma, 2), -1)*Math.exp(-0.5*(Math.pow(kx-kx0, 2)+Math.pow(ky-ky0, 2)/Math.pow(sigma, 2)))*Math.cos(-(kx*x0+ky*y0));
-          }
+        var Ax = Math.pow(4*Vis.sigmax, 2)/0.01;     //Normalisation
+        var Ay = Math.pow(4*Vis.sigmay, 2)/0.01;
 
-        var A = Math.pow(4*Vis.sigma, 2)/0.1;     //Normalisation
-
-        for (let i=0; i < Vis.Nx; i++) {
-            for (let j=0; j < Vis.Ny; j++) {
-                var n = Vis.Ny * i + j;
-                var xdisp = 0;
-                var ydisp = 0;
-                for (kxcurrent = Vis.kbar - 2*Vis.sigma; kxcurrent < Vis.kbar + 2*Vis.sigma; kxcurrent += 0.1) {
-                    for (kycurrent = Vis.kbar - 2*Vis.sigma; kycurrent < Vis.kbar + 2*Vis.sigma; kycurrent += 0.1) {
-                      kx = kxcurrent*Math.pow(2, -0.5);
-                      ky = kycurrent*Math.pow(2, -0.5);
-                      w = Math.sqrt(4*Vis.dw*(Math.pow(Math.sin(kx*Vis.a/2), 2)) + Math.pow(Math.sin(ky*Vis.a/2), 2));
-                      ukx = uk(kx, ky, Vis.kbar, Vis.kbar, Vis.sigma, 5, 5)/A;
-                      uky = uk(kx, ky, Vis.kbar, Vis.kbar, Vis.sigma, 5, 5)/A;
-                      xdisp += ukx*Math.cos(kx*Vis.a*i + ky*Vis.a*j - w*Vis.t);
-                      ydisp += uky*Math.cos(kx*Vis.a*i + ky*Vis.a*j - w*Vis.t);
+        for (i=0; i < Vis.Nx; i++) {
+            for (j=0; j < Vis.Ny; j++) {
+                let n = Vis.Ny * i + j;
+                let xdisp = 0;
+                let ydisp = 0;
+                for (let kxcurrent = Vis.kxbar - 2*Vis.sigmax; kxcurrent < Vis.kxbar + 2*Vis.sigmax; kxcurrent += 0.1) {
+                    for (let kycurrent = Vis.kybar - 2*Vis.sigmay; kycurrent < Vis.kybar + 2*Vis.sigmay; kycurrent += 0.1) {
+                        let w = Math.sqrt(4*Vis.dw*(Math.pow(Math.sin(kxcurrent*Vis.a/2), 2)) + Math.pow(Math.sin(kycurrent*Vis.a/2), 2));
+                        let ukx = Math.pow(2*Math.PI*Math.pow(Vis.sigmax, 2), -1/2)*Math.exp(-0.5*Math.pow((kxcurrent-Vis.kxbar)/Vis.sigmax, 2))/Ax;
+                        let uky = Math.pow(2*Math.PI*Math.pow(Vis.sigmay, 2), -1/2)*Math.exp(-0.5*Math.pow((kycurrent-Vis.kybar)/Vis.sigmay, 2))/Ay;
+                        xdisp += ukx*Math.cos(kxcurrent*Vis.a*i + kycurrent*Vis.a*j - w*Vis.t);
+                        ydisp += uky*Math.cos(kxcurrent*Vis.a*i + kycurrent*Vis.a*j - w*Vis.t);
                     }
-                }
+                }                
                 Vis.x[n] = i*Vis.a + xdisp;
                 Vis.y[n] = j*Vis.a + ydisp;
             }
-        } 
+        }
     },
 };
 
@@ -130,8 +132,10 @@ Vis.setup = {
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.kbar = 1;
-        Vis.sigma = 0.5;
+        Vis.kxbar = 0.5;
+        Vis.kybar = 0.5;
+        Vis.sigmax = 0.1;
+        Vis.sigmay = 0.1;
 
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
@@ -165,21 +169,37 @@ Vis.setup = {
     },
 
     initSlider: function() {
-        // r sliders
-        Vis.kbarRange = document.getElementById('kbar-range');
-        Vis.kbarDisplay = document.getElementById('kbar-display');
 
-        Vis.kbarRange.addEventListener('input', function() {
-            Vis.kbar = Vis.kbarRange.value;
-            Vis.kbarDisplay.textContent = Vis.kbar;
+        Vis.kxbarRange = document.getElementById('kxbar-range');
+        Vis.kxbarDisplay = document.getElementById('kxbar-display');
+
+        Vis.kxbarRange.addEventListener('input', function() {
+            Vis.kxbar = Vis.kxbarRange.value;
+            Vis.kxbarDisplay.textContent = Vis.kxbar;
         });
 
-        Vis.sigmaRange = document.getElementById('sigma-range');
-        Vis.sigmaDisplay = document.getElementById('sigma-display');
+        Vis.kybarRange = document.getElementById('kybar-range');
+        Vis.kybarDisplay = document.getElementById('kybar-display');
 
-        Vis.sigmaRange.addEventListener('input', function() {
-            Vis.sigma = Vis.sigmaRange.value;
-            Vis.sigmaDisplay.textContent = Vis.sigma;
+        Vis.kybarRange.addEventListener('input', function() {
+            Vis.kybar = Vis.kybarRange.value;
+            Vis.kybarDisplay.textContent = Vis.kybar;
+        });
+
+        Vis.sigmaxRange = document.getElementById('sigmax-range');
+        Vis.sigmaxDisplay = document.getElementById('sigmax-display');
+
+        Vis.sigmaxRange.addEventListener('input', function() {
+            Vis.sigmax = Vis.sigmaxRange.value;
+            Vis.sigmaxDisplay.textContent = Vis.sigmax;
+        });
+
+        Vis.sigmayRange = document.getElementById('sigmay-range');
+        Vis.sigmayDisplay = document.getElementById('sigmay-display');
+
+        Vis.sigmayRange.addEventListener('input', function() {
+            Vis.sigmay = Vis.sigmayRange.value;
+            Vis.sigmayDisplay.textContent = Vis.sigmay;
         });
 
         Vis.core.updateSliders();

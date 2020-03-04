@@ -96,13 +96,13 @@ Vis.workers = {
                 var phiImag = 0;
                 for (pxcurrent = Vis.pxbar - 2*Vis.sigma; pxcurrent < Vis.pxbar + 2*Vis.sigma; pxcurrent += 0.1) {
                     for (pycurrent = Vis.pybar - 2*Vis.sigma; pycurrent < Vis.pybar + 2*Vis.sigma; pycurrent += 0.1) {
-                      E = (Math.pow(pxcurrent, 2) + Math.pow(pycurrent, 2))/(2*Vis.m);
-                      fpmag = Math.exp(-0.5*(Math.pow(pxcurrent-Vis.pxbar, 2)+Math.pow(pycurrent-Vis.pybar, 2)/Math.pow(Vis.sigma, 2)));
+                      var E = (Math.pow(pxcurrent, 2) + Math.pow(pycurrent, 2))/(2*Vis.m);
+                      var fpmag = Math.exp(-0.5*(Math.pow(pxcurrent-Vis.pxbar, 2)+Math.pow(pycurrent-Vis.pybar, 2)/Math.pow(Vis.sigma, 2)));
                       phiReal += fpmag*Math.cos((pxcurrent*Vis.a*i + pycurrent*Vis.a*j) - (pxcurrent*Vis.xbar + pycurrent*Vis.ybar) - E*Vis.t);
                       phiImag += fpmag*Math.sin((pxcurrent*Vis.a*i + pycurrent*Vis.a*j) - (pxcurrent*Vis.xbar + pycurrent*Vis.ybar) - E*Vis.t);
                     }
                 }
-                Vis.pointR[n] = A*(Math.pow(phiReal, 2) + Math.pow(phiImag, 2));
+                Vis.pointR[n] = 0.1 + A*(Math.pow(phiReal, 2) + Math.pow(phiImag, 2)); //We want the size of point between 0.1 and 0.2
             }
         }
     },
