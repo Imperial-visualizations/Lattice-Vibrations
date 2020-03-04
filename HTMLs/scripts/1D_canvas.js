@@ -10,6 +10,7 @@ Vis.init = function() {
     Vis.setup.initConsts();
     Vis.setup.initVars();
 
+    Circle.init(); // init circle
 
     Vis.setup.initGraph();
     //Vis.setup.initButton();
@@ -74,6 +75,7 @@ Vis.core = {
     updateSliders: function() {
         Vis.rRange.value = Vis.r;
         Vis.rDisplay.textContent = Number(Vis.r).toFixed(2);
+        Vis.rBox.value = Number(Vis.r).toFixed(2);
 
         Vis.uRange.value = Vis.u;
         Vis.uDisplay.textContent = Number(Vis.u).toFixed(2);
@@ -155,10 +157,31 @@ Vis.setup = {
         // r sliders
         Vis.rRange = document.getElementById('r-range');
         Vis.rDisplay = document.getElementById('r-display');
+        Vis.rBox = document.getElementById('r-box');
 
         Vis.rRange.addEventListener('input', function() {
             Vis.r = Vis.rRange.value;
             Vis.rDisplay.textContent = Vis.r;
+            Vis.rBox.value = Vis.r;
+
+            Circle.rCircle.x = parseFloat(0.8*Math.sin(Vis.r*Math.PI));
+            Circle.core.draw();
+
+            Circle.rCircle.y = parseFloat(0.8*Math.cos(Vis.r*Math.PI));
+            Circle.core.draw();
+
+        });
+
+        Vis.rBox.addEventListener('input', function() {
+            Vis.r = Vis.rBox.value;
+            Vis.rDisplay.textContent = Vis.r;
+            Vis.rBox.textContent = Vis.r;
+
+            Circle.rCircle.x = parseFloat(0.8*Math.sin(Vis.r*Math.PI));
+            Circle.core.draw();
+
+            Circle.rCircle.y = parseFloat(0.8*Math.cos(Vis.r*Math.PI));
+            Circle.core.draw();
 
         });
 
@@ -177,5 +200,100 @@ Vis.setup = {
 
 };
 
+window.Circle = window.Circle || {};
+
+Circle.init = function() {
+    Circle.setup.initConst();
+    Circle.setup.initObjects();
+
+};
+
+Circle.core = {
+    draw: function() {
+        Circle.core.drawCircle(Circle.rCircle);
+    },
+
+    drawCircle: function(circle) {
+        Circle.helpers.updateCircle(circle);
+    }
+}
+
+Circle.helpers = {
+    updateCircle: function(circle) {
+        let tipx = (circle.x + 1)*Circle.width/2;
+        let tipy = (1 - circle.y)*Circle.height/2;
+
+        circle.body.attr('x2', tipx)
+                  .attr('y2', tipy);
+        circle.tip.attr('cx', tipx)
+                 .attr('cy', tipy);
+    },
+
+    convertCoords: function(sx, sy) {
+        x = 2*sx/Circle.width - 1;
+        y = 1 - 2*sy/Circle.height;
+        return [x, y]
+    },
+
+    updateAPP: function() {
+        Vis.r = 2*Math.atan2(Circle.rCircle.y/Circle.rCircle.x);
+
+    }
+}
+
+Circle.setup = {
+    initConst: function() {
+        Circle.width = window.innerHeight*0.35;
+        Circle.height = window.innerHeight*0.35;
+
+        Circle.strokeWidth = 2;
+        Circle.tipRadius = 5;
+    },
+
+    initObjects: function() {
+        Circle.svg = d3.select('#interactive-Circle');
+        Circle.svg.attr('width', Circle.width)
+                 .attr('height', Circle.height)
+                 .attr('style', 'border: 10px grey');
+
+        Circle.rCircle = {
+            x: 0.8*Math.sin(Vis.r*Math.PI),
+            y: 0.8*Math.cos(Vis.r*Math.PI),
+            stext: 'r'
+        };
+
+        Circle.setup.initCircle(Circle.rCircle);
+    },
+
+    initCircle: function(circle) {
+        circle.container = Circle.setup.createCircleContainer();
+        circle.body = Circle.setup.createCircleBody(circle);
+        circle.tip = Circle.setup.createCircleTip(circle);
+
+        Circle.helpers.updateCircle(circle);
+    },
+
+    createCircleContainer: function() {
+        return Circle.svg.append('svg')
+                        .attr('width', Circle.width)
+                        .attr('height', Circle.height)
+    },
+
+    createCircleBody: function(circle) {
+        return circle.container.append('line')
+                                  .attr('x1', Circle.width/2).attr('y1', Circle.width/2)
+                                  .attr('stroke-width', Circle.strokeWidth)
+                                  .attr('stroke', 'black');
+    },
+
+    createCircleTip: function(circle) {
+        return circle.container.append('circle')
+                              .attr('r', Circle.tipRadius);
+    },
+
+    createCircleText: function(circle) {
+        return circle.container.append('text');
+    }
+};
 
 document.addEventListener('DOMContentLoaded', Vis.init);

@@ -190,12 +190,12 @@ Vis.setup = {
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.rx = 0.1; // % of max x wavenumber, (-1, 1)
-        Vis.ry = 0.1; // % of max y wavenumber, (-1, 1)
-        Vis.rz = 0.1; // % of max z wavenumber, (-1, 1)
+        Vis.rx = 0.5; // % of max x wavenumber, (-1, 1)
+        Vis.ry = 0; // % of max y wavenumber, (-1, 1)
+        Vis.rz = 0; // % of max z wavenumber, (-1, 1)
 
-        Vis.ukx = 0.5; // x amplitude
-        Vis.uky = 0.5; // y amplitude
+        Vis.ukx = 0; // x amplitude
+        Vis.uky = 0; // y amplitude
         Vis.ukz = 0.5; // z amplitude
 
         Vis.x = new Array(Vis.N);
