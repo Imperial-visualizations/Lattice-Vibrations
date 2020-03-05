@@ -227,6 +227,10 @@ Circle.helpers = {
                   .attr('y2', tipy);
         circle.tip.attr('cx', tipx)
                  .attr('cy', tipy);
+
+        circle.text.attr('x', tipx + 5)
+                    .attr('y', tipy - 5)
+                    .text(circle.stext + ' =' + Number(Vis.r%2).toFixed(2));
     },
 
     convertCoords: function(sx, sy) {
@@ -269,7 +273,7 @@ Circle.setup = {
         circle.container = Circle.setup.createCircleContainer();
         circle.body = Circle.setup.createCircleBody(circle);
         circle.tip = Circle.setup.createCircleTip(circle);
-
+        circle.text = Circle.setup.createCircleText(circle);
         Circle.helpers.updateCircle(circle);
     },
 
