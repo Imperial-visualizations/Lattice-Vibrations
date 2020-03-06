@@ -87,6 +87,10 @@ Vis.core = {
 Vis.workers = {
     calcParams: function() {
         Vis.k = Vis.r * Math.PI / Vis.a;
+        var rtemporary = Vis.r%2;
+        if (Vis.r > 0 && rtemporary > 1) {Vis.rFBZ = rtemporary - 2; }
+        else if (Vis.r < 0 && rtemporary < -1) {Vis.rFBZ = rtemporary + 2; }
+        else {Vis.rFBZ = rtemporary;}
         Vis.w = Math.sqrt(4*Vis.dw*(Math.pow(Math.sin(Vis.k*Vis.a/2), 2)));
     },
 
@@ -118,6 +122,7 @@ Vis.setup = {
         Vis._then = Date.now();
 
         Vis.r = 0.10; // % of max x wavenumber, (-1, 1)
+        Vis.rFBZ = 0.10;
 
         Vis.u = -0.50; // x amplitude
 
@@ -161,26 +166,30 @@ Vis.setup = {
 
         Vis.rRange.addEventListener('input', function() {
             Vis.r = Vis.rRange.value;
-            Vis.rDisplay.textContent = Vis.r;
-            Vis.rBox.value = Vis.r;
+            Vis.rDisplay.textContent = Number(Vis.r).toFixed(2);
+            Vis.rBox.value = Number(Vis.r).toFixed(2);
 
-            Circle.rCircle.x = parseFloat(0.8*Math.sin(Vis.r*Math.PI));
+            Vis.core.update();
+
+            Circle.rCircle.x = parseFloat(Vis.rFBZ);
             Circle.core.draw();
 
-            Circle.rCircle.y = parseFloat(0.8*Math.cos(Vis.r*Math.PI));
+            Circle.rCircle.y = parseFloat(0);
             Circle.core.draw();
 
         });
 
         Vis.rBox.addEventListener('input', function() {
             Vis.r = Vis.rBox.value;
-            Vis.rDisplay.textContent = Vis.r;
-            Vis.rBox.textContent = Vis.r;
+            Vis.rDisplay.textContent = Number(Vis.r).toFixed(2);
+            Vis.rBox.textContent = Number(Vis.r).toFixed(2);
 
-            Circle.rCircle.x = parseFloat(0.8*Math.sin(Vis.r*Math.PI));
+            Vis.core.update();
+            
+            Circle.rCircle.x = parseFloat(Vis.rFBZ);
             Circle.core.draw();
 
-            Circle.rCircle.y = parseFloat(0.8*Math.cos(Vis.r*Math.PI));
+            Circle.rCircle.y = parseFloat(0);
             Circle.core.draw();
 
         });
@@ -228,9 +237,9 @@ Circle.helpers = {
         circle.tip.attr('cx', tipx)
                  .attr('cy', tipy);
 
-        circle.text.attr('x', tipx + 5)
-                    .attr('y', tipy - 5)
-                    .text(circle.stext + ' =' + Number(Vis.r%2).toFixed(2));
+        circle.text.attr('x', Circle.width/2)
+                    .attr('y', 0.8*Circle.width/2)
+                    .text(circle.stext + ' = ' + Number(Vis.rFBZ).toFixed(2) + 'π');
     },
 
     convertCoords: function(sx, sy) {
@@ -238,11 +247,6 @@ Circle.helpers = {
         y = 1 - 2*sy/Circle.height;
         return [x, y]
     },
-
-    updateAPP: function() {
-        Vis.r = 2*Math.atan2(Circle.rCircle.y/Circle.rCircle.x);
-
-    }
 }
 
 Circle.setup = {
@@ -261,9 +265,9 @@ Circle.setup = {
                  .attr('style', 'border: 10px grey');
 
         Circle.rCircle = {
-            x: 0.8*Math.sin(Vis.r*Math.PI),
-            y: 0.8*Math.cos(Vis.r*Math.PI),
-            stext: 'r'
+            x: Vis.rFBZ,
+            y: 0,
+            stext: 'k'
         };
 
         Circle.setup.initCircle(Circle.rCircle);
