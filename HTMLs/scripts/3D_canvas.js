@@ -1,6 +1,8 @@
 //---------------------------------//
 // Visualisation Object            //
 //---------------------------------//
+import * as THREE from '../node_modules/three/build/three.module.js';
+import { OrbitControls } from '../node_modules/three/examples/jsm/controls/OrbitControls.js';
 
 window.Vis = window.Vis || {};
 
@@ -236,7 +238,15 @@ Vis.setup = {
             canvas: document.getElementById('canvas-div')
         });
         Vis.renderer.setSize(Vis.canvasx, Vis.canvasy);
-        // document.getElementById('canvas-div').appendChild(Vis.renderer.domElement);
+        
+        Vis.controls = new OrbitControls(Vis.camera, Vis.renderer.domElement);
+        Vis.controls.target = new THREE.Vector3(Vis.a*Vis.Nx/2, Vis.a*Vis.Nx/2, Vis.a*Vis.Nz/2);
+        Vis.controls.minDistance = Vis.a*Vis.Nx/2;
+        Vis.controls.maxDistance = 1.5*Vis.a*Vis.Nx;
+        Vis.controls.enableKeys = false;
+
+        Vis.axesHelper = new THREE.AxesHelper(1);
+        Vis.scene.add(Vis.axesHelper);
 
         for (let n=0; n<Vis.N; n++) {
             let geometry = new THREE.SphereBufferGeometry(Vis.pointR, 10, 10);
