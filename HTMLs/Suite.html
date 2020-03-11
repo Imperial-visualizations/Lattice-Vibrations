@@ -97,20 +97,24 @@
                 <!--  Functionality 1 : change the right side within the section-->
                 <div class="text section-body odd" id="p1">
                     <p>
-                        Given a piece of solid, how can we model sound waves moving through it?
+                        Given some solid, how can we model sound waves moving through it?
                     </p>
                     <p>
                         Let us assume that this is a simple solid, made of identical atoms spaced evenly.
-                        We know that atoms in a solid lattice is held together by binding forces, e.g. ionic, covalent or metallic.
-                        Think about the Lennard-Jones potential.
+                        We know that atoms in a solid lattice are held together by binding forces, for example ionic, covalent and metallic bonds.
+                        Think about the Mie potential.
                     </p>
                     <p>
-                        Let us model the binding forces using springs, 
-                        i.e. all atoms are connected to their nearest neighbours by identical springs.
-                        This works in the small displacement limit, or at a temperature lower than melting point.
+                        Let us model the binding forces using springs. 
+                        We model all atoms as connected to only their nearest neighbours by identical springs.
+                        This model is accurate in the small displacement limit, that is the low temperature limit.
                     </p>
                     <p>
-                        How does this model look like?
+                        Let's explore this model. 
+                        We will start considering the simple case of a one dimensional lattice, building up the theory. 
+                        Here we will develop the concept of the first Brillouin Zone and how energy moves through the solid in the form of waves.
+                        Then we will look at a two dimensional lattice and consider transverse and longitudinal waves passing through the solid.
+                        We will continue to three dimensional solids for completeness.
                     </p>
   
 </div></div>
@@ -129,14 +133,20 @@
 
                         <p>
                             We start with the one dimensional case: 
-                            imagine having an infinitely long chain of identical atoms.
-                            Now approximate their only interactions are only through the identical springs connected to their nearest neighbours.
+                            imagine having a chain of identical atoms.
+                            We then approximate their interactions to only be with nearest neighbours.
+                            We do this by saying that neighbouring atoms are connected by springs, all of which are identical.
+                        </p>
+                        <p>
+                            The solution to this model is most easily dealt with when the infinite lattice approximation is made.
+                            This is where we approximate the solid size as much larger than the maximum displacement of individual atoms.
+                            This is physically acceptable as in reality, atom movements in solids are much smaller than the size of the solids.
                         
-                            The most general solution is:
-                            $$ u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} $$
+                            The most general solution is
+                            $$ u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} .$$
                         
-                            where                        
-                            $u_n$ is the displacement of the $n^{th}$ atom
+                            This is a sum of an arbitrary number of waves, each with their own wavevector.                
+                            $u_n$ is the displacement of the $n^{th}$ atom from its equilibrium position
                             and
                             $k$ is the wavevector of the incoming wave.
                         </p>

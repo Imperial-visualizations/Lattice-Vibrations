@@ -39,7 +39,7 @@ return [trace1, trace2];
 }
 
 
-Plotly.newPlot("plotly-div", initialData(), {title: 'Lennard-Jones Potential',
+Plotly.newPlot("plotly-div", initialData(), {title: 'Mie Potential',
 width: 750,
 height: 500,
 margin: {
