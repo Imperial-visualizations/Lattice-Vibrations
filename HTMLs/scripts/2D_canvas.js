@@ -72,12 +72,16 @@ Vis.core = {
                             , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
         Vis.context.fill();
 
-        Vis.context.fillStyle = 'green';
+        // draw phase track
+        Vis.context.strokeStyle = 'green';
+        Vis.context.lineWidth = 3;
         for (let i=0; i < Vis.Nphase; i++) {
             Vis.context.beginPath();
-            Vis.context.arc(Vis.convertCanvasX(Vis.phasex[i]), Vis.convertCanvasY(Vis.phasey[i])
-                                , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
-            Vis.context.fill();
+            Vis.context.moveTo(Vis.convertCanvasX(Vis.phasex[2*i])
+                             , Vis.convertCanvasY(Vis.phasey[2*i]));
+            Vis.context.lineTo(Vis.convertCanvasX(Vis.phasex[2*i+1])
+                             , Vis.convertCanvasY(Vis.phasey[2*i+1]));
+            Vis.context.stroke();
         }
     },
 
@@ -146,27 +150,41 @@ Vis.workers = {
 
         if (m >= -1 && m <= 1) {
             // do y processing
-            let spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
+            var spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
             var t_space = spacing / vy;
         } else {
             // do x processing
-            let spacing = Vis.dphase * Vis.kx / Vis.k;
+            var spacing = Vis.dphase * Vis.kx / Vis.k;
             var t_space = spacing / vx;
         };
 
+        let offset = 10;
         let t = Vis.t % (Vis.Nx*t_space/2); // heuristic # of time spacings until wrap around 
 
         for (let i=0; i < Vis.Nphase; i++) {
-            let T = t + (i - Vis.Nphase/2)*t_space; // shift each phase particle 
+            let T = t + (i - Vis.Nphase/2)*t_space + Vis.shift; // shift each phase particle 
+                                    // (+1 heuristic to get phase correct)
 
             if (m >= -1 && m <= 1) {
                 // do x processing
-                Vis.phasex[i] = T*vx;
-                Vis.phasey[i] = (m)*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
+                let x = T*vx;
+                let y = (m)*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
+
+                Vis.phasex[2*i] = x - offset;
+                Vis.phasey[2*i] = y + (1/m)*offset;
+
+                Vis.phasex[2*i+1] = x + offset;
+                Vis.phasey[2*i+1] = y - (1/m)*offset;
             } else {
                 // do y processing
-                Vis.phasex[i] = (1/m)*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
-                Vis.phasey[i] = T*vy;
+                let x = (1/m)*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
+                let y = T*vy;
+
+                Vis.phasex[2*i] = x + (m)*offset;
+                Vis.phasey[2*i] = y - offset;
+
+                Vis.phasex[2*i+1] = x - (m)*offset;
+                Vis.phasey[2*i+1] = y + offset;
             }
 
             
@@ -203,8 +221,10 @@ Vis.setup = {
         Vis.x = new Array(Vis.N);
         Vis.y = new Array(Vis.N);
 
-        Vis.phasex = new Array(Vis.Nphase);
-        Vis.phasey = new Array(Vis.Nphase);
+        Vis.shift = -5.3;
+
+        Vis.phasex = new Array(2*Vis.Nphase); // requires two points to draw a line
+        Vis.phasey = new Array(2*Vis.Nphase);
     },
 
     initGraph: function() {
