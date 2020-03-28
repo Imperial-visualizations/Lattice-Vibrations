@@ -147,15 +147,26 @@ Vis.workers = {
         let vy = v * Vis.ky / Vis.k;
 
         let m = vy / vx;
+        let mi = vx / vy;
 
         if (m >= -1 && m <= 1) {
             // do y processing
             var spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
-            var t_space = spacing / vy;
+            if (vy == 0) {
+                mi = 10000000;
+                var t_space = 20;
+            } else {
+                var t_space = spacing / vy;
+            }
         } else {
             // do x processing
             var spacing = Vis.dphase * Vis.kx / Vis.k;
-            var t_space = spacing / vx;
+            if (vx == 0) {
+                m = 10000000;
+                var t_space = 20;
+            } else {
+                var t_space = spacing / vx;
+            }
         };
 
         let offset = 10;
@@ -171,13 +182,13 @@ Vis.workers = {
                 let y = (m)*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
 
                 Vis.phasex[2*i] = x - offset;
-                Vis.phasey[2*i] = y + (1/m)*offset;
+                Vis.phasey[2*i] = y + mi*offset;
 
                 Vis.phasex[2*i+1] = x + offset;
-                Vis.phasey[2*i+1] = y - (1/m)*offset;
+                Vis.phasey[2*i+1] = y - mi*offset;
             } else {
                 // do y processing
-                let x = (1/m)*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
+                let x = mi*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
                 let y = T*vy;
 
                 Vis.phasex[2*i] = x + (m)*offset;
