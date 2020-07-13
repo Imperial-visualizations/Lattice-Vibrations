@@ -14,10 +14,10 @@ var wd = 1;          // Debye wavelength
 // Setting up the initial plot
 function initialData () {
 
-  var rx = 0.1; 
-  var ry = 0.1; 
-  var kx = rx*Math.PI/a;
-  var ky = ry*Math.PI/a;
+  var dx = 0.1; 
+  var dy = 0.1; 
+  var kx = dx*Math.PI/a;
+  var ky = dy*Math.PI/a;
   var k  = Math.sqrt(Math.pow(kx, 2) + Math.pow(ky, 2));
   var lamb = 2*Math.PI/k; 
   var w = Math.sqrt(4*wd*(Math.pow(Math.sin(kx*a/2), 2)) + Math.pow(Math.sin(ky*a/2), 2));
@@ -94,19 +94,19 @@ var t = 0;
 
 function updateData () {
 
-  var rx = document.getElementById("rx").value;
-  document.getElementById("rx-display").innerHTML = rx.toString();
+  var dx = document.getElementById("dx").value;
+  document.getElementById("dx-display").innerHTML = dx.toString();
   var ukx = document.getElementById("ukx").value;
   document.getElementById("ukx-display").innerHTML = ukx.toString();
-  var ry = document.getElementById("ry").value;
-  document.getElementById("ry-display").innerHTML = ry.toString();
+  var dy = document.getElementById("dy").value;
+  document.getElementById("dy-display").innerHTML = dy.toString();
   var uky = document.getElementById("uky").value;
   document.getElementById("uky-display").innerHTML = uky.toString();
   
 
   var ukvec = [ukx, uky, 0];
-  var kx = rx*Math.PI/a;
-  var ky = ry*Math.PI/a;
+  var kx = dx*Math.PI/a;
+  var ky = dy*Math.PI/a;
   var kvec = [kx, ky, 0];
   var k  = Math.sqrt(Math.pow(kx, 2) + Math.pow(ky, 2));
   var lamb = 2*Math.PI/k; 

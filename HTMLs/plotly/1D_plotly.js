@@ -14,8 +14,8 @@ var wd = 1;          // Debye wavelength
 // Setting up the initial plot
 function initialData () {
 
-  var r = 0.1; 
-  var k = r*Math.PI/a;
+  var d = 0.1; 
+  var k = d*Math.PI/a;
   var w = Math.sqrt(4*wd*(Math.pow(Math.sin(k*a/2), 2)));
   
   var uk = 0.5; 
@@ -70,12 +70,12 @@ var t = 0;
 
 function updateData () {
 
-  var r = document.getElementById("r").value;
-  document.getElementById("r-display").innerHTML = r.toString();
+  var d = document.getElementById("d").value;
+  document.getElementById("d-display").innerHTML = d.toString();
   var uk = document.getElementById("uk").value;
   document.getElementById("uk-display").innerHTML = uk.toString();
 
-  var k = r*Math.PI/a;
+  var k = d*Math.PI/a;
   var w = Math.sqrt(4*wd*(Math.pow(Math.sin(k*a/2), 2)));
   
   var x = [], y = [];

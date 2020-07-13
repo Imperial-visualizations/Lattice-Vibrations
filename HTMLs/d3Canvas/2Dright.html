@@ -1,5 +1,3 @@
-<!--Author: Darren Lean-->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,18 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--Title-->
-    <title>Infinite Lattice 3D</title>
+    <title>Infinite Lattice 2D</title>
     <!--css links-->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" rel="stylesheet"
         integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
-    <link href="styles/style.css" rel="stylesheet">
+    <link href="../styles/style.css" rel="stylesheet">
 
     <!--Required JS resources-->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/6.2.2/math.min.js"
     integrity="sha256-D/MkugLuxx4Xx0Kb92cUhpxlCMhUvQ0eOtEL8Ol23jM=" crossorigin="anonymous"></script>
     <script type="text/x-mathjax-config">
@@ -39,15 +38,18 @@
 
 <body>
     <!--    Right Side of Window - containing mainly interactive and visual content    -->
-        
     <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-
-        <canvas id="canvas-div" style="width:450px; height:450px; float: left; margin-right:5%; margin-top:8%"></canvas>
+            
+        <!--Visualisation main canvas-->
+        <div id="canvas-div" style="width: 50%; float: left; margin-right:10%; margin-top:3%"></div>
+        
+        <!--Interactive arrow element-->
+        <svg id='interactive-arrow' style="float: left"></svg>
 
         <!--Buttons/Sliders-->
         <div class="overall-sliders-container" style="float: left;">
-            <div style="width: 50%; float: left;">
-                <span class="mathJaxInline">$\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix} $</span>
+            <div style="width: 100%; float: left;">
+                <span class="mathJaxInline">$\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \end{bmatrix} $</span>
             </div>
             <div style="width: 50%; float: left;">
                 <span class="mathJaxInline">$\textbf{k} \cdot \textbf{u}_\textbf{k} = $</span>
@@ -63,11 +65,11 @@
                 <!--BEGIN Slider-->
                 <label class="slider-label">
                     $d_x$ :
-                    <span id="dx-display">0.5</span>
+                    <span id="dx-display">0.1</span>
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="dx" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
+                    <input id="dx-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
@@ -75,23 +77,11 @@
                 <!--BEGIN Slider-->
                 <label class="slider-label">
                     $d_y$ :
-                    <span id="dy-display">0</span>
+                    <span id="dy-display">0.1</span>
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="dy" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    $d_z$ :
-                    <span id="dz-display">0</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="dz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
+                    <input id="dy-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.1"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
@@ -100,11 +90,11 @@
                 <!--BEGIN Slider-->
                 <label class="slider-label">
                     $u_{k_x}$:
-                    <span id="ukx-display">0</span>
+                    <span id="ukx-display">0.5</span>
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="ukx" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
+                    <input id="ukx-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
@@ -112,27 +102,17 @@
                 <!--BEGIN Slider-->
                 <label class="slider-label">
                     $u_{k_y}$:
-                    <span id="uky-display">0</span>
+                    <span id="uky-display">0.5</span>
                 </label>
                 <label class="slider">
                     <span class="sliderMin">-1</span>
-                    <input id="uky" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    $u_{k_z}$:
-                    <span id="ukz-display">0.5</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="ukz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
+                    <input id="uky-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
                     <span class="sliderMax">1</span>
                 </label>
                 <!--END Slider-->
             </div>
+        
+            
     
         </div>
 
@@ -142,9 +122,7 @@
 
     
 </div>
-
-
-<script src="./scripts/3D_canvas.js"></script>
+<script src="2D_d3canvas.js"></script>
 
 </body>
 </html>
