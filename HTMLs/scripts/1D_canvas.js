@@ -58,7 +58,7 @@ Vis.core = {
         for (let i=0; i < Vis.N; i++) {
             Vis.context.beginPath();
             Vis.context.arc(Vis.convertCanvasX(Vis.x[i]), Vis.convertCanvasY(Vis.y[i])
-                                , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
+                                , Vis.convertCanvasX(Vis.pointD), 0, 2*Math.PI);
             Vis.context.fill();
         }
         
@@ -67,15 +67,15 @@ Vis.core = {
         Vis.context.beginPath();
         Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2)])
                             , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2)])
-                            , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
+                            , Vis.convertCanvasX(Vis.pointD*1.03), 0, 2*Math.PI);
         Vis.context.fill();
 
     },
 
     updateSliders: function() {
-        Vis.rRange.value = Vis.r;
-        Vis.rDisplay.textContent = Number(Vis.r).toFixed(2);
-        Vis.rBox.value = Number(Vis.r).toFixed(2);
+        Vis.dRange.value = Vis.d;
+        Vis.dDisplay.textContent = Number(Vis.d).toFixed(2);
+        Vis.dBox.value = Number(Vis.d).toFixed(2);
 
         Vis.uRange.value = Vis.u;
         Vis.uDisplay.textContent = Number(Vis.u).toFixed(2);
@@ -86,11 +86,11 @@ Vis.core = {
 
 Vis.workers = {
     calcParams: function() {
-        Vis.k = Vis.r * Math.PI / Vis.a;
-        var rtemporary = Vis.r%2;
-        if (Vis.r > 0 && rtemporary > 1) {Vis.rFBZ = rtemporary - 2; }
-        else if (Vis.r < 0 && rtemporary < -1) {Vis.rFBZ = rtemporary + 2; }
-        else {Vis.rFBZ = rtemporary;}
+        Vis.k = Vis.d * Math.PI / Vis.a;
+        var dtemporary = Vis.d%2;
+        if (Vis.d > 0 && dtemporary > 1) {Vis.dFBZ = dtemporary - 2; }
+        else if (Vis.d < 0 && dtemporary < -1) {Vis.dFBZ = dtemporary + 2; }
+        else {Vis.dFBZ = dtemporary;}
         Vis.w = Math.sqrt(4*Vis.dw*(Math.pow(Math.sin(Vis.k*Vis.a/2), 2)));
     },
 
@@ -115,14 +115,14 @@ Vis.setup = {
         Vis.canvasx = 450;
         Vis.canvasy = 450;
 
-        Vis.pointR = 0.20 * Vis.a;
+        Vis.pointD = 0.20 * Vis.a;
     },
 
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.r = 0.10; // % of max x wavenumber, (-1, 1)
-        Vis.rFBZ = 0.10;
+        Vis.d = 0.10; // % of max x wavenumber, (-1, 1)
+        Vis.dFBZ = 0.10;
 
         Vis.u = -0.50; // x amplitude
 
@@ -160,36 +160,36 @@ Vis.setup = {
 
     initSlider: function() {
         // r sliders
-        Vis.rRange = document.getElementById('r-range');
-        Vis.rDisplay = document.getElementById('r-display');
-        Vis.rBox = document.getElementById('r-box');
+        Vis.dRange = document.getElementById('d-range');
+        Vis.dDisplay = document.getElementById('d-display');
+        Vis.dBox = document.getElementById('d-box');
 
-        Vis.rRange.addEventListener('input', function() {
-            Vis.r = Vis.rRange.value;
-            Vis.rDisplay.textContent = Number(Vis.r).toFixed(2);
-            Vis.rBox.value = Number(Vis.r).toFixed(2);
+        Vis.dRange.addEventListener('input', function() {
+            Vis.d = Vis.dRange.value;
+            Vis.dDisplay.textContent = Number(Vis.d).toFixed(2);
+            Vis.dBox.value = Number(Vis.d).toFixed(2);
 
             Vis.core.update();
 
-            Circle.rCircle.x = parseFloat(Vis.rFBZ);
+            Circle.dCircle.x = parseFloat(Vis.dFBZ);
             Circle.core.draw();
 
-            Circle.rCircle.y = parseFloat(0);
+            Circle.dCircle.y = parseFloat(0);
             Circle.core.draw();
 
         });
 
-        Vis.rBox.addEventListener('input', function() {
-            Vis.r = Vis.rBox.value;
-            Vis.rDisplay.textContent = Number(Vis.r).toFixed(2);
-            Vis.rBox.textContent = Number(Vis.r).toFixed(2);
+        Vis.dBox.addEventListener('input', function() {
+            Vis.d = Vis.dBox.value;
+            Vis.dDisplay.textContent = Number(Vis.d).toFixed(2);
+            Vis.dBox.textContent = Number(Vis.d).toFixed(2);
 
             Vis.core.update();
             
-            Circle.rCircle.x = parseFloat(Vis.rFBZ);
+            Circle.dCircle.x = parseFloat(Vis.dFBZ);
             Circle.core.draw();
 
-            Circle.rCircle.y = parseFloat(0);
+            Circle.dCircle.y = parseFloat(0);
             Circle.core.draw();
 
         });
@@ -219,7 +219,7 @@ Circle.init = function() {
 
 Circle.core = {
     draw: function() {
-        Circle.core.drawCircle(Circle.rCircle);
+        Circle.core.drawCircle(Circle.dCircle);
     },
 
     drawCircle: function(circle) {
@@ -239,13 +239,13 @@ Circle.helpers = {
 
         circle.text.attr('x', Circle.width/2)
                     .attr('y', 0.8*Circle.width/2)
-                    .text(circle.stext + ' = ' + Number(Vis.rFBZ).toFixed(2) + 'π');
+                    .text(circle.stext + ' = ' + Number(Vis.dFBZ).toFixed(2) + 'π');
     },
 
     convertCoords: function(sx, sy) {
         x = 2*sx/Circle.width - 1;
         y = 1 - 2*sy/Circle.height;
-        return [x, y]
+        return [x, y];
     },
 }
 
@@ -264,13 +264,13 @@ Circle.setup = {
                  .attr('height', Circle.height)
                  .attr('style', 'border: 10px grey');
 
-        Circle.rCircle = {
-            x: Vis.rFBZ,
+        Circle.dCircle = {
+            x: Vis.dFBZ,
             y: 0,
             stext: 'k'
         };
 
-        Circle.setup.initCircle(Circle.rCircle);
+        Circle.setup.initCircle(Circle.dCircle);
     },
 
     initCircle: function(circle) {
@@ -284,7 +284,7 @@ Circle.setup = {
     createCircleContainer: function() {
         return Circle.svg.append('svg')
                         .attr('width', Circle.width)
-                        .attr('height', Circle.height)
+                        .attr('height', Circle.height);
     },
 
     createCircleBody: function(circle) {

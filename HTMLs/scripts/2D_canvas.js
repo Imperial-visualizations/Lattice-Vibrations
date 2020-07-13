@@ -86,11 +86,11 @@ Vis.core = {
     },
 
     updateSliders: function() {
-        Vis.rxRange.value = Vis.rx;
-        Vis.rxDisplay.textContent = Number(Vis.rx).toFixed(2);
+        Vis.dxRange.value = Vis.dx;
+        Vis.dxDisplay.textContent = Number(Vis.dx).toFixed(2);
 
-        Vis.ryRange.value = Vis.ry;
-        Vis.ryDisplay.textContent = Number(Vis.ry).toFixed(2);
+        Vis.dyRange.value = Vis.dy;
+        Vis.dyDisplay.textContent = Number(Vis.dy).toFixed(2);
 
         Vis.uxRange.value = Vis.ux;
         Vis.uxDisplay.textContent = Number(Vis.ux).toFixed(2);
@@ -103,8 +103,8 @@ Vis.core = {
 
     updateDisplay: function() {
         let ukvec = [Vis.ux, Vis.uy, 0];
-        let kx = Vis.rx*Math.PI/Vis.a;
-        let ky = Vis.ry*Math.PI/Vis.a;
+        let kx = Vis.dx*Math.PI/Vis.a;
+        let ky = Vis.dy*Math.PI/Vis.a;
         let kvec = [kx, ky, 0];
 
         let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
@@ -120,8 +120,8 @@ Vis.core = {
 Vis.workers = {
     calcParams: function() {
         Vis.k = Math.sqrt(Vis.kx**2 + Vis.ky**2);
-        Vis.kx = Vis.rx * Math.PI / Vis.a;
-        Vis.ky = Vis.ry * Math.PI / Vis.a;
+        Vis.kx = Vis.dx * Math.PI / Vis.a;
+        Vis.ky = Vis.dy * Math.PI / Vis.a;
 
         Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
                                      + Math.sin(Vis.ky * Vis.a / 2)**2);
@@ -223,8 +223,8 @@ Vis.setup = {
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.rx = 0.10; // % of max x wavenumber, (-1, 1)
-        Vis.ry = 0.10; // % of max y wavenumber, (-1, 1)
+        Vis.dx = 0.10; // % of max x wavenumber, (-1, 1)
+        Vis.dy = 0.10; // % of max y wavenumber, (-1, 1)
 
         Vis.ux = -0.50; // x amplitude
         Vis.uy = -0.50; // y amplitude
@@ -267,27 +267,27 @@ Vis.setup = {
 
     initSlider: function() {
         // r sliders
-        Vis.rxRange = document.getElementById('rx-range');
-        Vis.rxDisplay = document.getElementById('rx-display');
+        Vis.dxRange = document.getElementById('dx-range');
+        Vis.dxDisplay = document.getElementById('dx-display');
 
-        Vis.rxRange.addEventListener('input', function() {
-            Vis.rx = Vis.rxRange.value;
-            Vis.rxDisplay.textContent = Vis.rx;
+        Vis.dxRange.addEventListener('input', function() {
+            Vis.dx = Vis.dxRange.value;
+            Vis.dxDisplay.textContent = Vis.dx;
 
-            Arrow.rArrow.x = parseFloat(Vis.rx);
+            Arrow.rArrow.x = parseFloat(Vis.dx);
             Arrow.core.draw();
 
             Vis.core.updateDisplay();
         });
 
-        Vis.ryRange = document.getElementById('ry-range');
-        Vis.ryDisplay = document.getElementById('ry-display');
+        Vis.dyRange = document.getElementById('dy-range');
+        Vis.dyDisplay = document.getElementById('dy-display');
 
-        Vis.ryRange.addEventListener('input', function() {
-            Vis.ry = Vis.ryRange.value;
-            Vis.ryDisplay.textContent = Vis.ry;
+        Vis.dyRange.addEventListener('input', function() {
+            Vis.dy = Vis.dyRange.value;
+            Vis.dyDisplay.textContent = Vis.dy;
 
-            Arrow.rArrow.y = parseFloat(Vis.ry);
+            Arrow.rArrow.y = parseFloat(Vis.dy);
             Arrow.core.draw();
 
             Vis.core.updateDisplay();
@@ -375,8 +375,8 @@ Arrow.helpers = {
     },
 
     updateAPP: function() {
-        Vis.rx = Arrow.rArrow.x;
-        Vis.ry = Arrow.rArrow.y;
+        Vis.dx = Arrow.rArrow.x;
+        Vis.dy = Arrow.rArrow.y;
 
         Vis.ux = Arrow.uArrow.x;
         Vis.uy = Arrow.uArrow.y;
@@ -399,9 +399,9 @@ Arrow.setup = {
                  .attr('style', 'border: 10px grey');
 
         Arrow.rArrow = {
-            x: Vis.rx,
-            y: Vis.ry,
-            stext: 'r'
+            x: Vis.dx,
+            y: Vis.dy,
+            stext: 'd'
         };
 
         Arrow.uArrow = {

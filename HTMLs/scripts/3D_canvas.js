@@ -62,14 +62,14 @@ Vis.core = {
     },
 
     updateSliders: function() {
-        Vis.rxRange.value = Vis.rx;
-        Vis.rxDisplay.textContent = Number(Vis.rx).toFixed(2);
+        Vis.dxRange.value = Vis.dx;
+        Vis.dxDisplay.textContent = Number(Vis.dx).toFixed(2);
 
-        Vis.ryRange.value = Vis.ry;
-        Vis.ryDisplay.textContent = Number(Vis.ry).toFixed(2);
+        Vis.dyRange.value = Vis.dy;
+        Vis.dyDisplay.textContent = Number(Vis.dy).toFixed(2);
 
-        Vis.rzRange.value = Vis.rz;
-        Vis.rzDisplay.textContent = Number(Vis.rz).toFixed(2);
+        Vis.dzRange.value = Vis.dz;
+        Vis.dzDisplay.textContent = Number(Vis.dz).toFixed(2);
 
 
         Vis.ukxRange.value = Vis.ukx;
@@ -103,9 +103,9 @@ Vis.core = {
 Vis.workers = {
     calcParams: function() {
         Vis.k = Math.sqrt(Vis.kx**2 + Vis.ky**2 + Vis.kz**2);
-        Vis.kx = Vis.rx * Math.PI / Vis.a;
-        Vis.ky = Vis.ry * Math.PI / Vis.a;
-        Vis.kz = Vis.rz * Math.PI / Vis.a;
+        Vis.kx = Vis.dx * Math.PI / Vis.a;
+        Vis.ky = Vis.dy * Math.PI / Vis.a;
+        Vis.kz = Vis.dz * Math.PI / Vis.a;
 
         Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
                                      + Math.sin(Vis.ky * Vis.a / 2)**2
@@ -190,9 +190,9 @@ Vis.setup = {
     initVars: function() {
         Vis._then = Date.now();
 
-        Vis.rx = 0.5; // % of max x wavenumber, (-1, 1)
-        Vis.ry = 0; // % of max y wavenumber, (-1, 1)
-        Vis.rz = 0; // % of max z wavenumber, (-1, 1)
+        Vis.dx = 0.5; // % of max x wavenumber, (-1, 1)
+        Vis.dy = 0; // % of max y wavenumber, (-1, 1)
+        Vis.dz = 0; // % of max z wavenumber, (-1, 1)
 
         Vis.ukx = 0; // x amplitude
         Vis.uky = 0; // y amplitude
@@ -264,32 +264,32 @@ Vis.setup = {
 
     initSliders: function() {
         // r sliders
-        Vis.rxRange = document.getElementById('rx');
-        Vis.rxDisplay = document.getElementById('rx-display');
+        Vis.dxRange = document.getElementById('dx');
+        Vis.dxDisplay = document.getElementById('dx-display');
 
-        Vis.rxRange.addEventListener('input', function() {
-            Vis.rx = Vis.rxRange.value;
-            Vis.rxDisplay.textContent = Vis.rx;
-
-            Vis.core.updateDisplay();
-        });
-
-        Vis.ryRange = document.getElementById('ry');
-        Vis.ryDisplay = document.getElementById('ry-display');
-
-        Vis.ryRange.addEventListener('input', function() {
-            Vis.ry = Vis.ryRange.value;
-            Vis.ryDisplay.textContent = Vis.ry;
+        Vis.dxRange.addEventListener('input', function() {
+            Vis.dx = Vis.dxRange.value;
+            Vis.dxDisplay.textContent = Vis.dx;
 
             Vis.core.updateDisplay();
         });
 
-        Vis.rzRange = document.getElementById('rz');
-        Vis.rzDisplay = document.getElementById('rz-display');
+        Vis.dyRange = document.getElementById('dy');
+        Vis.dyDisplay = document.getElementById('dy-display');
 
-        Vis.rzRange.addEventListener('input', function() {
-            Vis.rz = Vis.rzRange.value;
-            Vis.rzDisplay.textContent = Vis.rz;
+        Vis.dyRange.addEventListener('input', function() {
+            Vis.dy = Vis.dyRange.value;
+            Vis.dyDisplay.textContent = Vis.dy;
+
+            Vis.core.updateDisplay();
+        });
+
+        Vis.dzRange = document.getElementById('dz');
+        Vis.dzDisplay = document.getElementById('dz-display');
+
+        Vis.dzRange.addEventListener('input', function() {
+            Vis.dz = Vis.dzRange.value;
+            Vis.dzDisplay.textContent = Vis.dz;
 
             Vis.core.updateDisplay();
         });
