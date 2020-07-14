@@ -11,7 +11,7 @@ var r0 = sigma*Math.pow(2, 1/6);    //position of minimum
 
 // Mie potential 
 function MiePotential (r) {
-  return (4*epsilon)*(Math.pow((sigma/r), 12) - Math.pow((sigma/r), 6));
+  return 10*(4*epsilon)*(Math.pow((sigma/r), 12) - Math.pow((sigma/r), 6));
 }
 
 // Setting up the initial plot
