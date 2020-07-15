@@ -32,7 +32,7 @@ function initialData () {
     y.push(0);
     colour.push(latticeColour);
     if (l == 15) {
-      colour.push(trackSingleColour);         //To trace single atom
+      colour.push(trackSingleColour);         // Different colour to trace a single atom
     }
   }
 

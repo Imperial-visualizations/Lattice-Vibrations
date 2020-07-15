@@ -40,7 +40,7 @@ function initialData () {
       x.push(l*a + ukx*Math.cos(l*kx*a + m*ky*a - w*t));
       y.push(m*a + uky*Math.cos(l*kx*a + m*ky*a - w*t));
       if (l == 15 && m == 15) {
-        colour.push(trackSingleColour);         //To trace single atom
+        colour.push(trackSingleColour);         // Different colour to trace a single atom
       } else {
         colour.push(latticeColour);
       }

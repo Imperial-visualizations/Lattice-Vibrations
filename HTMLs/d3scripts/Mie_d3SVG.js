@@ -38,8 +38,8 @@ var sVg = d3.select("#Area")
 var x = d3.scaleLinear()
     .domain([r[0], r.slice(-1)[0]])         // This is the min and the max of the data: 0 to 100 if percentages
     .range([0, width]);       // This is the corresponding value I want in Pixel
-sVg
-  .append('g')
+
+sVg.append('g')
   .attr("transform", "translate(0," + 6.9925*height/8 + ")")
   .call(d3.axisBottom(x));
 
@@ -55,8 +55,8 @@ sVg.append("text")
 var y = d3.scaleLinear()
     .domain([math.min(V), math.max(V)])         // This is the min and the max of the data: 0 to 100 if percentages
     .range([height, 0]);       // This is the corresponding value I want in Pixel
-sVg
-  .append('g')
+
+sVg.append('g')
   .call(d3.axisLeft(y));
 
 // Y axis label:
@@ -98,8 +98,6 @@ var oscillator = sVg
     .attr("r", 7)
     .attr("fill", "orange");
 
-slide();
-
 //Slide the circle from left to right
 function slide() {
   (function repeat() {
@@ -111,4 +109,6 @@ function slide() {
           .attr("cx", 0.205*width )
           .on("end", repeat);
   })();
-}//slide
+}
+
+slide();
