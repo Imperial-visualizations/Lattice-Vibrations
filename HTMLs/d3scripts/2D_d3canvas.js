@@ -118,7 +118,7 @@ Vis.workers = {
 
         Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 + Math.sin(Vis.ky * Vis.a / 2)**2);
 
-        Vis.dphase = 2*Math.PI/Vis.k; // update spacing of phase tracker 
+        Vis.lamb = 2*Math.PI/Vis.k; // update spacing of phase tracker 
     },
 
     calcPos: function() {
@@ -138,14 +138,14 @@ Vis.workers = {
         let vx = v * Vis.kx / Vis.k;
         let vy = v * Vis.ky / Vis.k;
 
-        let m = vy / vx;
-        let mi = vx / vy;
+        let m = vy / vx;                // gradient of line
+        let mi = vx / vy;               // inverse of gradient
 
         var spacing;
         var t_space;
         if (m >= -1 && m <= 1) {
             // do y processing
-            spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
+            spacing = Vis.lamb * Vis.ky / Vis.k; // distance between phases 
             if (vy == 0) {
                 mi = 10000000;
                 t_space = 20;
@@ -154,7 +154,7 @@ Vis.workers = {
             }
         } else {
             // do x processing
-            spacing = Vis.dphase * Vis.kx / Vis.k;
+            spacing = Vis.lamb * Vis.kx / Vis.k;
             if (vx == 0) {
                 m = 10000000;
                 t_space = 20;
@@ -173,7 +173,7 @@ Vis.workers = {
             if (m >= -1 && m <= 1) {
                 // do x processing
                 let x = T*vx;
-                let y = (m)*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
+                let y = m*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
 
                 Vis.phasex[2*i] = x - offset;
                 Vis.phasey[2*i] = y + mi*offset;
@@ -185,10 +185,10 @@ Vis.workers = {
                 let x = mi*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
                 let y = T*vy;
 
-                Vis.phasex[2*i] = x + (m)*offset;
+                Vis.phasex[2*i] = x + m*offset;
                 Vis.phasey[2*i] = y - offset;
 
-                Vis.phasex[2*i+1] = x - (m)*offset;
+                Vis.phasex[2*i+1] = x - m*offset;
                 Vis.phasey[2*i+1] = y + offset;
             }
 
