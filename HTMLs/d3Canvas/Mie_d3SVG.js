@@ -21,8 +21,8 @@ for (i = 0; i < 100; i++) {
 var oscillate = [{x: r0, y: MiePotential(r0)}];
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 40, bottom: 30, left: 30},
-    width = 700 - margin.left - margin.right,
+var margin = {top: 30, right: 40, bottom: 30, left: 70},
+    width = 775 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
@@ -43,6 +43,14 @@ sVg
   .attr("transform", "translate(0," + 6.9925*height/8 + ")")
   .call(d3.axisBottom(x));
 
+// Add X axis label:
+sVg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-style", "italic")
+    .attr("x", width)
+    .attr("y", height + margin.top)
+    .text("r normalised to minimum");
+
 // Y scale and Axis
 var y = d3.scaleLinear()
     .domain([math.min(V), math.max(V)])         // This is the min and the max of the data: 0 to 100 if percentages
@@ -50,6 +58,23 @@ var y = d3.scaleLinear()
 sVg
   .append('g')
   .call(d3.axisLeft(y));
+
+// Y axis label:
+sVg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-style", "italic")
+    .attr("transform", "rotate(-90)")
+    .attr("x", -margin.top)
+    .attr("y", -margin.left+20)
+    .text("V(r)");
+
+// Title
+sVg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-style", "normal")
+    .attr("x", width/2)
+    .attr("y", -margin.top/4)
+    .text("Mie Potential");
 
 // Draw the potential
 sVg.append("path")
