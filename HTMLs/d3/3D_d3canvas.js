@@ -22,19 +22,19 @@ Vis.init = function() {
 Vis.start = function() {
     if (Vis._stoptime) {
         Vis._then += Date.now() - Vis._stoptime; // add stopped time
-    };
+    }
 
     if (!Vis.isRunning) {
         Vis.core.frame();
         Vis.isRunning = true;
-    };
+    }
 };
 
 Vis.stop = function() {
     window.cancelAnimationFrame(Vis.animationFrameLoop);
     Vis.isRunning = false;
     Vis._stoptime = Date.now(); // record when animation paused
-}
+};
 
 Vis.core = {
     frame: function() {
@@ -93,12 +93,10 @@ Vis.core = {
         let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
         Vis.dotDisplay.textContent = dotproduct.toString();
 
-        let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2)
-                                                           + Math.pow(math.cross(kvec, ukvec)[1], 2)
-                                                           + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
+        let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
         Vis.crossDisplay.textContent = crossproduct.toString();
     }
-}
+};
 
 Vis.workers = {
     calcParams: function() {
@@ -107,9 +105,7 @@ Vis.workers = {
         Vis.ky = Vis.dy * Math.PI / Vis.a;
         Vis.kz = Vis.dz * Math.PI / Vis.a;
 
-        Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
-                                     + Math.sin(Vis.ky * Vis.a / 2)**2
-                                     + Math.sin(Vis.kz * Vis.a / 2)**2);
+        Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 + Math.sin(Vis.ky * Vis.a / 2)**2 + Math.sin(Vis.kz * Vis.a / 2)**2);
 
         Vis.dphase = 2*Math.PI/Vis.k; // update spacing of phase tracker 
     },
@@ -119,9 +115,7 @@ Vis.workers = {
             for (let j=0; j < Vis.Ny; j++) {
                 for (let k=0; k < Vis.Nz; k++) {
                     let n = Vis.Ny*Vis.Nz*i + Vis.Nz*j + k;
-                    let offset = Math.cos( Vis.kx*Vis.a*i
-                                         + Vis.ky*Vis.a*j
-                                         + Vis.kz*Vis.a*k - Vis.w*Vis.t);
+                    let offset = Math.cos( Vis.kx*Vis.a*i + Vis.ky*Vis.a*j + Vis.kz*Vis.a*k - Vis.w*Vis.t);
     
                     Vis.x[n] = i*Vis.a + Vis.ukx * offset;
                     Vis.y[n] = j*Vis.a + Vis.uky * offset;
@@ -139,15 +133,17 @@ Vis.workers = {
 
         let m = vy / vx;
 
+        var spacing;
+        var t_space;
         if (m >= -1 && m <= 1) {
             // do y processing
-            let spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
-            var t_space = spacing / vy;
+            spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
+            t_space = spacing / vy;
         } else {
             // do x processing
-            let spacing = Vis.dphase * Vis.kx / Vis.k;
-            var t_space = spacing / vx;
-        };
+            spacing = Vis.dphase * Vis.kx / Vis.k;
+            t_space = spacing / vx;
+        }
 
         let t = Vis.t % (Vis.Nx*t_space/2); // heuristic # of time spacings until wrap around 
 
@@ -167,7 +163,7 @@ Vis.workers = {
             
         }
     }
-}
+};
 
 Vis.setup = {
     initConsts: function() {
@@ -258,7 +254,7 @@ Vis.setup = {
                 Vis.stop();
             } else {
                 Vis.start();
-            };
+            }
         });
     },
 
@@ -332,6 +328,6 @@ Vis.setup = {
         Vis.dotDisplay = document.getElementById("dotproduct");
         Vis.crossDisplay = document.getElementById("crossproduct");
     }
-}
+};
 
 document.addEventListener('DOMContentLoaded', Vis.init);

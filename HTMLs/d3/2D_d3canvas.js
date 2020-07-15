@@ -23,19 +23,19 @@ Vis.init = function() {
 Vis.start = function() {
     if (Vis._stoptime) {
         Vis._then += Date.now() - Vis._stoptime; // add stopped time
-    };
+    }
 
     if (!Vis.isRunning) {
         Vis.core.frame();
         Vis.isRunning = true;
-    };
+    }
 };
 
 Vis.stop = function() {
     window.cancelAnimationFrame(Vis.animationFrameLoop);
     Vis.isRunning = false;
     Vis._stoptime = Date.now(); // record when animation paused
-}
+};
 
 Vis.core = {
     frame: function() {
@@ -59,17 +59,14 @@ Vis.core = {
         Vis.context.fillStyle = 'orange';
         for (let i=0; i < Vis.N; i++) {
             Vis.context.beginPath();
-            Vis.context.arc(Vis.convertCanvasX(Vis.x[i]), Vis.convertCanvasY(Vis.y[i])
-                                , Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
+            Vis.context.arc(Vis.convertCanvasX(Vis.x[i]), Vis.convertCanvasY(Vis.y[i]), Vis.convertCanvasX(Vis.pointR), 0, 2*Math.PI);
             Vis.context.fill();
         }
         
         // pick the middle particle to track with a black dot 
         Vis.context.fillStyle = 'black';
         Vis.context.beginPath();
-        Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2 - Vis.Ny/2)])
-                            , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2 - Vis.Ny/2)])
-                            , Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
+        Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2 - Vis.Ny/2)]), Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2 - Vis.Ny/2)]), Vis.convertCanvasX(Vis.pointR*1.03), 0, 2*Math.PI);
         Vis.context.fill();
 
         // draw phase track
@@ -77,10 +74,8 @@ Vis.core = {
         Vis.context.lineWidth = 3;
         for (let i=0; i < Vis.Nphase; i++) {
             Vis.context.beginPath();
-            Vis.context.moveTo(Vis.convertCanvasX(Vis.phasex[2*i])
-                             , Vis.convertCanvasY(Vis.phasey[2*i]));
-            Vis.context.lineTo(Vis.convertCanvasX(Vis.phasex[2*i+1])
-                             , Vis.convertCanvasY(Vis.phasey[2*i+1]));
+            Vis.context.moveTo(Vis.convertCanvasX(Vis.phasex[2*i]), Vis.convertCanvasY(Vis.phasey[2*i]));
+            Vis.context.lineTo(Vis.convertCanvasX(Vis.phasex[2*i+1]), Vis.convertCanvasY(Vis.phasey[2*i+1]));
             Vis.context.stroke();
         }
     },
@@ -110,12 +105,10 @@ Vis.core = {
         let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
         Vis.dotDisplay.textContent = dotproduct.toString();
 
-        let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2)
-                                                           + Math.pow(math.cross(kvec, ukvec)[1], 2)
-                                                           + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
+        let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
         Vis.crossDisplay.textContent = crossproduct.toString();
     }
-}
+};
 
 Vis.workers = {
     calcParams: function() {
@@ -123,8 +116,7 @@ Vis.workers = {
         Vis.kx = Vis.dx * Math.PI / Vis.a;
         Vis.ky = Vis.dy * Math.PI / Vis.a;
 
-        Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 
-                                     + Math.sin(Vis.ky * Vis.a / 2)**2);
+        Vis.w = 2 * Vis.dw * Math.sqrt(Math.sin(Vis.kx * Vis.a / 2)**2 + Math.sin(Vis.ky * Vis.a / 2)**2);
 
         Vis.dphase = 2*Math.PI/Vis.k; // update spacing of phase tracker 
     },
@@ -149,25 +141,27 @@ Vis.workers = {
         let m = vy / vx;
         let mi = vx / vy;
 
+        var spacing;
+        var t_space;
         if (m >= -1 && m <= 1) {
             // do y processing
-            var spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
+            spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
             if (vy == 0) {
                 mi = 10000000;
-                var t_space = 20;
+                t_space = 20;
             } else {
-                var t_space = spacing / vy;
+                t_space = spacing / vy;
             }
         } else {
             // do x processing
-            var spacing = Vis.dphase * Vis.kx / Vis.k;
+            spacing = Vis.dphase * Vis.kx / Vis.k;
             if (vx == 0) {
                 m = 10000000;
-                var t_space = 20;
+                t_space = 20;
             } else {
-                var t_space = spacing / vx;
+                t_space = spacing / vx;
             }
-        };
+        }
 
         let offset = 10;
         let t = Vis.t % (Vis.Nx*t_space/2); // heuristic # of time spacings until wrap around 
@@ -201,7 +195,7 @@ Vis.workers = {
             
         }
     }
-}
+};
 
 Vis.setup = {
     initConsts: function() {
@@ -261,7 +255,7 @@ Vis.setup = {
                 Vis.stop();
             } else {
                 Vis.start();
-            };
+            }
         });
     },
 
@@ -327,7 +321,7 @@ Vis.setup = {
         Vis.dotDisplay = document.getElementById("dotproduct");
         Vis.crossDisplay = document.getElementById("crossproduct");
     }
-}
+};
 
 //---------------------------------//
 // Interactive Arrow Object        //
@@ -351,7 +345,7 @@ Arrow.core = {
     drawArrow: function(arrow) {
         Arrow.helpers.updateArrow(arrow);
     }
-}
+};
 
 Arrow.helpers = {
     updateArrow: function(arrow) {
@@ -364,14 +358,13 @@ Arrow.helpers = {
                  .attr('cy', tipy);
         arrow.text.attr('x', tipx + 5)
                   .attr('y', tipy - 5)
-                  .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) 
-                     + ', ' + Number(arrow.y).toFixed(2) + ')');
+                  .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
     },
 
     convertCoords: function(sx, sy) {
         x = 2*sx/Arrow.width - 1;
         y = 1 - 2*sy/Arrow.height;
-        return [x, y]
+        return [x, y];
     },
 
     updateAPP: function() {
@@ -381,7 +374,7 @@ Arrow.helpers = {
         Vis.ux = Arrow.uArrow.x;
         Vis.uy = Arrow.uArrow.y;
     }
-}
+};
 
 Arrow.setup = {
     initConst: function() {
@@ -424,8 +417,8 @@ Arrow.setup = {
                 Arrow.helpers.updateArrow(arrow);
                 Arrow.helpers.updateAPP(); // sync arrow values with main vis
                 Vis.core.updateSliders(); // trigger update of sliders in vis
-            }
-        };
+            };
+        }
         Arrow.rArrow.tip.call(d3.drag().on('drag', dragged(Arrow.rArrow)));
         Arrow.uArrow.tip.call(d3.drag().on('drag', dragged(Arrow.uArrow)));
     },
@@ -442,7 +435,7 @@ Arrow.setup = {
     createArrowContainer: function() {
         return Arrow.svg.append('svg')
                         .attr('width', Arrow.width)
-                        .attr('height', Arrow.height)
+                        .attr('height', Arrow.height);
     },
 
     createArrowBody: function(arrow) {

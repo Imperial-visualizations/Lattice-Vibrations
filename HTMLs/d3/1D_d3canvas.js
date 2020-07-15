@@ -22,19 +22,19 @@ Vis.init = function() {
 Vis.start = function() {
     if (Vis._stoptime) {
         Vis._then += Date.now() - Vis._stoptime; // add stopped time
-    };
+    }
 
     if (!Vis.isRunning) {
         Vis.core.frame();
         Vis.isRunning = true;
-    };
+    }
 };
 
 Vis.stop = function() {
     window.cancelAnimationFrame(Vis.animationFrameLoop);
     Vis.isRunning = false;
     Vis._stoptime = Date.now(); // record when animation paused
-}
+};
 
 Vis.core = {
     frame: function() {
@@ -57,17 +57,14 @@ Vis.core = {
         Vis.context.fillStyle = 'orange';
         for (let i=0; i < Vis.N; i++) {
             Vis.context.beginPath();
-            Vis.context.arc(Vis.convertCanvasX(Vis.x[i]), Vis.convertCanvasY(Vis.y[i])
-                                , Vis.convertCanvasX(Vis.pointD), 0, 2*Math.PI);
+            Vis.context.arc(Vis.convertCanvasX(Vis.x[i]), Vis.convertCanvasY(Vis.y[i]), Vis.convertCanvasX(Vis.pointD), 0, 2*Math.PI);
             Vis.context.fill();
         }
         
         // pick the middle particle to track with a black dot 
         Vis.context.fillStyle = 'black';
         Vis.context.beginPath();
-        Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2)])
-                            , Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2)])
-                            , Vis.convertCanvasX(Vis.pointD*1.03), 0, 2*Math.PI);
+        Vis.context.arc(Vis.convertCanvasX(Vis.x[Math.round(Vis.N/2)]), Vis.convertCanvasY(Vis.y[Math.round(Vis.N/2)]), Vis.convertCanvasX(Vis.pointD*1.03), 0, 2*Math.PI);
         Vis.context.fill();
 
     },
@@ -102,7 +99,7 @@ Vis.workers = {
                 Vis.y[i] = Vis.N*Vis.a/2;
         }
     },
-}
+};
 
 Vis.setup = {
     initConsts: function() {
@@ -154,7 +151,7 @@ Vis.setup = {
                 Vis.stop();
             } else {
                 Vis.start();
-            };
+            }
         });
     },
 
@@ -225,7 +222,7 @@ Circle.core = {
     drawCircle: function(circle) {
         Circle.helpers.updateCircle(circle);
     }
-}
+};
 
 Circle.helpers = {
     updateCircle: function(circle) {
@@ -247,7 +244,7 @@ Circle.helpers = {
         y = 1 - 2*sy/Circle.height;
         return [x, y];
     },
-}
+};
 
 Circle.setup = {
     initConst: function() {
