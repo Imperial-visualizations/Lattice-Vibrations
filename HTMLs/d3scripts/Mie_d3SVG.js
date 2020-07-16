@@ -72,8 +72,9 @@ sVg.append("text")
 sVg.append("text")
     .attr("text-anchor", "end")
     .attr("font-style", "normal")
-    .attr("x", width/2)
-    .attr("y", -margin.top/4)
+    .attr("font-size", "20")
+    .attr("x", 0.6*width)
+    .attr("y", -margin.top/5)
     .text("Mie Potential");
 
 // Draw the potential

@@ -39,19 +39,20 @@ function initialData () {
 }
 
 
-Plotly.newPlot("plotly-div", initialData(), {title: 'Mie Potential',
-  width: 750,
-  height: 500,
-  margin: {
-    l: 100,
-    r: 0,
-    b: 50,
-    t: 50,
-    pad: 4
-  },
-  showlegend: false,
-    xaxis: {title: 'r normalised to minimum'},
-    yaxis: {title: 'V(r)'}
+Plotly.newPlot("plotly-div", initialData(), 
+  {title: 'Mie Potential',
+    width: 750,
+    height: 500,
+    margin: {
+      l: 100,
+      r: 0,
+      b: 50,
+      t: 50,
+      pad: 4
+    },
+    showlegend: false,
+      xaxis: {title: 'r normalised to minimum'},
+      yaxis: {title: 'V(r)', range: [-1.5, 7]},
   }
 );
 
