@@ -14,7 +14,7 @@ Vis.init = function() {
 
     Vis.setup.initDisplay();
     Vis.setup.initGraph();
-    //Vis.setup.initButton();
+
     Vis.setup.initSlider();
 
     Vis.start();

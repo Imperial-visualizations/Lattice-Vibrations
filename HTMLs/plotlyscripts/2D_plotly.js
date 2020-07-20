@@ -295,7 +295,9 @@ function animatePlot(){
                 mode: "immediate"
             }
         );
-
+    if (t == 30) {
+      t = 0;
+    }
     requestAnimationFrame(animatePlot);
 
 }
