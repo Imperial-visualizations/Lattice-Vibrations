@@ -356,9 +356,38 @@ Arrow.helpers = {
                   .attr('y2', tipy);
         arrow.tip.attr('cx', tipx)
                  .attr('cy', tipy);
-        arrow.text.attr('x', tipx + 5)
-                  .attr('y', tipy - 5)
-                  .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+        console.log(tipx);
+        if (tipy > 22) {
+            if (tipx < 85) {
+                arrow.text.attr('x', tipx + 10)
+                .attr('y', tipy - 7.5)
+                .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+            } else if (tipx < 100) {
+                arrow.text.attr('x', tipx + 10 - 80)
+                .attr('y', tipy - 7.5)
+                .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+            } else {
+                arrow.text.attr('x', tipx + 10 - 105)
+                .attr('y', tipy - 7.5)
+                .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+            }   
+        } else {
+            if (tipx < 85) {
+                arrow.text.attr('x', tipx)
+                .attr('y', tipy + 15)
+                .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+            } else if (tipx < 100) {
+                arrow.text.attr('x', tipx - 90)
+                .attr('y', tipy + 15)
+                .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+            } else {
+                arrow.text.attr('x', tipx - 110)
+                .attr('y', tipy + 15)
+                .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
+            }   
+        }
+
+
     },
 
     convertCoords: function(sx, sy) {
