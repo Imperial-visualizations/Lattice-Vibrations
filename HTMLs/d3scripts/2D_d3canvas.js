@@ -356,7 +356,7 @@ Arrow.helpers = {
                   .attr('y2', tipy);
         arrow.tip.attr('cx', tipx)
                  .attr('cy', tipy);
-        console.log(tipx);
+
         if (tipy > 22) {
             if (tipx < 85) {
                 arrow.text.attr('x', tipx + 10)
