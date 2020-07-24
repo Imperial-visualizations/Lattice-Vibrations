@@ -393,6 +393,16 @@ Arrow.helpers = {
     convertCoords: function(sx, sy) {
         x = 2*sx/Arrow.width - 1;
         y = 1 - 2*sy/Arrow.height;
+        if (x > 1) {
+            x = 1;
+        } else if (x < -1){
+            x = -1;
+        }
+        if (y > 1) {
+            y = 1;
+        } else if (y < -1) {
+            y = -1;
+        }
         return [x, y];
     },
 
@@ -439,10 +449,9 @@ Arrow.setup = {
     initDrag: function() {
         function dragged(arrow) {
             return function() {
-                let xy = Arrow.helpers.convertCoords(d3.event.x, d3.event.y);
-                if (xy[0] <= 1 && xy[0] >= -1 && xy[1] <= 1 && xy[1] >= -1)
-                {   arrow.x = xy[0];
-                    arrow.y = xy[1];    }
+                var xy = Arrow.helpers.convertCoords(d3.event.x, d3.event.y);
+                arrow.x = xy[0];
+                arrow.y = xy[1];
                 Arrow.helpers.updateArrow(arrow);
                 Arrow.helpers.updateAPP(); // sync arrow values with main vis
                 Vis.core.updateSliders(); // trigger update of sliders in vis
