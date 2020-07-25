@@ -8,7 +8,7 @@ function MiePotential (r) {
   return 10*(4*epsilon)*(Math.pow((sigma/r), 12) - Math.pow((sigma/r), 6));
 }
 
-// Setting up the data
+// Setting up the data for graph
 var r = [], V = [];
 var data = [];
 for (i = 0; i < 100; i++) {
@@ -18,6 +18,7 @@ for (i = 0; i < 100; i++) {
   data.push({x: Number(rnow.toFixed(2)), y: MiePotential(rnow)});
 }
 
+// Setting up the data for the oscillator
 var oscillate = [{x: r0, y: MiePotential(r0)}];
 
 // set the dimensions and margins of the graph
@@ -26,7 +27,7 @@ var margin = {top: 30, right: 40, bottom: 30, left: 70},
     height = 500 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
-var sVg = d3.select("#Area")
+var sVg = d3.select("#Mie-graph")
   .append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -36,11 +37,11 @@ var sVg = d3.select("#Area")
 
 // X scale and Axis
 var x = d3.scaleLinear()
-    .domain([r[0], r.slice(-1)[0]])         // This is the min and the max of the data: 0 to 100 if percentages
-    .range([0, width]);       // This is the corresponding value I want in Pixel
+    .domain([r[0], r.slice(-1)[0]])                           // Range of x axis
+    .range([0, width]);                                       // Length of x axis
 
 sVg.append('g')
-  .attr("transform", "translate(0," + 6.9925*height/8 + ")")
+  .attr("transform", "translate(0," + 6.9925*height/8 + ")")  // Position of x axis
   .call(d3.axisBottom(x));
 
 // Add X axis label:
@@ -53,8 +54,8 @@ sVg.append("text")
 
 // Y scale and Axis
 var y = d3.scaleLinear()
-    .domain([math.min(V), math.max(V)])         // This is the min and the max of the data: 0 to 100 if percentages
-    .range([height, 0]);       // This is the corresponding value I want in Pixel
+    .domain([math.min(V), math.max(V)])                       // Range of y axis
+    .range([height, 0]);                                      // Length of y axis
 
 sVg.append('g')
   .call(d3.axisLeft(y));
@@ -112,4 +113,4 @@ function slide() {
   })();
 }
 
-slide();
+slide();    //Trigger the sliding of the oscillator

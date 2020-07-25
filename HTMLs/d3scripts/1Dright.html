@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!--Title-->
     <title>Infinite Lattice 1D</title>
-    <!--css links-->
+    <!--css links--><!--This stylesheet is ImpVis template-->
     <link href="../styles/style.css" rel="stylesheet">
-    <!--Required JS resources-->
+    <!--Required JS resources/libraries--><!--We use d3js and mathjax-->
     <script src="https://d3js.org/d3.v5.min.js"></script>
     <script type="text/x-mathjax-config">
         MathJax.Hub.Config({
@@ -29,9 +29,12 @@
 <body>
     <!--    Right Side of Window - containing mainly interactive and visual content    -->
     <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
+
+        <!--Main simulation-->
         <div id="canvas-div" style="width: 50%; float: left; margin-right:10%"></div>
+
+        <!--Display k in the First Brillouin Zone-->
         <span style="float: left"> $k$ in the first Brillouin Zone</span>
-        <!--Cycle of k in Brillouin Zone-->
         <svg id='interactive-Circle' style="float: left"></svg>
 
         <!--Buttons/Sliders-->
@@ -71,7 +74,7 @@
         
 
 </div>
-<script src="1D_d3canvas.js"></script>
+<script src="1D_d3canvas.js"></script>  <!--Link to the JS where all simulations are done-->
 
 </body>
 </html>

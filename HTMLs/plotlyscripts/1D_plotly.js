@@ -5,16 +5,16 @@
 */
 
 // Some global constant
-var N = 25;          // N atoms 
-var a = 1;           // atomic spacing
-var wd = 1;          // Debye wavelength 
+var N = 25;             // Number of atoms 
+var a = 1;              // atomic spacing
+var wd = 1;             // Debye wavelength 
 
 // Note that k = r*pi/a 
 
 // Setting up the initial plot
 function initialData () {
 
-  var d = 0.1; 
+  var d = 0.1;          //k = (pi/a)*d
   var k = d*Math.PI/a;
   var w = Math.sqrt(4*wd*(Math.pow(Math.sin(k*a/2), 2)));
   
@@ -48,6 +48,7 @@ function initialData () {
 
 }
 
+//Setting up new graph
 Plotly.newPlot("plotly-div", initialData(), {title: 'Infinite lattice',
 width: 500,
 height: 500,
@@ -70,6 +71,7 @@ var t = 0;
 
 function updateData () {
 
+  //link the sliders and display values
   var d = document.getElementById("d").value;
   document.getElementById("d-display").innerHTML = d.toString();
   var uk = document.getElementById("uk").value;
@@ -90,9 +92,9 @@ return [{x: x, y: y}];
 }
 
 function animatePlot(){
-    t++;
+    t++;                    //let time run
     Plotly.animate("plotly-div",
-    {data: updateData()},
+    {data: updateData()},   //fetch new data
             {
                 fromcurrent: false,
                 transition: {duration: 0,},

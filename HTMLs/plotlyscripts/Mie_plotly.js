@@ -24,12 +24,12 @@ function initialData () {
     y.push(MiePotential((0.8 + (0.6/10000)*i)*r0));
   }
 
-  var trace1 = {
+  var trace1 = {    //Data for graph
     x: x,
     y: y
   };
 
-  var trace2 = {
+  var trace2 = {    //Data for oscillator
     x: [r0],
     y: [MiePotential (r0)],
     type: 'markers'
@@ -38,7 +38,7 @@ function initialData () {
   return [trace1, trace2];
 }
 
-
+//Setting up new graph
 Plotly.newPlot("plotly-div", initialData(), 
   {title: 'Mie Potential',
     width: 750,
@@ -71,12 +71,12 @@ function updateData () {
     y.push(MiePotential((0.8 + (0.6/10000)*i)*r0));
   }
   
-  var trace1 = {
+  var trace1 = {      //Data for graph
     x: x,
     y: y
   };
   
-  var trace2 = {
+  var trace2 = {      //Data for oscillator
     x: [r0 + 0.015*Math.sin(0.5*t)],
     y: [MiePotential (r0 + 0.015*Math.sin(0.5*t))],
     mode: 'markers',
@@ -90,9 +90,9 @@ function updateData () {
 }
 
 function animatePlot(){
-    t++;
+    t++;                    //Let time run 
     Plotly.animate("plotly-div",
-    {data: updateData()},
+    {data: updateData()},   //Fetch new data
             {
                 fromcurrent: false,
                 transition: {duration: 0,},
