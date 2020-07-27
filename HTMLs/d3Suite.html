@@ -139,6 +139,7 @@
                             $u_n$ is the displacement of the $n^{th}$ atom from its equilibrium position
                             and
                             $k$ is the wavevector of the incoming wave.
+                            (Derivation is available at the end of this suite under the 'Derivation' button.)
                         </p>
                         <p>
                             Here we simulate for a single $k$:
@@ -190,16 +191,16 @@
                         Now consider an infinitely wide sheet of identical atoms.
 
                         The most general solution is:
-                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{r} - \omega_\textbf{k} t)} $$
+                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)} $$
                         
                         where
-                        $\textbf{u}_n$ is the displacement of the $n^{th}$ atom
+                        $\textbf{u}_n$ is the displacement of the $n^{th}$ atom and $\textbf{R}_n$ is the lattice site that atom,
                         and
                         $\textbf{k}$ is the wavevector of each incoming wave.
                     </p>
                     <p>
                         We simulate for a single $\mathbf{k}$:
-                        $$ \textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
+                        $$ \textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{R}_n - \omega_k t)$$
 
                         For any given $\mathbf{k}$:
                         $$ \omega^2_{\mathbf{k}} = 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) \right]$$
@@ -244,9 +245,9 @@
                         If this looks confusing for you, you may wish to return to the two dimensional case as it encompasses all the essentials of physics involved.
                     </p>
                     <p>A reminder of the general solution:
-                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{r} - \omega_\textbf{k} t)} $$
+                        $$ \textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)} $$
                         For a single $\mathbf{k}$:
-                        $$ \textbf{u}_n(t) = \textbf{u}_k \cos(\textbf{k} \cdot \textbf{r}-\omega_k t)$$
+                        $$ \textbf{u}_n(t) = \textbf{u}_k \cos(\textbf{k} \cdot \textbf{R}_n-\omega_k t)$$
 
                         For any given $\mathbf{k}$:
                         $$ \omega^2_{\mathbf{k}} = $$
@@ -258,6 +259,61 @@
                         The types of waves available are still longitudinal, transverse or a combination of both.
                         This is indicated by $|\textbf{k} \cdot \textbf{u}_k|$ and $|\textbf{k} \times \textbf{u}_k|$.
                     </p>
+                    
+                    
+                    <button @click="displayOrHide">Derivation</button>
+                    <div id="dropdown-content" style="display: none">
+                        <p>
+                            <br>
+                            We first consider the one dimensional case of an infinite chain of identical atoms.
+                            Let us label the atoms by an integer index $n$, with positions $x_{n}(t)$ at time $t$.
+                            Let the mass of the individual atoms be $m$ and the equilibrium spacing be $a$ so that 
+                            their equilibrium positions are $x^{eqm}_{n} = n a$.
+                            Denote the displacement of the $n^{th}$ atom as $u_{n}(t)$ so that
+                            $$u_{n}(t) = x_{n}(t) - n a$$
+    
+                            There are two approximations that we are taking: <br>
+                            1. Small oscillations that allows simple harmonic approximation for the potential <br>
+                            2. Interactions with only the nearest neighbours
+                            <br><br>
+                            The potential is central so we can write the total potential energy in the system as
+                            $$ V_{tot} = \frac{\kappa}{2} \sum_{n} (u_{n+1} - u_{n})^{2} $$
+                            
+                            This can be interpreted as a chain of balls connected by springs obeying Hooke's Law with spring constant $\kappa$.
+                            <br><br>
+                            The net force on the $n^{th}$ atom is 
+                            $$ F_{n} = - \frac{\partial V_{tot}}{\partial x_{n}} = \kappa (u_{n+1} + u_{n-1} - 2u_n) $$
+                            since, by chain rule, $\frac{\partial }{\partial x_{n}} = \frac{d u_n}{d x_n} \frac{\partial }{\partial u_{n}} = \frac{\partial }{\partial u_{n}}$.
+                            <br><br>
+                            By Newton's second law, we have the equation of motion in terms of the displacement $u_n$:
+                            $$ m \frac{d^2 u_n}{d t^2} = \kappa (u_{n+1} + u_{n-1} - 2u_n) $$ 
+                            for each $n$.
+                            <br><br>
+                            This equation of motion takes the form of eigenfunction so we can try the solution
+                            $$ u_n(t) = \tilde{u}_k e^{i(nka - \omega t)} $$
+                            with the wavevector $k$ and frequency $\omega$.
+                            We will later find out the relationship between $k$ and $\omega$ called the dispersion relation or frequency spectrum
+                            and hence label $\omega = \omega_k$.
+                            <br><br>
+                            Due to the linearity of the equation of motion, we can make use of the Principle of Superposition to give a trial general solution
+                            $$ u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} .$$
+                            
+                            Substituting the trial solution into the equation of motion gives 
+                            $$ -m \omega^2 \tilde{u}_k e^{i(nka-\omega_kt)} = $$
+                            $$ \kappa \tilde{u}_k e^{i(nka-\omega_kt)} (e^{ika} + e^{-ika} - 2) $$    
+    
+                            This must hold for all atoms $n$ and at all times $t$ so we can take out the common factor of $ e^{i(nka-\omega_kt)} $.
+                            Since $ \tilde{u}_k = 0 $ corresponds to no motion at all, we must have a non-zero $ \tilde{u}_k $, which we can divide out.
+                            We arrive at the dispersion relation for monatomic chain:
+                            $$ \omega^2_k = \frac{2 \kappa}{m} (1-\cos ka) = 4 \omega^2_D \sin^2 \left( \frac{k a}{2} \right) $$
+                            with
+                            $$ \omega_D = \sqrt{\frac{\kappa}{m}}.$$
+                            The dispersion relation is more conventionally written as 
+                            $$ \omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|$$
+                            This derivation can be extended to higher dimensions.
+                        </p>
+                    </div>
+
                 </div>
             </div>
 

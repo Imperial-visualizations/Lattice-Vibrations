@@ -158,6 +158,15 @@ let app = new Vue ({
                 event.currentTarget.querySelectorAll('span')[0].innerHTML = "Show"
             }
         },
+
+        displayOrHide: function () {
+            let toggleTarget = document.getElementById('dropdown-content');
+            if (toggleTarget.style.display == 'none') {
+                toggleTarget.style.display = 'block';
+            } else {
+                toggleTarget.style.display = 'none';
+            }
+        },
     },
 
     watch: {
