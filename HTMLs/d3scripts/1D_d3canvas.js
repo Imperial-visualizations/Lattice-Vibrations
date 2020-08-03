@@ -1,7 +1,6 @@
-//---------------------------------//
-// Visualisation Object            //
-//---------------------------------//
-
+//------------------------------------------------------------//
+//Code for main vis and k in first brillouin zone starts here //
+//------------------------------------------------------------//
 window.Vis = window.Vis || {};
 
 Vis.init = function() {             //Main initialising function
@@ -296,6 +295,12 @@ Circle.setup = {
     }
 };
 
+document.addEventListener('DOMContentLoaded', Vis.init);
+
+//--------------------------------------//
+//Code for dispersion graph starts here //
+//--------------------------------------//
+
 // Dispersion relation
 function omega_k (d) {
     return Math.sqrt(4*1*(Math.pow(Math.sin(d*Math.PI*1/2), 2)));
@@ -396,5 +401,3 @@ function slide(newd) {
     .attr("r", 3)
     .attr("fill", "orange");
 }
-
-document.addEventListener('DOMContentLoaded', Vis.init);
