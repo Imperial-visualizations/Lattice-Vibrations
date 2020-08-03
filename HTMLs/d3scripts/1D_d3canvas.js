@@ -346,7 +346,7 @@ sVg.append("text")
     .attr("font-style", "italic")
     .attr("x", width)
     .attr("y", height + margin.top)
-    .text("k");
+    .text("k = πd");
 
 // Y scale and Axis
 var y = d3.scaleLinear()
@@ -361,9 +361,9 @@ sVg.append('g')
 sVg.append("text")
 .attr("text-anchor", "end")
 .attr("font-style", "italic")
-.attr("x", width/2)
+.attr("x", 1.4*width/2)
 .attr("y", -10)
-.text("w(k)");
+.text("ω(k) = E/ħ");
 
 // Draw the potential
 sVg.append("path")
