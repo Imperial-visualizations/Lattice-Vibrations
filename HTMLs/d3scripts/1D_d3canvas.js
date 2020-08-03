@@ -76,7 +76,7 @@ Vis.core = {
         Vis.uRange.value = Vis.u;
         Vis.uDisplay.textContent = Number(Vis.u).toFixed(2);
 
-
+        slide(Vis.d);
     },
 };
 
@@ -127,7 +127,7 @@ Vis.setup = {
     },
 
     initGraph: function() {         //Setup the canvas to the right scale
-        Vis.canvas = d3.select('#canvas-div')
+        Vis.canvas = d3.select('#main-vis')
                        .append('canvas')
                         .attr('width', Vis.canvasx)
                         .attr('height', Vis.canvasy);
@@ -172,6 +172,8 @@ Vis.setup = {
             Circle.dCircle.y = parseFloat(0);
             Circle.core.draw();
 
+            slide(Vis.d);
+
         });
 
         Vis.dBox.addEventListener('input', function() {
@@ -186,6 +188,8 @@ Vis.setup = {
 
             Circle.dCircle.y = parseFloat(0);
             Circle.core.draw();
+
+            slide(Vis.d);
 
         });
 
@@ -291,5 +295,106 @@ Circle.setup = {
         return circle.container.append('text');
     }
 };
+
+// Dispersion relation
+function omega_k (d) {
+    return Math.sqrt(4*1*(Math.pow(Math.sin(d*Math.PI*1/2), 2)));
+}
+
+// Setting up data for graph
+var k = [], w_k = [];
+var data = [];
+for (i = 0; i < 20000; i++) {
+    var thisd = (-10 + i/1000);
+    var thisk = (-10 + i/1000)*Math.PI;
+    k.push(Number(thisk.toFixed(2)));      // fix to 2 decimal places
+    w_k.push(omega_k(thisd));
+    data.push({x: Number(thisk.toFixed(2)), y: omega_k(thisd)});
+}
+
+// set the dimensions and margins of the graph
+var margin = {top: 30, right: 40, bottom: 30, left: 70},
+    width = 400 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var sVg = d3.select("#dispersion-graph")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  // translate this svg element to leave some margin.
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// X scale and Axis
+var x = d3.scaleLinear()
+    .domain([k[0], k.slice(-1)[0]])                           // Range of x axis
+    .range([0, width]);                                       // Length of x axis
+
+sVg.append('g')
+  .attr("transform", "translate(0," + height + ")")  // Position of x axis
+  .call(d3.axisBottom(x));
+
+// Add X axis label:
+sVg.append("text")
+    .attr("text-anchor", "end")
+    .attr("font-style", "italic")
+    .attr("x", width)
+    .attr("y", height + margin.top)
+    .text("k");
+
+// Y scale and Axis
+var y = d3.scaleLinear()
+.domain([math.min(w_k), math.max(w_k)])                       // Range of y axis
+.range([height, 0]);                                      // Length of y axis
+
+sVg.append('g')
+.attr("transform", "translate(" + width/2 + ", 0)")  // Position of x axis
+.call(d3.axisLeft(y));
+
+// Y axis label:
+sVg.append("text")
+.attr("text-anchor", "end")
+.attr("font-style", "italic")
+.attr("x", width/2)
+.attr("y", -10)
+.text("w(k)");
+
+// Draw the potential
+sVg.append("path")
+  .datum(data)
+  .attr("fill", "none")
+  .attr("stroke", "steelblue")
+  .attr("stroke-width", 1.5)
+  .attr("d", d3.line()
+    .x(function(d) { return x(d.x); })
+    .y(function(d) { return y(d.y); })
+    );
+
+// Draw current k 
+var movingk = sVg
+  .selectAll()
+  .data([{x: 0.1*Math.PI, y: omega_k(0.1)}])
+  .enter()
+  .append("circle")
+    .attr("cx", function(d){ return x(d.x); })
+    .attr("cy", function(d){ return y(d.y); })
+    .attr("r", 3)
+    .attr("fill", "orange");
+
+//Slide current k 
+function slide(newd) {
+    movingk.remove();
+    movingk = sVg
+  .selectAll()
+  .data([{x: newd*Math.PI, y: omega_k(newd)}])
+  .enter()
+  .append("circle")
+  .merge(movingk)
+    .attr("cx", function(d){ return x(d.x); })
+    .attr("cy", function(d){ return y(d.y); })
+    .attr("r", 3)
+    .attr("fill", "orange");
+}
 
 document.addEventListener('DOMContentLoaded', Vis.init);
