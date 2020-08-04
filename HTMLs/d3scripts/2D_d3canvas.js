@@ -1,6 +1,6 @@
-//---------------------------------//
-// Visualisation Object            //
-//---------------------------------//
+//---------------------------------------------//
+//Code for main vis and svg arrows starts here //
+//---------------------------------------------//
 
 window.Vis = window.Vis || {};
 
@@ -107,6 +107,8 @@ Vis.core = {
 
         let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
         Vis.crossDisplay.textContent = crossproduct.toString();
+
+        refreshDispersion(Vis.dx, Vis.dy);
     }
 };
 
@@ -233,7 +235,7 @@ Vis.setup = {
     },
 
     initGraph: function() {
-        Vis.canvas = d3.select('#canvas-div')
+        Vis.canvas = d3.select('#main-vis')
                        .append('canvas')
                         .attr('width', Vis.canvasx)
                         .attr('height', Vis.canvasy);
@@ -271,6 +273,8 @@ Vis.setup = {
             Arrow.rArrow.x = parseFloat(Vis.dx);
             Arrow.core.draw();
 
+            refreshDispersion(Vis.dx, Vis.dy);
+
             Vis.core.updateDisplay();
         });
 
@@ -283,6 +287,8 @@ Vis.setup = {
 
             Arrow.rArrow.y = parseFloat(Vis.dy);
             Arrow.core.draw();
+
+            refreshDispersion(Vis.dx, Vis.dy);
 
             Vis.core.updateDisplay();
         });
@@ -494,3 +500,55 @@ Arrow.setup = {
 };
 
 document.addEventListener('DOMContentLoaded', Vis.init);
+
+//--------------------------------------//
+//Code for dispersion graph starts here //
+//--------------------------------------//
+
+// Dispersion relation
+function omega_k (dx, dy) {
+    return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
+}
+
+var n = 200, values = new Array(n*n);
+for (var i = 0; i < n; i++){
+    for (var j = 0; j < n ; j++){
+        var k = n*i + j;
+        var dx = -1 + i/100;
+        var dy = -1 + j/100;
+        values[k] = omega_k (dx, dy);
+    }
+}
+
+var canvas = document.querySelector("canvas"),
+    context = canvas.getContext("2d"),
+    color = d3.scaleSequential(d3.interpolateRdBu).domain([0, 2]),
+    path = d3.geoPath(null, context),
+    thresholds = d3.range(0, 2, 0.1),
+    contours = d3.contours().size([n, n]);
+
+context.scale(canvas.width / n, canvas.width / n);
+
+function fill(geometry) {
+    context.beginPath();
+    path(geometry);
+    context.fillStyle = color(geometry.value);
+    context.fill();
+  }
+
+contours
+  .thresholds(thresholds)
+  (values)
+  .forEach(fill);
+
+function refreshDispersion(dx, dy) {
+    console.log(dx, dy);
+    //context.clearRect(0, 0, canvas.width, canvas.height);
+
+    context.fillStyle = 'orange';
+    
+    context.beginPath();
+    context.arc(100.5+dx/100.5, 100.5+dy/100.5, 2, 0, 2*Math.PI);
+    context.fill();
+}
+
