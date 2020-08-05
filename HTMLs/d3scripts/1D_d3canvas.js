@@ -389,15 +389,5 @@ var movingk = sVg
 
 //Slide current k 
 function slide(newd) {
-    movingk.remove();
-    movingk = sVg
-  .selectAll()
-  .data([{x: newd*Math.PI, y: omega_k(newd)}])
-  .enter()
-  .append("circle")
-  .merge(movingk)
-    .attr("cx", function(d){ return x(d.x); })
-    .attr("cy", function(d){ return y(d.y); })
-    .attr("r", 3)
-    .attr("fill", "orange");
+    movingk.attr('cx', function(d){ return x(newd*Math.PI); }).attr('cy', function(d){ return y(omega_k(newd)); });
 }

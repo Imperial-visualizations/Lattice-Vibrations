@@ -1,7 +1,3 @@
-//---------------------------------------------//
-//Code for main vis and svg arrows starts here //
-//---------------------------------------------//
-
 window.Vis = window.Vis || {};
 
 Vis.init = function() {
@@ -110,14 +106,9 @@ Vis.core = {
         Vis.crossDisplay.textContent = crossproduct.toString();
 
         //Update dot on the dispersion graph
-        Vis.dispersionDot.remove();
         cx = 100*Vis.dx+100;
         cy = 100*(1-Vis.dy);
-        Vis.dispersionDot = Vis.dispersionSVG.append("circle")
-                                            .attr("cx", cx)
-                                            .attr("cy", cy)
-                                            .attr("r", 5)
-                                            .attr("fill", "orange");
+        Vis.dispersionDot.attr("cx", cx).attr("cy", cy);
     }
 };
 
@@ -219,8 +210,8 @@ Vis.setup = {
 
         Vis.Nphase = 2*Vis.Nx;
 
-        Vis.canvasx = 450;
-        Vis.canvasy = 450;
+        Vis.canvasx = document.getElementById('main-vis').offsetWidth;
+        Vis.canvasy = document.getElementById('main-vis').offsetHeight;
 
         Vis.pointR = 0.20 * Vis.a;
     },
@@ -284,9 +275,9 @@ Vis.setup = {
         Vis.dispersionContext = Vis.dispersionGraph.node().getContext('2d');  
 
         //Making contour
-        color = d3.scaleSequential(d3.interpolateRdBu).domain([0, 2]);
+        color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
         path = d3.geoPath(null, Vis.dispersionContext);
-        thresholds = d3.range(0, 2, 0.1);
+        thresholds = d3.range(0, 2.82, 0.01);
         contours = d3.contours().size([dispersionGraphWidth, dispersionGraphHeight]);
         
         function fillGraph(geometry) {
@@ -320,43 +311,45 @@ Vis.setup = {
                             .style("fill", "none")
                             .style("stroke-width", 1);
     
+        legendXOffset = 230;
+        legendYOffset = 15;
+        legendHeight = 175;
+        legendWidth = 25;
         //Box for legend scale
         Vis.legendSVG = Vis.dispersionSVG.append("rect")
-                            .attr("x", 230)
-                            .attr("y", 0)
-                            .attr("height", 175)
-                            .attr("width", 25)
-                            .attr("transform", "translate(0, 12.5)") 
+                            .attr("x", legendXOffset)
+                            .attr("y", legendYOffset)
+                            .attr("height", legendHeight)
+                            .attr("width", legendWidth)
                             .style("stroke", 'black')
                             .style("fill", "none")
                             .style("stroke-width", 1);
                             
-        for (var i = 0; i < 10 ; i++){
+        for (var i = 0; i < 14 ; i++){
             Vis.dispersionSVG.append("rect")
-            .attr("x", 230)
-            .attr("y", 17.5*(9-i))
-            .attr("height", 17.5)
-            .attr("width", 25)
-            .attr("transform", "translate(0, 12.5)") 
-            .style("fill", color(i/5));
+            .attr("x", legendXOffset)
+            .attr("y", legendHeight*(14-i)/14 + 3)
+            .attr("height", legendHeight/14)
+            .attr("width", legendWidth)
+            .style("fill", color(2.82*i/14));
         }
 
         var legendScale = d3.scaleLinear()
-            .domain([0, 2])
-            .range([175, 0]);
+            .domain([0, 2.8])
+            .range([legendHeight+legendYOffset, legendYOffset]);
 
         //Legend scale axis
         Vis.dispersionSVG.append('g')
-        .attr("transform", "translate(230, 12.5)")  // Position of x axis
+        .attr("transform", "translate("+ legendXOffset+ ", 0)")  // Position of x axis
         .call(d3.axisLeft(legendScale));
 
         //Legend scale title
         Vis.dispersionSVG.append("text")
         .attr("text-anchor", "end")
         .attr("font-style", "italic")
-        .attr('font-size', 10)
-        .attr("x", 265)
-        .attr("y", 7.5)
+        .attr('font-size', 10*legendWidth/25)
+        .attr("x", legendXOffset+legendWidth)
+        .attr("y", legendYOffset/2)
         .text("ω(k) = E/ħ");
 
         Vis.dispersionDot = Vis.dispersionSVG
@@ -364,7 +357,7 @@ Vis.setup = {
                                 .attr("cx", 0)
                                 .attr("cy", 0)
                                 .attr("r", 5)
-                                .attr("fill", "orange");
+                                .attr("fill", "black");
     },
 
     initButton: function() {
