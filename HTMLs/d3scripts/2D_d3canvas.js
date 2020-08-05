@@ -6,13 +6,14 @@ function omega_k (dx, dy) {
     return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
 }
 
-var n = 200, values = new Array(n*n);
+var n = 200, values = new Array(n*n), valuesLegend = new Array(n*n);
 for (var i = 0; i < n; i++){
     for (var j = 0; j < n ; j++){
         var k = n*i + j;
         var dx = -1 + i/100;
         var dy = -1 + j/100;
         values[k] = omega_k (dx, dy);
+        valuesLegend[k] = dx + 1;
     }
 }
 
@@ -264,21 +265,23 @@ Vis.setup = {
                                 .range([Vis.canvasy, 0]);
 
         //Code for dispersion graph
+        dispersionGraphWidth = 200;
+        dispersionGraphHeight = 200;
         Vis.dispersionGraph = d3.select('#dispersion-graph')
                                 .append('canvas')
                                 .style("position", "relative")
-                                .attr('width', 200)
-                                .attr('height', 200);
+                                .attr('width', dispersionGraphWidth)
+                                .attr('height', dispersionGraphHeight);
 
         Vis.dispersionContext = Vis.dispersionGraph.node().getContext('2d');  
 
+        //Making contour
         color = d3.scaleSequential(d3.interpolateRdBu).domain([0, 2]);
         path = d3.geoPath(null, Vis.dispersionContext);
         thresholds = d3.range(0, 2, 0.1);
-        contours = d3.contours().size([200, 200]);
-    
+        contours = d3.contours().size([dispersionGraphWidth, dispersionGraphHeight]);
         
-        function fill(geometry) {
+        function fillGraph(geometry) {
             Vis.dispersionContext.beginPath();
             path(geometry);
             Vis.dispersionContext.fillStyle = color(geometry.value);
@@ -288,15 +291,18 @@ Vis.setup = {
         contours
         .thresholds(thresholds)
         (values)
-        .forEach(fill);
+        .forEach(fillGraph);
 
+
+        //Preparing SVG for dispersion dot and legend
         Vis.dispersionSVG = d3.select('#dispersion-graph')
                             .append("svg")
                             .style("position", "absolute")
-                            .attr('width', 200)
-                            .attr('height', 200)
-                            .attr('transform', "translate(-200, 0)");
+                            .attr('width', 2*dispersionGraphWidth)
+                            .attr('height', dispersionGraphHeight)
+                            .attr('transform', "translate(-" + dispersionGraphWidth + ", 0)");
 
+        //Box to check if Canvas and SVG are aligned
         Vis.dispersionSVG.append("rect")
                             .attr("x", 0)
                             .attr("y", 0)
@@ -305,12 +311,51 @@ Vis.setup = {
                             .style("stroke", 'black')
                             .style("fill", "none")
                             .style("stroke-width", 1);
+    
+        //Box for legend scale
+        Vis.legendSVG = Vis.dispersionSVG.append("rect")
+                            .attr("x", 230)
+                            .attr("y", 0)
+                            .attr("height", 175)
+                            .attr("width", 25)
+                            .attr("transform", "translate(0, 12.5)") 
+                            .style("stroke", 'black')
+                            .style("fill", "none")
+                            .style("stroke-width", 1);
+                            
+        for (var i = 0; i < 10 ; i++){
+            Vis.dispersionSVG.append("rect")
+            .attr("x", 230)
+            .attr("y", 17.5*(9-i))
+            .attr("height", 17.5)
+            .attr("width", 25)
+            .attr("transform", "translate(0, 12.5)") 
+            .style("fill", color(i/5));
+        }
+
+        var legendScale = d3.scaleLinear()
+            .domain([0, 2])
+            .range([175, 0]);
+
+        //Legend scale axis
+        Vis.dispersionSVG.append('g')
+        .attr("transform", "translate(230, 12.5)")  // Position of x axis
+        .call(d3.axisLeft(legendScale));
+
+        //Legend scale title
+        Vis.dispersionSVG.append("text")
+        .attr("text-anchor", "end")
+        .attr("font-style", "italic")
+        .attr('font-size', 10)
+        .attr("x", 265)
+        .attr("y", 7.5)
+        .text("ω(k) = E/ħ");
 
         Vis.dispersionDot = Vis.dispersionSVG
                                 .append('circle')
                                 .attr("cx", 0)
                                 .attr("cy", 0)
-                                .attr("r", 3)
+                                .attr("r", 5)
                                 .attr("fill", "orange");
     },
 
@@ -573,6 +618,6 @@ function slide(dx, dy) {
     Vis.dispersionDot = Vis.dispersionSVG.append("circle")
                                         .attr("cx", cx)
                                         .attr("cy", cy)
-                                        .attr("r", 3)
+                                        .attr("r", 5)
                                         .attr("fill", "orange");
 }
