@@ -106,8 +106,8 @@ Vis.setup = {
 
         Vis.N = 20;                 //Number of atoms in x direction
 
-        Vis.canvasx = 450;          //Canvas dimension
-        Vis.canvasy = 450;          //Canvas dimension
+        Vis.canvasx = document.getElementById('main-vis').offsetWidth;
+        Vis.canvasy = document.getElementById('main-vis').offsetHeight;
 
         Vis.pointD = 0.20 * Vis.a;  //Atomic radius
     },
@@ -316,11 +316,12 @@ for (i = 0; i < 20000; i++) {
     w_k.push(omega_k(thisd));
     data.push({x: Number(thisk.toFixed(2)), y: omega_k(thisd)});
 }
-
+dispersionWidth = document.getElementById('dispersion-graph').offsetWidth;
+dispersionHeight = document.getElementById('dispersion-graph').offsetHeight;
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 40, bottom: 30, left: 70},
-    width = 400 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom;
+var margin = {top: 0.1*dispersionHeight, right: 0.1*dispersionWidth, bottom: 0.15*dispersionHeight, left: 0.1*dispersionWidth},
+    width = 0.8*dispersionWidth,
+    height = 0.75*dispersionHeight;
 
 // append the svg object to the body of the page
 var sVg = d3.select("#dispersion-graph")
@@ -344,8 +345,9 @@ sVg.append('g')
 sVg.append("text")
     .attr("text-anchor", "end")
     .attr("font-style", "italic")
+    .attr("font-size", 10)
     .attr("x", width)
-    .attr("y", height + margin.top)
+    .attr("y", height + margin.bottom)
     .text("k = πd");
 
 // Y scale and Axis
@@ -361,6 +363,7 @@ sVg.append('g')
 sVg.append("text")
 .attr("text-anchor", "end")
 .attr("font-style", "italic")
+.attr("font-size", 10)
 .attr("x", 1.4*width/2)
 .attr("y", -10)
 .text("ω(k) = E/ħ");
@@ -389,5 +392,5 @@ var movingk = sVg
 
 //Slide current k 
 function slide(newd) {
-    movingk.attr('cx', function(d){ return x(newd*Math.PI); }).attr('cy', function(d){ return y(omega_k(newd)); });
+    movingk.attr('cx', function(){ return x(newd*Math.PI); }).attr('cy', function(){ return y(omega_k(newd)); });
 }

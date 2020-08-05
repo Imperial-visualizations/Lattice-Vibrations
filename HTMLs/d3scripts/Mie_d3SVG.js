@@ -21,10 +21,12 @@ for (i = 0; i < 100; i++) {
 // Setting up the data for the oscillator
 var oscillate = [{x: r0, y: MiePotential(r0)}];
 
+divWidth = document.getElementById('Mie-graph').offsetWidth;
+divHeight = document.getElementById('Mie-graph').offsetHeight;
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 40, bottom: 30, left: 70},
-    width = 775 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+var margin = {top: 0.1*divWidth, right: 0.1*divHeight, bottom: 0.1*divWidth, left: 0.1*divHeight},
+    width = 0.8*divWidth,
+    height = 0.8*divHeight;
 
 // append the svg object to the body of the page
 var sVg = d3.select("#Mie-graph")
@@ -49,7 +51,7 @@ sVg.append("text")
     .attr("text-anchor", "end")
     .attr("font-style", "italic")
     .attr("x", width)
-    .attr("y", height + margin.top)
+    .attr("y", height)
     .text("r normalised to minimum");
 
 // Y scale and Axis
@@ -65,8 +67,8 @@ sVg.append("text")
     .attr("text-anchor", "end")
     .attr("font-style", "italic")
     .attr("transform", "rotate(-90)")
-    .attr("x", -margin.top)
-    .attr("y", -margin.left+20)
+    .attr("x", -0.1*margin.top)
+    .attr("y", -0.5*margin.left)
     .text("V(r)");
 
 // Title

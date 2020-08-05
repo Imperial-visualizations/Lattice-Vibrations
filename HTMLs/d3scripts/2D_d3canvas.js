@@ -10,7 +10,7 @@ Vis.init = function() {
 
     Vis.setup.initDisplay();
     Vis.setup.initGraph();
-
+    Vis.setup.initDispersionDrag();
     Vis.setup.initSlider();
 
     Vis.start();
@@ -264,13 +264,16 @@ Vis.setup = {
             }
         }
 
-        dispersionGraphWidth = 200;
-        dispersionGraphHeight = 200;
+        Vis.dispersionGraphWidth = 200;
+        Vis.dispersionGraphHeight = 200;
+        //Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
+        //Vis.dispersionGraphHeight = document.getElementById('dispersion-graph').offsetHeight;
+
         Vis.dispersionGraph = d3.select('#dispersion-graph')
                                 .append('canvas')
                                 .style("position", "relative")
-                                .attr('width', dispersionGraphWidth)
-                                .attr('height', dispersionGraphHeight);
+                                .attr('width', Vis.dispersionGraphWidth)
+                                .attr('height', Vis.dispersionGraphHeight);
 
         Vis.dispersionContext = Vis.dispersionGraph.node().getContext('2d');  
 
@@ -278,7 +281,7 @@ Vis.setup = {
         color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
         path = d3.geoPath(null, Vis.dispersionContext);
         thresholds = d3.range(0, 2.82, 0.01);
-        contours = d3.contours().size([dispersionGraphWidth, dispersionGraphHeight]);
+        contours = d3.contours().size([Vis.dispersionGraphWidth, Vis.dispersionGraphHeight]);
         
         function fillGraph(geometry) {
             Vis.dispersionContext.beginPath();
@@ -297,16 +300,16 @@ Vis.setup = {
         Vis.dispersionSVG = d3.select('#dispersion-graph')
                             .append("svg")
                             .style("position", "absolute")
-                            .attr('width', 2*dispersionGraphWidth)
-                            .attr('height', dispersionGraphHeight)
-                            .attr('transform', "translate(-" + dispersionGraphWidth + ", 0)");
+                            .attr('width', 2*Vis.dispersionGraphWidth)
+                            .attr('height', Vis.dispersionGraphHeight)
+                            .attr('transform', "translate(-" + Vis.dispersionGraphWidth + ", 0)");
 
         //Box to check if Canvas and SVG are aligned
         Vis.dispersionSVG.append("rect")
                             .attr("x", 0)
                             .attr("y", 0)
-                            .attr("height", 200)
-                            .attr("width", 200)
+                            .attr("height", Vis.dispersionGraphHeight)
+                            .attr("width", Vis.dispersionGraphWidth)
                             .style("stroke", 'black')
                             .style("fill", "none")
                             .style("stroke-width", 1);
@@ -358,18 +361,34 @@ Vis.setup = {
                                 .attr("cy", 0)
                                 .attr("r", 5)
                                 .attr("fill", "black");
+
+        
     },
 
-    initButton: function() {
-        Vis.button = document.getElementById('start-stop');
-
-        Vis.button.addEventListener('click', function() {
-            if (Vis.isRunning) {
-                Vis.stop();
-            } else {
-                Vis.start();
-            }
-        });
+    initDispersionDrag: function() {
+        function dispersionDragged() {
+            return function() {
+                x = 2*d3.event.x/Vis.dispersionGraphWidth - 1;
+                y = 1 - 2*d3.event.y/Vis.dispersionGraphHeight;
+                if (x > 1) {
+                    x = 1;
+                } else if (x < -1){
+                    x = -1;
+                }
+                if (y > 1) {
+                    y = 1;
+                } else if (y < -1) {
+                    y = -1;
+                }
+                Vis.dx = x;
+                Vis.dy = y;
+                Arrow.rArrow.x = x;
+                Arrow.rArrow.y = y;
+                Arrow.helpers.updateArrow(Arrow.rArrow);
+                Vis.core.updateSliders(); // trigger update of sliders in vis
+            };
+        }
+        Vis.dispersionDot.call(d3.drag().on('drag', dispersionDragged(Vis.dispersionDot)));
     },
 
     initSlider: function() {
