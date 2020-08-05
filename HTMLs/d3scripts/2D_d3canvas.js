@@ -2,6 +2,20 @@
 //Code for main vis and svg arrows starts here //
 //---------------------------------------------//
 
+function omega_k (dx, dy) {
+    return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
+}
+
+var n = 200, values = new Array(n*n);
+for (var i = 0; i < n; i++){
+    for (var j = 0; j < n ; j++){
+        var k = n*i + j;
+        var dx = -1 + i/100;
+        var dy = -1 + j/100;
+        values[k] = omega_k (dx, dy);
+    }
+}
+
 window.Vis = window.Vis || {};
 
 Vis.init = function() {
@@ -108,7 +122,7 @@ Vis.core = {
         let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
         Vis.crossDisplay.textContent = crossproduct.toString();
 
-        refreshDispersion(Vis.dx, Vis.dy);
+        slide(Vis.dx, Vis.dy);
     }
 };
 
@@ -235,6 +249,7 @@ Vis.setup = {
     },
 
     initGraph: function() {
+        //Code for main-vis
         Vis.canvas = d3.select('#main-vis')
                        .append('canvas')
                         .attr('width', Vis.canvasx)
@@ -247,6 +262,56 @@ Vis.setup = {
         Vis.convertCanvasY = d3.scaleLinear()
                                 .domain([0, Vis.Ny*Vis.a])
                                 .range([Vis.canvasy, 0]);
+
+        //Code for dispersion graph
+        Vis.dispersionGraph = d3.select('#dispersion-graph')
+                                .append('canvas')
+                                .style("position", "relative")
+                                .attr('width', 200)
+                                .attr('height', 200);
+
+        Vis.dispersionContext = Vis.dispersionGraph.node().getContext('2d');  
+
+        color = d3.scaleSequential(d3.interpolateRdBu).domain([0, 2]);
+        path = d3.geoPath(null, Vis.dispersionContext);
+        thresholds = d3.range(0, 2, 0.1);
+        contours = d3.contours().size([200, 200]);
+    
+        
+        function fill(geometry) {
+            Vis.dispersionContext.beginPath();
+            path(geometry);
+            Vis.dispersionContext.fillStyle = color(geometry.value);
+            Vis.dispersionContext.fill();
+        }
+        
+        contours
+        .thresholds(thresholds)
+        (values)
+        .forEach(fill);
+
+        Vis.dispersionSVG = d3.select('#dispersion-graph')
+                            .append("svg")
+                            .style("position", "absolute")
+                            .attr('width', 200)
+                            .attr('height', 200)
+                            .attr('transform', "translate(-200, 0)");
+
+        Vis.dispersionSVG.append("rect")
+                            .attr("x", 0)
+                            .attr("y", 0)
+                            .attr("height", 200)
+                            .attr("width", 200)
+                            .style("stroke", 'black')
+                            .style("fill", "none")
+                            .style("stroke-width", 1);
+
+        Vis.dispersionDot = Vis.dispersionSVG
+                                .append('circle')
+                                .attr("cx", 0)
+                                .attr("cy", 0)
+                                .attr("r", 3)
+                                .attr("fill", "orange");
     },
 
     initButton: function() {
@@ -273,7 +338,7 @@ Vis.setup = {
             Arrow.rArrow.x = parseFloat(Vis.dx);
             Arrow.core.draw();
 
-            refreshDispersion(Vis.dx, Vis.dy);
+            //refreshDispersion(Vis.dx, Vis.dy);
 
             Vis.core.updateDisplay();
         });
@@ -288,7 +353,7 @@ Vis.setup = {
             Arrow.rArrow.y = parseFloat(Vis.dy);
             Arrow.core.draw();
 
-            refreshDispersion(Vis.dx, Vis.dy);
+            //refreshDispersion(Vis.dx, Vis.dy);
 
             Vis.core.updateDisplay();
         });
@@ -501,54 +566,13 @@ Arrow.setup = {
 
 document.addEventListener('DOMContentLoaded', Vis.init);
 
-//--------------------------------------//
-//Code for dispersion graph starts here //
-//--------------------------------------//
-
-// Dispersion relation
-function omega_k (dx, dy) {
-    return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
+function slide(dx, dy) {
+    Vis.dispersionDot.remove();
+    cx = 100*dx+100;
+    cy = 100*(1-dy);
+    Vis.dispersionDot = Vis.dispersionSVG.append("circle")
+                                        .attr("cx", cx)
+                                        .attr("cy", cy)
+                                        .attr("r", 3)
+                                        .attr("fill", "orange");
 }
-
-var n = 200, values = new Array(n*n);
-for (var i = 0; i < n; i++){
-    for (var j = 0; j < n ; j++){
-        var k = n*i + j;
-        var dx = -1 + i/100;
-        var dy = -1 + j/100;
-        values[k] = omega_k (dx, dy);
-    }
-}
-
-var canvas = document.querySelector("canvas"),
-    context = canvas.getContext("2d"),
-    color = d3.scaleSequential(d3.interpolateRdBu).domain([0, 2]),
-    path = d3.geoPath(null, context),
-    thresholds = d3.range(0, 2, 0.1),
-    contours = d3.contours().size([n, n]);
-
-context.scale(canvas.width / n, canvas.width / n);
-
-function fill(geometry) {
-    context.beginPath();
-    path(geometry);
-    context.fillStyle = color(geometry.value);
-    context.fill();
-  }
-
-contours
-  .thresholds(thresholds)
-  (values)
-  .forEach(fill);
-
-function refreshDispersion(dx, dy) {
-    console.log(dx, dy);
-    //context.clearRect(0, 0, canvas.width, canvas.height);
-
-    context.fillStyle = 'orange';
-    
-    context.beginPath();
-    context.arc(100.5+dx/100.5, 100.5+dy/100.5, 2, 0, 2*Math.PI);
-    context.fill();
-}
-
