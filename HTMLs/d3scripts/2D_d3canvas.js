@@ -2,21 +2,6 @@
 //Code for main vis and svg arrows starts here //
 //---------------------------------------------//
 
-function omega_k (dx, dy) {
-    return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
-}
-
-var n = 200, values = new Array(n*n), valuesLegend = new Array(n*n);
-for (var i = 0; i < n; i++){
-    for (var j = 0; j < n ; j++){
-        var k = n*i + j;
-        var dx = -1 + i/100;
-        var dy = -1 + j/100;
-        values[k] = omega_k (dx, dy);
-        valuesLegend[k] = dx + 1;
-    }
-}
-
 window.Vis = window.Vis || {};
 
 Vis.init = function() {
@@ -117,13 +102,22 @@ Vis.core = {
         let ky = Vis.dy*Math.PI/Vis.a;
         let kvec = [kx, ky, 0];
 
+        //Update the text for cross and dot products
         let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
         Vis.dotDisplay.textContent = dotproduct.toString();
 
         let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
         Vis.crossDisplay.textContent = crossproduct.toString();
 
-        slide(Vis.dx, Vis.dy);
+        //Update dot on the dispersion graph
+        Vis.dispersionDot.remove();
+        cx = 100*Vis.dx+100;
+        cy = 100*(1-Vis.dy);
+        Vis.dispersionDot = Vis.dispersionSVG.append("circle")
+                                            .attr("cx", cx)
+                                            .attr("cy", cy)
+                                            .attr("r", 5)
+                                            .attr("fill", "orange");
     }
 };
 
@@ -265,6 +259,20 @@ Vis.setup = {
                                 .range([Vis.canvasy, 0]);
 
         //Code for dispersion graph
+        function omega_k (dx, dy) {
+            return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
+        }
+        
+        var n = 200, values = new Array(n*n);
+        for (var i = 0; i < n; i++){
+            for (var j = 0; j < n ; j++){
+                var k = n*i + j;
+                var dx = -1 + i/100;
+                var dy = -1 + j/100;
+                values[k] = omega_k (dx, dy);
+            }
+        }
+
         dispersionGraphWidth = 200;
         dispersionGraphHeight = 200;
         Vis.dispersionGraph = d3.select('#dispersion-graph')
@@ -383,8 +391,6 @@ Vis.setup = {
             Arrow.rArrow.x = parseFloat(Vis.dx);
             Arrow.core.draw();
 
-            //refreshDispersion(Vis.dx, Vis.dy);
-
             Vis.core.updateDisplay();
         });
 
@@ -397,8 +403,6 @@ Vis.setup = {
 
             Arrow.rArrow.y = parseFloat(Vis.dy);
             Arrow.core.draw();
-
-            //refreshDispersion(Vis.dx, Vis.dy);
 
             Vis.core.updateDisplay();
         });
@@ -610,14 +614,3 @@ Arrow.setup = {
 };
 
 document.addEventListener('DOMContentLoaded', Vis.init);
-
-function slide(dx, dy) {
-    Vis.dispersionDot.remove();
-    cx = 100*dx+100;
-    cy = 100*(1-dy);
-    Vis.dispersionDot = Vis.dispersionSVG.append("circle")
-                                        .attr("cx", cx)
-                                        .attr("cy", cy)
-                                        .attr("r", 5)
-                                        .attr("fill", "orange");
-}
