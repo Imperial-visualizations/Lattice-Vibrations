@@ -271,7 +271,6 @@ Vis.setup = {
 
         Vis.dispersionGraph = d3.select('#dispersion-graph')
                                 .append('canvas')
-                                .style("position", "relative")
                                 .attr('width', Vis.dispersionGraphWidth)
                                 .attr('height', Vis.dispersionGraphHeight);
 
@@ -281,7 +280,7 @@ Vis.setup = {
         color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
         path = d3.geoPath(null, Vis.dispersionContext);
         thresholds = d3.range(0, 2.82, 0.01);
-        contours = d3.contours().size([Vis.dispersionGraphWidth, Vis.dispersionGraphHeight]);
+        contours = d3.contours().size([200, 200]);
         
         function fillGraph(geometry) {
             Vis.dispersionContext.beginPath();
@@ -299,10 +298,9 @@ Vis.setup = {
         //Preparing SVG for dispersion dot and legend
         Vis.dispersionSVG = d3.select('#dispersion-graph')
                             .append("svg")
-                            .style("position", "absolute")
                             .attr('width', 2*Vis.dispersionGraphWidth)
                             .attr('height', Vis.dispersionGraphHeight)
-                            .attr('transform', "translate(-" + Vis.dispersionGraphWidth + ", 0)");
+                            .attr('transform', "translate(0, "+ -1.045*Vis.dispersionGraphHeight + ")");
 
         //Box to check if Canvas and SVG are aligned
         Vis.dispersionSVG.append("rect")

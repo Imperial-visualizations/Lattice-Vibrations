@@ -140,18 +140,6 @@ Vis.setup = {
                                 .range([Vis.canvasy, 0]);
     },
 
-    initButton: function() {                                    //Play-pause button
-        Vis.button = document.getElementById('start-stop');
-
-        Vis.button.addEventListener('click', function() {
-            if (Vis.isRunning) {
-                Vis.stop();
-            } else {
-                Vis.start();
-            }
-        });
-    },
-
     initSlider: function() {
         // d slider linked to JS variable, d display and d input box in HTML 
         Vis.dRange = document.getElementById('d-range');
@@ -236,6 +224,7 @@ Circle.helpers = {
 
         circle.text.attr('x', Circle.width/2)
                     .attr('y', 0.8*Circle.width/2)
+                    .attr('font-size', 12)
                     .text(circle.stext + ' = ' + Number(Vis.dFBZ).toFixed(2) + 'π');
     },
 };
@@ -319,9 +308,9 @@ for (i = 0; i < 20000; i++) {
 dispersionWidth = document.getElementById('dispersion-graph').offsetWidth;
 dispersionHeight = document.getElementById('dispersion-graph').offsetHeight;
 // set the dimensions and margins of the graph
-var margin = {top: 0.1*dispersionHeight, right: 0.1*dispersionWidth, bottom: 0.15*dispersionHeight, left: 0.1*dispersionWidth},
+var margin = {top: 0.1*dispersionHeight, right: 0.1*dispersionWidth, bottom: 0.2*dispersionHeight, left: 0.1*dispersionWidth},
     width = 0.8*dispersionWidth,
-    height = 0.75*dispersionHeight;
+    height = 0.7*dispersionHeight;
 
 // append the svg object to the body of the page
 var sVg = d3.select("#dispersion-graph")
@@ -345,9 +334,9 @@ sVg.append('g')
 sVg.append("text")
     .attr("text-anchor", "end")
     .attr("font-style", "italic")
-    .attr("font-size", 10)
+    .attr("font-size", height/11)
     .attr("x", width)
-    .attr("y", height + margin.bottom)
+    .attr("y", 11*height/12 + 14*margin.bottom/11)
     .text("k = πd");
 
 // Y scale and Axis
@@ -363,9 +352,9 @@ sVg.append('g')
 sVg.append("text")
 .attr("text-anchor", "end")
 .attr("font-style", "italic")
-.attr("font-size", 10)
+.attr("font-size", height/11)
 .attr("x", 1.4*width/2)
-.attr("y", -10)
+.attr("y", -margin.top/2)
 .text("ω(k) = E/ħ");
 
 // Draw the potential

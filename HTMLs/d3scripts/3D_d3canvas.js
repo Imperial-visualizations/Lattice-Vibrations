@@ -11,7 +11,7 @@ Vis.init = function() {
     Vis.setup.initVars();
 
     Vis.setup.initDisplay();
-
+    Vis.setup.initGraph();
     Vis.setup.initScene();
 
     Vis.setup.initSliders();
@@ -177,8 +177,8 @@ Vis.setup = {
 
         Vis.Nphase = 2*Vis.Nx;
 
-        Vis.canvasx = 450;
-        Vis.canvasy = 450;
+        Vis.canvasx = document.getElementById('main-vis').offsetWidth;
+        Vis.canvasy = document.getElementById('main-vis').offsetHeight;
 
         Vis.pointR = 0.10 * Vis.a;
     },
@@ -205,7 +205,7 @@ Vis.setup = {
     },
 
     initGraph: function() {
-        Vis.canvas = d3.select('#canvas-div')
+        Vis.canvas = d3.select('#main-vis')
                        .append('canvas')
                         .attr('width', Vis.canvasx)
                         .attr('height', Vis.canvasy);
