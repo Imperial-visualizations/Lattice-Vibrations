@@ -35,7 +35,7 @@
     <!--    Right Side of Window - containing mainly interactive and visual content    -->
         
     <div class="my-vis-space" style="padding-left:15px;padding-top:10px;overflow-y: auto;">
-        <div id="main-vis" style="width: 50vw; height: 50vw; float: left; margin-right:10%; margin-top:3%">
+        <div id="main-vis" style="width: 50vw; height: 50vw; float: left; margin-right:2%; margin-top:3%">
             <canvas id="canvas-div"></canvas>
         </div>
 
@@ -53,7 +53,7 @@
                 <span id = "crossproduct"> 456 </span>
             </div>
         <!--Buttons/Sliders-->
-        <div>
+        <div class="text section-body odd"> 
             <div style="width: 100%; float: left;">                 
                 <!--BEGIN Slider-->
                 <label class="slider-label">
@@ -89,9 +89,7 @@
                     <input id="dz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
                     <span class="sliderMax">1</span>
                 </label>
-                <!--END Slider-->
-            </div>
-            <div style="width: 100%; float: left;">              
+                <!--END Slider-->         
                 <!--BEGIN Slider-->
                 <label class="slider-label">
                     $u_{k_x}$:
