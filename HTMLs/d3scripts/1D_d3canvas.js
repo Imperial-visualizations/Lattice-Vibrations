@@ -223,7 +223,7 @@ Circle.helpers = {
                  .attr('cy', tipy);
 
         circle.text.attr('x', Circle.width/2)
-                    .attr('y', 0.8*Circle.width/2)
+                    .attr('y', 0.8*Circle.height/2)
                     .attr('font-size', 12)
                     .text(circle.stext + ' = ' + Number(Vis.dFBZ).toFixed(2) + 'π');
     },
@@ -231,18 +231,27 @@ Circle.helpers = {
 
 Circle.setup = {
     initConst: function() {                             //Setup constants
-        Circle.width = window.innerHeight*0.35;
-        Circle.height = window.innerHeight*0.35;
+        Circle.width = document.getElementById('interactive-Circle').offsetWidth;
+        Circle.height = document.getElementById('interactive-Circle').offsetHeight;
 
         Circle.strokeWidth = 2;
         Circle.tipRadius = 5;
     },
 
     initObjects: function() {                           //Initialise SVG elements
-        Circle.svg = d3.select('#interactive-Circle');
-        Circle.svg.attr('width', Circle.width)
-                 .attr('height', Circle.height)
-                 .attr('style', 'border: 10px grey');
+        Circle.svg = d3.select('#interactive-Circle')
+                        .append('svg')
+                        .attr('width', Circle.width)
+                        .attr('height', Circle.height);
+
+        Circle.svg.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("height", Circle.height)
+        .attr("width", Circle.width)
+        .style("stroke", 'black')
+        .style("fill", "none")
+        .style("stroke-width", 1);
 
         Circle.dCircle = {
             x: Vis.dFBZ,
@@ -269,7 +278,7 @@ Circle.setup = {
 
     createCircleBody: function(circle) {
         return circle.container.append('line')
-                                  .attr('x1', Circle.width/2).attr('y1', Circle.width/2)
+                                  .attr('x1', Circle.width/2).attr('y1', Circle.height/2)
                                   .attr('stroke-width', Circle.strokeWidth)
                                   .attr('stroke', 'black');
     },

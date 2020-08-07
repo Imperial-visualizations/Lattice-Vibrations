@@ -106,8 +106,8 @@ Vis.core = {
         Vis.crossDisplay.textContent = crossproduct.toString();
 
         //Update dot on the dispersion graph
-        cx = 100*Vis.dx+100;
-        cy = 100*(1-Vis.dy);
+        cx = Vis.dispersionGraphWidth*(Vis.dx+1)/2;
+        cy = Vis.dispersionGraphHeight*(1-Vis.dy)/2;
         Vis.dispersionDot.attr("cx", cx).attr("cy", cy);
     }
 };
@@ -254,20 +254,18 @@ Vis.setup = {
             return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
         }
         
-        var n = 200, values = new Array(n*n);
-        for (var i = 0; i < n; i++){
-            for (var j = 0; j < n ; j++){
-                var k = n*i + j;
-                var dx = -1 + i/100;
-                var dy = -1 + j/100;
+        Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
+        Vis.dispersionGraphHeight = document.getElementById('dispersion-graph').offsetHeight;
+
+        var nx = Vis.dispersionGraphWidth+1, ny = Vis.dispersionGraphHeight+1, values = new Array(nx*ny);
+        for (var i = 0; i < nx; i++){
+            for (var j = 0; j < ny ; j++){
+                var k = i + nx*j;
+                var dx = -1 + 2*i/nx;
+                var dy = -1 + 2*j/ny;
                 values[k] = omega_k (dx, dy);
             }
         }
-
-        Vis.dispersionGraphWidth = 200;
-        Vis.dispersionGraphHeight = 200;
-        //Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
-        //Vis.dispersionGraphHeight = document.getElementById('dispersion-graph').offsetHeight;
 
         Vis.dispersionGraph = d3.select('#dispersion-graph')
                                 .append('canvas')
@@ -280,7 +278,7 @@ Vis.setup = {
         color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
         path = d3.geoPath(null, Vis.dispersionContext);
         thresholds = d3.range(0, 2.82, 0.01);
-        contours = d3.contours().size([200, 200]);
+        contours = d3.contours().size([nx, ny]);
         
         function fillGraph(geometry) {
             Vis.dispersionContext.beginPath();
@@ -294,11 +292,10 @@ Vis.setup = {
         (values)
         .forEach(fillGraph);
 
-
         //Preparing SVG for dispersion dot and legend
         Vis.dispersionSVG = d3.select('#dispersion-graph')
                             .append("svg")
-                            .attr('width', 2*Vis.dispersionGraphWidth)
+                            .attr('width', 1.4*Vis.dispersionGraphWidth)
                             .attr('height', Vis.dispersionGraphHeight)
                             .attr('transform', "translate(0, "+ -1.045*Vis.dispersionGraphHeight + ")");
 
@@ -312,10 +309,10 @@ Vis.setup = {
                             .style("fill", "none")
                             .style("stroke-width", 1);
     
-        legendXOffset = 230;
-        legendYOffset = 15;
-        legendHeight = 175;
-        legendWidth = 25;
+        legendXOffset = 1.175*Vis.dispersionGraphWidth;
+        legendYOffset = 0.1*Vis.dispersionGraphHeight;
+        legendHeight = 0.8*Vis.dispersionGraphHeight;
+        legendWidth = 0.15*Vis.dispersionGraphWidth;
         //Box for legend scale
         Vis.legendSVG = Vis.dispersionSVG.append("rect")
                             .attr("x", legendXOffset)
@@ -329,7 +326,8 @@ Vis.setup = {
         for (var i = 0; i < 14 ; i++){
             Vis.dispersionSVG.append("rect")
             .attr("x", legendXOffset)
-            .attr("y", legendHeight*(14-i)/14 + 3)
+            .attr("y", legendHeight*(14-i)/14)
+            .attr("transform", "translate(0," + legendYOffset/2.2 + ")")
             .attr("height", legendHeight/14)
             .attr("width", legendWidth)
             .style("fill", color(2.82*i/14));
@@ -479,8 +477,9 @@ Arrow.core = {
 
 Arrow.helpers = {
     updateArrow: function(arrow) {
-        let tipx = (arrow.x + 1)*Arrow.width/2;
-        let tipy = (1 - arrow.y)*Arrow.height/2;
+        var tipx = (arrow.x + 1)*Arrow.width/2;
+        var tipy = (1 - arrow.y)*Arrow.height/2;
+        var fontSize = 12;
 
         arrow.body.attr('x2', tipx)
                   .attr('y2', tipy);
@@ -491,28 +490,34 @@ Arrow.helpers = {
             if (tipx < 85) {
                 arrow.text.attr('x', tipx + 10)
                 .attr('y', tipy - 7.5)
+                .attr('font-size', fontSize)
                 .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
             } else if (tipx < 100) {
                 arrow.text.attr('x', tipx + 10 - 80)
                 .attr('y', tipy - 7.5)
+                .attr('font-size', fontSize)
                 .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
             } else {
                 arrow.text.attr('x', tipx + 10 - 105)
                 .attr('y', tipy - 7.5)
+                .attr('font-size', fontSize)
                 .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
             }   
         } else {
             if (tipx < 85) {
                 arrow.text.attr('x', tipx)
                 .attr('y', tipy + 15)
+                .attr('font-size', fontSize)
                 .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
             } else if (tipx < 100) {
                 arrow.text.attr('x', tipx - 90)
                 .attr('y', tipy + 15)
+                .attr('font-size', fontSize)
                 .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
             } else {
                 arrow.text.attr('x', tipx - 110)
                 .attr('y', tipy + 15)
+                .attr('font-size', fontSize)
                 .text(arrow.stext + ' (' + Number(arrow.x).toFixed(2) + ', ' + Number(arrow.y).toFixed(2) + ')');
             }   
         }
@@ -547,18 +552,27 @@ Arrow.helpers = {
 
 Arrow.setup = {
     initConst: function() {
-        Arrow.width = window.innerHeight*0.35;
-        Arrow.height = window.innerHeight*0.35;
+        Arrow.width = document.getElementById('interactive-arrow').offsetWidth;
+        Arrow.height = document.getElementById('interactive-arrow').offsetHeight;
 
         Arrow.strokeWidth = 2;
         Arrow.tipRadius = 5;
     },
 
     initObjects: function() {
-        Arrow.svg = d3.select('#interactive-arrow');
-        Arrow.svg.attr('width', Arrow.width)
-                 .attr('height', Arrow.height)
-                 .attr('style', 'border: 10px grey');
+        Arrow.svg = d3.select('#interactive-arrow')
+        .append('svg')
+        .attr('width', Arrow.width)
+        .attr('height', Arrow.height);
+
+        Arrow.svg.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("height", Arrow.height)
+        .attr("width", Arrow.width)
+        .style("stroke", 'black')
+        .style("fill", "none")
+        .style("stroke-width", 1);
 
         Arrow.rArrow = {
             x: Vis.dx,
@@ -608,7 +622,7 @@ Arrow.setup = {
 
     createArrowBody: function(arrow) {
         return arrow.container.append('line')
-                                  .attr('x1', Arrow.width/2).attr('y1', Arrow.width/2)
+                                  .attr('x1', Arrow.width/2).attr('y1', Arrow.height/2)
                                   .attr('stroke-width', Arrow.strokeWidth)
                                   .attr('stroke', 'black');
     },
