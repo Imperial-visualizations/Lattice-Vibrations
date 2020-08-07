@@ -297,7 +297,7 @@ Vis.setup = {
                             .append("svg")
                             .attr('width', 1.4*Vis.dispersionGraphWidth)
                             .attr('height', Vis.dispersionGraphHeight)
-                            .attr('transform', "translate(0, "+ -1.045*Vis.dispersionGraphHeight + ")");
+                            .attr('transform', "translate(0, "+ -1.055*Vis.dispersionGraphHeight + ")");
 
         //Box to check if Canvas and SVG are aligned
         Vis.dispersionSVG.append("rect")
