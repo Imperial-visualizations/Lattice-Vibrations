@@ -307,7 +307,7 @@ function omega_k (d) {
 // Setting up data for graph
 var k = [], w_k = [];
 var data = [];
-for (i = 0; i < 20000; i++) {
+for (var i = 0; i < 20000; i++) {
     var thisd = (-10 + i/1000);
     var thisk = (-10 + i/1000)*Math.PI;
     k.push(Number(thisk.toFixed(2)));      // fix to 2 decimal places

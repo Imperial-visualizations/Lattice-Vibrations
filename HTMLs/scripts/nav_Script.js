@@ -40,14 +40,7 @@ let app = new Vue ({
                 app.scrollPos = document.querySelectorAll(".journey")[0].scrollTop;
                 app.changeTitle();
                 app.changeSec();
-                app.innerchange=document.querySelectorAll("#innerchange")[0].offsetTop-document.querySelectorAll("#sc1")[0].offsetTop;
-                //if you need to change visulisations for subsections during scrolling, add code below
 
-                if (app.scrollPos >= app.innerchange && app.scrollPos < app.sectionBottoms[0]){
-                app.subSection[0]=2;
-            } else {
-                    app.subSection[0]=1;
-                }
             }
         },
         
