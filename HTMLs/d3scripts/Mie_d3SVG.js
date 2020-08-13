@@ -11,7 +11,7 @@ function MiePotential (r) {
 // Setting up the data for graph
 var r = [], V = [];
 var data = [];
-for (i = 0; i < 100; i++) {
+for (var i = 0; i < 100; i++) {
   var rnow = (0.8 + (1/100)*i)*r0;
   r.push(Number(rnow.toFixed(2)));      // fix to 2 decimal places
   V.push(MiePotential(rnow));
@@ -21,8 +21,8 @@ for (i = 0; i < 100; i++) {
 // Setting up the data for the oscillator
 var oscillate = [{x: r0, y: MiePotential(r0)}];
 
-divWidth = document.getElementById('Mie-graph').offsetWidth;
-divHeight = document.getElementById('Mie-graph').offsetHeight;
+var divWidth = document.getElementById('Mie-graph').offsetWidth;
+var divHeight = document.getElementById('Mie-graph').offsetHeight;
 // set the dimensions and margins of the graph
 var margin = {top: 0.1*divWidth, right: 0.1*divHeight, bottom: 0.1*divWidth, left: 0.1*divHeight},
     width = 0.8*divWidth,

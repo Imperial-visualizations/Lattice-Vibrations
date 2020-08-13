@@ -206,7 +206,7 @@ Vis.setup = {
 
     initGraph: function() {
         Vis.canvas = d3.select('#main-vis')
-                       .append('canvas')
+                        .append('canvas')
                         .attr('width', Vis.canvasx)
                         .attr('height', Vis.canvasy);
         Vis.context = Vis.canvas.node().getContext('2d');

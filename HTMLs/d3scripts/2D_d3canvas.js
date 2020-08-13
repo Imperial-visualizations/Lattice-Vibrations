@@ -106,8 +106,8 @@ Vis.core = {
         Vis.crossDisplay.textContent = crossproduct.toString();
 
         //Update dot on the dispersion graph
-        cx = Vis.dispersionGraphWidth*(Vis.dx+1)/2;
-        cy = Vis.dispersionGraphHeight*(1-Vis.dy)/2;
+        var cx = Vis.dispersionGraphWidth*(Vis.dx+1)/2;
+        var cy = Vis.dispersionGraphHeight*(1-Vis.dy)/2;
         Vis.dispersionDot.attr("cx", cx).attr("cy", cy);
     }
 };
@@ -237,7 +237,7 @@ Vis.setup = {
     initGraph: function() {
         //Code for main-vis
         Vis.canvas = d3.select('#main-vis')
-                       .append('canvas')
+                        .append('canvas')
                         .attr('width', Vis.canvasx)
                         .attr('height', Vis.canvasy);
         Vis.context = Vis.canvas.node().getContext('2d');
@@ -275,10 +275,10 @@ Vis.setup = {
         Vis.dispersionContext = Vis.dispersionGraph.node().getContext('2d');  
 
         //Making contour
-        color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
-        path = d3.geoPath(null, Vis.dispersionContext);
-        thresholds = d3.range(0, 2.82, 0.01);
-        contours = d3.contours().size([nx, ny]);
+        var color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
+        var path = d3.geoPath(null, Vis.dispersionContext);
+        var thresholds = d3.range(0, 2.82, 0.01);
+        var contours = d3.contours().size([nx, ny]);
         
         function fillGraph(geometry) {
             Vis.dispersionContext.beginPath();
@@ -309,10 +309,10 @@ Vis.setup = {
                             .style("fill", "none")
                             .style("stroke-width", 1);
     
-        legendXOffset = 1.175*Vis.dispersionGraphWidth;
-        legendYOffset = 0.1*Vis.dispersionGraphHeight;
-        legendHeight = 0.8*Vis.dispersionGraphHeight;
-        legendWidth = 0.15*Vis.dispersionGraphWidth;
+        var legendXOffset = 1.175*Vis.dispersionGraphWidth;
+        var legendYOffset = 0.1*Vis.dispersionGraphHeight;
+        var legendHeight = 0.8*Vis.dispersionGraphHeight;
+        var legendWidth = 0.15*Vis.dispersionGraphWidth;
         //Box for legend scale
         Vis.legendSVG = Vis.dispersionSVG.append("rect")
                             .attr("x", legendXOffset)
@@ -364,8 +364,8 @@ Vis.setup = {
     initDispersionDrag: function() {
         function dispersionDragged() {
             return function() {
-                x = 2*d3.event.x/Vis.dispersionGraphWidth - 1;
-                y = 1 - 2*d3.event.y/Vis.dispersionGraphHeight;
+                var x = 2*d3.event.x/Vis.dispersionGraphWidth - 1;
+                var y = 1 - 2*d3.event.y/Vis.dispersionGraphHeight;
                 if (x > 1) {
                     x = 1;
                 } else if (x < -1){
@@ -482,9 +482,9 @@ Arrow.helpers = {
         var fontSize = 12;
 
         arrow.body.attr('x2', tipx)
-                  .attr('y2', tipy);
+                    .attr('y2', tipy);
         arrow.tip.attr('cx', tipx)
-                 .attr('cy', tipy);
+                    .attr('cy', tipy);
 
         if (tipy > 22) {
             if (tipx < 85) {
@@ -526,8 +526,8 @@ Arrow.helpers = {
     },
 
     convertCoords: function(sx, sy) {
-        x = 2*sx/Arrow.width - 1;
-        y = 1 - 2*sy/Arrow.height;
+        var x = 2*sx/Arrow.width - 1;
+        var y = 1 - 2*sy/Arrow.height;
         if (x > 1) {
             x = 1;
         } else if (x < -1){
@@ -622,14 +622,14 @@ Arrow.setup = {
 
     createArrowBody: function(arrow) {
         return arrow.container.append('line')
-                                  .attr('x1', Arrow.width/2).attr('y1', Arrow.height/2)
-                                  .attr('stroke-width', Arrow.strokeWidth)
-                                  .attr('stroke', 'black');
+                                    .attr('x1', Arrow.width/2).attr('y1', Arrow.height/2)
+                                    .attr('stroke-width', Arrow.strokeWidth)
+                                    .attr('stroke', 'black');
     },
 
     createArrowTip: function(arrow) {
         return arrow.container.append('circle')
-                              .attr('r', Arrow.tipRadius);
+                                .attr('r', Arrow.tipRadius);
     },
 
     createArrowText: function(arrow) {
