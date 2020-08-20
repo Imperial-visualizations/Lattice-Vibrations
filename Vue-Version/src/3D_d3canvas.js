@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import * as THREE from 'three';
-import * as math from './math.min.js';
+import * as math from 'mathjs';
 
 export default function() {
 

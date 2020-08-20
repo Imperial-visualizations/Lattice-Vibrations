@@ -1,5 +1,5 @@
 import * as d3 from 'd3';
-import * as math from './math.min.js';
+import * as math from 'mathjs';
 
 export default function() {
 
