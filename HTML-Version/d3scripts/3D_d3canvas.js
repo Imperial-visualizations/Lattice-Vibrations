@@ -2,7 +2,7 @@
 // Visualisation Object            //
 //---------------------------------//
 
-window.Vis = window.Vis || {};
+var Vis = [];
 
 Vis.init = function() {
     Vis.isRunning = false;
@@ -20,20 +20,8 @@ Vis.init = function() {
 };
 
 Vis.start = function() {
-    if (Vis._stoptime) {
-        Vis._then += Date.now() - Vis._stoptime; // add stopped time
-    }
-
-    if (!Vis.isRunning) {
-        Vis.core.frame();
-        Vis.isRunning = true;
-    }
-};
-
-Vis.stop = function() {
-    window.cancelAnimationFrame(Vis.animationFrameLoop);
-    Vis.isRunning = false;
-    Vis._stoptime = Date.now(); // record when animation paused
+    Vis.core.frame();
+    Vis.isRunning = true;
 };
 
 Vis.core = {
@@ -43,13 +31,12 @@ Vis.core = {
         Vis.core.update();
         Vis.core.animate();
 
-        Vis.animationFrameLoop = window.requestAnimationFrame(Vis.core.frame);
+        window.requestAnimationFrame(Vis.core.frame);
     },
 
     update: function() {
         Vis.workers.calcParams();
         Vis.workers.calcPos();
-        // Vis.workers.calcPhase();
     },
 
     animate: function() {
@@ -125,44 +112,6 @@ Vis.workers = {
         }
     },
 
-    calcPhase: function() {
-        let v = Vis.w / Vis.k;
-        let vx = v * Vis.kx / Vis.k;
-        let vy = v * Vis.ky / Vis.k;
-        let vz = v * Vis.kz / Vis.k;
-
-        let m = vy / vx;
-
-        var spacing;
-        var t_space;
-        if (m >= -1 && m <= 1) {
-            // do y processing
-            spacing = Vis.dphase * Vis.ky / Vis.k; // distance between phases 
-            t_space = spacing / vy;
-        } else {
-            // do x processing
-            spacing = Vis.dphase * Vis.kx / Vis.k;
-            t_space = spacing / vx;
-        }
-
-        let t = Vis.t % (Vis.Nx*t_space/2); // heuristic # of time spacings until wrap around 
-
-        for (let i=0; i < Vis.Nphase; i++) {
-            let T = t + (i - Vis.Nphase/2)*t_space; // shift each phase particle 
-
-            if (m >= -1 && m <= 1) {
-                // do x processing
-                Vis.phasex[i] = T*vx;
-                Vis.phasey[i] = (m)*(T*vx - Vis.Nx*Vis.a/2) + Vis.Ny*Vis.a/2;
-            } else {
-                // do y processing
-                Vis.phasex[i] = (1/m)*(T*vy - Vis.Ny*Vis.a/2) + Vis.Nx*Vis.a/2;
-                Vis.phasey[i] = T*vy;
-            }
-
-            
-        }
-    }
 };
 
 Vis.setup = {
@@ -199,9 +148,6 @@ Vis.setup = {
         Vis.z = new Array(Vis.N);
         Vis.spheres = new Array(Vis.N);
 
-        Vis.phasex = new Array(Vis.Nphase);
-        Vis.phasey = new Array(Vis.Nphase);
-        Vis.phasez = new Array(Vis.Nphase);
     },
 
     initGraph: function() {

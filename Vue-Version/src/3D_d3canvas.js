@@ -153,10 +153,6 @@ Vis.setup = {
         Vis.y = new Array(Vis.N);
         Vis.z = new Array(Vis.N);
         Vis.spheres = new Array(Vis.N);
-
-        Vis.phasex = new Array(Vis.Nphase);
-        Vis.phasey = new Array(Vis.Nphase);
-        Vis.phasez = new Array(Vis.Nphase);
     },
 
     initGraph: function() {

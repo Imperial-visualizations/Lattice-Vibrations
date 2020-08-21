@@ -29,7 +29,6 @@ Vis.core = {
         Vis.core.update();
         Vis.core.animate();
 
-        //Vis.core.frame();
         window.requestAnimationFrame(Vis.core.frame);
     },
 
@@ -184,7 +183,7 @@ Vis.setup = {
 
 };
 
-window.Circle = window.Circle || {};
+var Circle = [];
 
 Circle.init = function() {
     Circle.setup.initConst();                   //Setup constants
