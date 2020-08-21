@@ -96,15 +96,16 @@
         </iv-toggle-hotspot>
 
       </template> 
-      <template #main-stage>
+
         <!--Main simulation-->
+        <iv-legacy-wrapper :execute=execute></iv-legacy-wrapper>
         <div id="main-vis" style="width: 50vw; height: 50vw; float: left;"></div>
         <!--Display k in the First Brillouin Zone-->
         <div class="text section-body odd" style="float: left">        
             <span> <iv-equation-box :stylise="false" equation="k"/> in the first Brillouin Zone</span>
-            <div id='interactive-Circle' style="width: 20vw; height: 5vw;"></div>
+            <iv-legacy-wrapper :execute=execute id='interactive-Circle' style="width: 20vw; height: 5vw;"></iv-legacy-wrapper>
         </div>
-      </template>
+
     </iv-visualisation>
   </div>
 </template>
@@ -113,8 +114,8 @@
 import execute from './1D_d3canvas.js';
 
 export default {
-  mounted() {
-    execute()
+  data(){
+    return {execute}
   }
 }
 </script>

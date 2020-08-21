@@ -110,10 +110,10 @@
         </iv-toggle-hotspot>
 
       </template> 
-      <template #main-stage>
-        <div id="main-vis" style="width: 50vw; height: 50vw; float: left; margin-right:2%; margin-top:3%">
+
+        <iv-legacy-wrapper :execute=execute id="main-vis" style="width: 50vw; height: 50vw; float: left; margin-right:2%; margin-top:3%">
             <canvas id="canvas-div"></canvas>
-        </div>
+        </iv-legacy-wrapper>
         <div style="float: left;">
           <div style="width: 50%; float: left;">
             <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/>
@@ -127,7 +127,7 @@
               <span id = "crossproduct"> 456 </span>
           </div>
         </div>
-      </template>
+
     </iv-visualisation>
   </div>
 </template>
@@ -136,8 +136,8 @@
 import execute from './3D_d3canvas.js';
 
 export default {
-  mounted() {
-    execute()
+  data(){
+    return {execute}
   }
 }
 </script>

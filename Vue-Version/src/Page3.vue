@@ -6,7 +6,7 @@
       <template #hotspots>
 
         <iv-pane position="right" style="overflow-y: scroll" format="push">
-          <div id="dispersion-graph" style="width: 30vw; height: 25vw; float: left; margin-right:10%; margin-top:3%"></div>
+          <iv-legacy-wrapper :execute=execute id="dispersion-graph" style="width: 30vw; height: 25vw; float: left; margin-right:10%; margin-top:3%"></iv-legacy-wrapper>
         </iv-pane>
         <iv-pane position="left" style="overflow-y: scroll" format="push">
 
@@ -106,10 +106,10 @@
       </template> 
       <template #main-stage>
         <!--Visualisation main canvas-->
-        <div id="main-vis" style="width: 50vw; height: 50vw; float: left; margin-right:2%; margin-top:3%"></div>
+        <iv-legacy-wrapper :execute=execute id='main-vis' style="width: 50vw; height: 50vw; float: left; margin-right:2%; margin-top:3%"></iv-legacy-wrapper>
         
         <!--Interactive arrow element-->
-        <div id='interactive-arrow' style="width: 17.5vw; height: 17.5vw; float: left;  margin-right: 1%"></div> 
+        <iv-legacy-wrapper :execute=execute id='interactive-arrow' style="width: 17.5vw; height: 17.5vw; float: left;  margin-right: 1%"></iv-legacy-wrapper> 
 
         <div class="text section-body odd" style="float: left"> 
           <div style="width: 100%; float: left;">
@@ -134,8 +134,8 @@
 import execute from './2D_d3canvas.js';
 
 export default {
-  mounted() {
-    execute()
+  data(){
+    return {execute}
   }
 }
 </script>

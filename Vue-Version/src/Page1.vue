@@ -28,10 +28,10 @@
         </iv-pane>
 
       </template> 
-      <template #main-stage>
-        <!--Main simulation-->
-        <div id="Mie-graph" style="width: 700px; height: 500px;"></div>
-      </template>
+
+      <!--Main simulation-->
+      <iv-legacy-wrapper :execute=execute id="Mie-graph" style="margin-left: 5%; width: 1000px; height: 500px;"></iv-legacy-wrapper>
+
     </iv-visualisation>
   </div>
 </template>
@@ -40,8 +40,8 @@
 import execute from './Mie_d3SVG.js';
 
 export default {
-  mounted() {
-    execute()
+  data(){
+    return {execute}
   }
 }
 </script>

@@ -3,7 +3,7 @@ import * as math from 'mathjs';
 
 export default function() {
 
-window.Vis = window.Vis || {};
+var Vis = [];
 
 Vis.init = function() {
     Vis.isRunning = false;
@@ -22,20 +22,8 @@ Vis.init = function() {
 };
 
 Vis.start = function() {
-    if (Vis._stoptime) {
-        Vis._then += Date.now() - Vis._stoptime; // add stopped time
-    }
-
-    if (!Vis.isRunning) {
-        Vis.core.frame();
-        Vis.isRunning = true;
-    }
-};
-
-Vis.stop = function() {
-    window.cancelAnimationFrame(Vis.animationFrameLoop);
-    Vis.isRunning = false;
-    Vis._stoptime = Date.now(); // record when animation paused
+    Vis.core.frame();
+    Vis.isRunning = true;
 };
 
 Vis.core = {
@@ -45,7 +33,7 @@ Vis.core = {
         Vis.core.update();
         Vis.core.animate();
 
-        Vis.animationFrameLoop = window.requestAnimationFrame(Vis.core.frame);
+        window.requestAnimationFrame(Vis.core.frame);
     },
 
     update: function() {
@@ -292,10 +280,7 @@ Vis.setup = {
             Vis.dispersionContext.fill();
         }
         
-        contours
-        .thresholds(thresholds)
-        (values)
-        .forEach(fillGraph);
+        contours.thresholds(thresholds)(values).forEach(fillGraph);
 
         //Preparing SVG for dispersion dot and legend
         Vis.dispersionSVG = d3.select('#dispersion-graph')
@@ -328,7 +313,7 @@ Vis.setup = {
                             .style("fill", "none")
                             .style("stroke-width", 1);
                             
-        for (var i = 0; i < 14 ; i++){
+        for (i = 0; i < 14 ; i++){
             Vis.dispersionSVG.append("rect")
             .attr("x", legendXOffset)
             .attr("y", legendHeight*(14-i)/14)
@@ -460,7 +445,7 @@ Vis.setup = {
 // Interactive Arrow Object        //
 //---------------------------------//
 
-window.Arrow = window.Arrow || {};
+var Arrow = [];
 
 Arrow.init = function() {
     Arrow.setup.initConst();
