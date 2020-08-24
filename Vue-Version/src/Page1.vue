@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import execute from './Mie_d3SVG.js';
+import execute from './components/Mie_d3SVG.js';
 
 export default {
   data(){

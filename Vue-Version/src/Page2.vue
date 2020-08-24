@@ -6,7 +6,7 @@
       <template #hotspots>
 
         <iv-pane position="right" style="overflow-y: scroll" format="push">
-          <div id="dispersion-graph" style="width: 30vw; height: 25vw; float: left;"></div>
+          <Dispersion v-bind:d="dSlider"></Dispersion>
         </iv-pane>
         <iv-pane position="left" style="overflow-y: scroll" format="push">
               We start with the one dimensional case: 
@@ -62,61 +62,48 @@
         </iv-pane>
 
         <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
-        <div class="overall-sliders-container" style="float: left;">
-            <iv-equation-box :stylise="false" equation="k = \frac{\pi}{a} d"/>
-            <div style="width: 100%;">                 
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="d"/>:
-                    <span id="d-display">0.1</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-10</span>
-                    <input id="d-range" class="inputs" max="10" min="-10" name="d" step="0.01" type="range" value="0.5"/>
-                    <span class="sliderMax">10</span>
-                </label>
-                <input id="d-box" type="text" value="0.1"/>
-                <!--END Slider--> 
-            </div>
-            <div style="width: 100%;">                 
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="u_k"/>:
-                    <span id="uk-display">0.5</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="uk-range" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider--> 
-            </div>
-
-        </div>
+          <iv-slider @sliderChanged="dChange" :colorBlock="green" :min="-10" :max="10" :init_val="0.1" :sliderName="'dSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uSlider'" :unit="'test unit'" :step="0.01" />
         </iv-toggle-hotspot>
 
       </template> 
 
         <!--Main simulation-->
-        <iv-legacy-wrapper :execute=execute></iv-legacy-wrapper>
-        <div id="main-vis" style="width: 50vw; height: 50vw; float: left;"></div>
-        <!--Display k in the First Brillouin Zone-->
-        <div class="text section-body odd" style="float: left">        
-            <span> <iv-equation-box :stylise="false" equation="k"/> in the first Brillouin Zone</span>
-            <iv-legacy-wrapper :execute=execute id='interactive-Circle' style="width: 20vw; height: 5vw;"></iv-legacy-wrapper>
-        </div>
+        <MainStage v-bind:d="dSlider" v-bind:u="uSlider"></MainStage>
+        <iv-equation-box :stylise="false" equation="k"/> in the first Brillouin Zone
+        <FBZ v-bind:d="dSlider"></FBZ>
 
     </iv-visualisation>
   </div>
 </template>
 
 <script>
-import execute from './1D_d3canvas.js';
+import MainStage from './components/1D_mainstage.vue';
+import FBZ from './components/1D_FBZ.vue';
+import Dispersion from './components/1D_dispersion.vue';
 
 export default {
-  data(){
-    return {execute}
-  }
+    components:{
+        MainStage,
+        FBZ,
+        Dispersion
+    },
+    props:{
+        dSlider: {
+            default: 0.1,
+        },
+        uSlider: {
+            default: 0.1,
+        }
+    },
+    methods:{
+        dChange(e){
+            this.dSlider = e;
+        },
+        uChange(e){
+            this.uSlider = e;
+        }
+    }
 }
 </script>
 
