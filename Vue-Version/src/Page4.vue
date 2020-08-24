@@ -28,119 +28,107 @@
         </iv-pane>
 
         <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
-        <div class="overall-sliders-container" style="float: left;">
-        <!--Buttons/Sliders-->
-        <div class="text section-body odd"> 
-            <div style="width: 100%; float: left;">                 
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="d_x"/>:
-                    <span id="dx-display">0.5</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="dx" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-                
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="d_y"/>:
-                    <span id="dy-display">0</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="dy" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="d_z"/>:
-                    <span id="dz-display">0</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="dz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->         
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="u_{k_x}"/>:
-                    <span id="ukx-display">0</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="ukx" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="u_{k_y}"/>:
-                    <span id="uky-display">0</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="uky" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-
-                <!--BEGIN Slider-->
-                <label class="slider-label">
-                    <iv-equation-box :stylise="false" equation="u_{k_z}"/>:
-                    <span id="ukz-display">0.5</span>
-                </label>
-                <label class="slider">
-                    <span class="sliderMin">-1</span>
-                    <input id="ukz" class="inputs" max="1" min="-1" name="r" step="0.01" type="range" value="0.5"/>
-                    <span class="sliderMax">1</span>
-                </label>
-                <!--END Slider-->
-            </div>
-    
-        </div>
-
-    </div>
+          <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/>
+          <iv-equation-box :stylise="false" equation="d_x"/>
+          <iv-slider @sliderChanged="dxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dxSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-equation-box :stylise="false" equation="d_y"/>
+          <iv-slider @sliderChanged="dyChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dySlider'" :unit="'test unit'" :step="0.01" />
+          <iv-equation-box :stylise="false" equation="d_z"/>
+          <iv-slider @sliderChanged="dzChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dzSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-equation-box :stylise="false" equation="u_{k_x}"/>
+          <iv-slider @sliderChanged="uxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uxSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-equation-box :stylise="false" equation="u_{k_y}"/>
+          <iv-slider @sliderChanged="uyChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uySlider'" :unit="'test unit'" :step="0.01" />
+          <iv-equation-box :stylise="false" equation="u_{k_z}"/>
+          <iv-slider @sliderChanged="uzChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uzSlider'" :unit="'test unit'" :step="0.01" />
         </iv-toggle-hotspot>
 
       </template> 
 
-        <iv-legacy-wrapper :execute=execute id="main-vis" style="width: 50vw; height: 50vw; float: left; margin-right:2%; margin-top:3%">
-            <canvas id="canvas-div"></canvas>
-        </iv-legacy-wrapper>
-        <div style="float: left;">
-          <div style="width: 50%; float: left;">
-            <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/>
-          </div>
-          <div style="width: 50%; float: left;">
-            <iv-equation-box :stylise="false" equation="\textbf{k} \cdot \textbf{u}_\textbf{k} = "/>
-              <span id = "dotproduct"> 123 </span>
-          </div>
-          <div style="width: 50%; float: left;">
-            <iv-equation-box :stylise="false" equation="\textbf{k} \times \textbf{u}_\textbf{k} = "/>
-              <span id = "crossproduct"> 456 </span>
-          </div>
-        </div>
+      <!--Main simulation-->
+      <MainVis v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:dz="dzSlider" v-bind:ux="uxSlider" v-bind:uy="uySlider" v-bind:uz="uzSlider"></MainVis>
+      <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
+      <iv-equation-box :stylise="false" :equation=dotProduct />
+      <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
+      <iv-equation-box :stylise="false" :equation=crossProduct />
 
     </iv-visualisation>
   </div>
 </template>
 
 <script>
-import execute from './3D_d3canvas.js';
+import * as math from 'mathjs';
+import MainVis from './components/3D_mainVis.vue';
 
 export default {
-  data(){
-    return {execute}
-  }
+    components:{
+        MainVis,
+    },
+    props:{
+        dxSlider: {
+            default: 0.5,
+        },
+        dySlider: {
+            default: 0.0,
+        },
+        dzSlider: {
+            default: 0.0,
+        },
+        uxSlider: {
+            default: 0.0,
+        },
+        uySlider: {
+            default: 0.0,
+        },
+        uzSlider: {
+            default: 0.5,
+        },
+        dotProduct: {
+          default: "0.00",
+        },
+        crossProduct: {
+          default: "0.79",
+        }
+    },
+    methods:{        
+        dxChange(e){
+            this.dxSlider = e;
+            this.dotAndCrossProducts();
+        },
+        dyChange(e){
+            this.dySlider = e;
+            this.dotAndCrossProducts();
+        },
+        dzChange(e){
+            this.dzSlider = e;
+            this.dotAndCrossProducts();
+        },
+        uxChange(e){
+            this.uxSlider = e;
+            this.dotAndCrossProducts();
+        },
+        uyChange(e){
+            this.uySlider = e;
+            this.dotAndCrossProducts();
+        },
+        uzChange(e){
+            this.uzSlider = e;
+            this.dotAndCrossProducts();
+        },
+        dotAndCrossProducts(){
+          let ukvec = [this.uxSlider, this.uySlider, this.uzSlider];
+          let kvec = [this.dxSlider*Math.PI, this.dySlider*Math.PI, this.dzSlider*Math.PI];
+
+          let dotproduct = Math.round(100*Math.abs(math.dot(kvec, ukvec)))/100;
+          this.dotProduct = dotproduct.toString();
+
+          let crossproduct = Math.round(Math.abs(100*Math.pow((Math.pow(math.cross(kvec, ukvec)[0], 2) + Math.pow(math.cross(kvec, ukvec)[1], 2) + Math.pow(math.cross(kvec, ukvec)[2], 2)), 0.5)))/100;
+          this.crossProduct = crossproduct.toString();
+        }
+    }
 }
 </script>
+
 
 <style>
 

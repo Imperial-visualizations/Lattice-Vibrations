@@ -130,16 +130,7 @@ export default {
             }
         }
 
-
         document.addEventListener('DOMContentLoaded', Vis.init);
-
-
-
-
-        //Slide current k 
-        //function slide(newd) {
-        //    movingk.attr('cx', function(){ return x(newd*Math.PI); }).attr('cy', function(){ return y(Vis.workers.omega_k(newd)); });
-        //}
     }
     
 }

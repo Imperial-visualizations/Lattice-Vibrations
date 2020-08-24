@@ -192,18 +192,6 @@ Vis.setup = {
         }
     },
 
-    initButton: function() {
-        Vis.button = document.getElementById('start-stop');
-
-        Vis.button.addEventListener('click', function() {
-            if (Vis.isRunning) {
-                Vis.stop();
-            } else {
-                Vis.start();
-            }
-        });
-    },
-
     initSliders: function() {
         // r sliders
         Vis.dxRange = document.getElementById('dx');

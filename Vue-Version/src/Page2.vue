@@ -62,29 +62,32 @@
         </iv-pane>
 
         <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
+          <iv-equation-box :stylise="false" equation="k = \frac{\pi}{a} d"/>
+          <iv-equation-box :stylise="false" equation="d" />
           <iv-slider @sliderChanged="dChange" :colorBlock="green" :min="-10" :max="10" :init_val="0.1" :sliderName="'dSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-equation-box :stylise="false" equation="u_k"/>
           <iv-slider @sliderChanged="uChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uSlider'" :unit="'test unit'" :step="0.01" />
         </iv-toggle-hotspot>
 
       </template> 
 
-        <!--Main simulation-->
-        <MainStage v-bind:d="dSlider" v-bind:u="uSlider"></MainStage>
-        <iv-equation-box :stylise="false" equation="k"/> in the first Brillouin Zone
-        <FBZ v-bind:d="dSlider"></FBZ>
+      <!--Main simulation-->
+      <MainVis v-bind:d="dSlider" v-bind:u="uSlider"></MainVis>
+      <iv-equation-box :stylise="false" equation="k" /> in the first Brillouin Zone
+      <FBZ v-bind:d="dSlider"></FBZ>
 
     </iv-visualisation>
   </div>
 </template>
 
 <script>
-import MainStage from './components/1D_mainstage.vue';
+import MainVis from './components/1D_mainVis.vue';
 import FBZ from './components/1D_FBZ.vue';
 import Dispersion from './components/1D_dispersion.vue';
 
 export default {
     components:{
-        MainStage,
+        MainVis,
         FBZ,
         Dispersion
     },
