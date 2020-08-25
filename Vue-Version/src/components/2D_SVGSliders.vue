@@ -1,5 +1,5 @@
 <template>
-    <div id="interactive-arrow" style="height: 50%; width:50%; padding:50px;">
+    <div id="interactive-arrow" style="height: 50%; width:50%; padding:50px;" v-on:mousemove="emitSVG">
     </div>
 </template>
 
@@ -7,18 +7,12 @@
 import * as d3 from 'd3';
 
 export default {
-    props:{
-        dx: {
-            default: 0.1,
-        },
-        dy: {
-            default: 0.1,
-        },
-        ux: {
-            default: -0.5,
-        },
-        uy: {
-            default: -0.5,
+    data(){
+        return{
+            dx: 0.1,
+            dy: 0.1, 
+            ux: -0.5, 
+            uy: -0.5,
         }
     },
     methods:{
@@ -43,10 +37,6 @@ export default {
         Arrow.core = {
             frame: function() {
                 Arrow.core.draw();
-                Arrow.rArrow.x = Arrow.dx;
-                Arrow.rArrow.y = Arrow.dy;
-                Arrow.uArrow.x = Arrow.ux;
-                Arrow.uArrow.y = Arrow.uy;
                 window.requestAnimationFrame(Arrow.core.frame);
             },
 
@@ -138,7 +128,8 @@ export default {
         Arrow.setup = {
             initConst: function() {
                 Arrow.width = document.getElementById('interactive-arrow').offsetWidth;
-                Arrow.height = document.getElementById('interactive-arrow').offsetHeight;
+                //Arrow.height = document.getElementById('interactive-arrow').offsetHeight;
+                Arrow.height = Arrow.width;
 
                 Arrow.strokeWidth = 2;
                 Arrow.tipRadius = 5;
@@ -183,7 +174,6 @@ export default {
                         arrow.y = xy[1];
                         Arrow.helpers.updateArrow(arrow);
                         Arrow.helpers.updateAPP(); // sync arrow values with main vis
-                        this.emit("SVGChanged", [this.dx, this.dy, this.ux, this.uy]);
                     };
                 }
                 Arrow.rArrow.tip.call(d3.drag().on('drag', dragged(Arrow.rArrow)));

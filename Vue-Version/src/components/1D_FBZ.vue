@@ -10,6 +10,9 @@ export default {
     props:{
         d: {
             default: 0.1,
+        },
+        dFBZ: {
+            default: 0.1,
         }
     },
     mounted(){

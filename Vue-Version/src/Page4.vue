@@ -64,29 +64,32 @@ export default {
     components:{
         MainVis,
     },
+    data(){
+        return{
+            dxSlider: this.init_d,
+            dySlider: this.init_null,
+            dzSlider: this.init_null,
+            uxSlider: this.init_null,
+            uySlider: this.init_null,
+            uzSlider: this.init_u,
+            dotProduct: this.init_dot,
+            crossProduct: this.init_cross,
+        }
+    },
     props:{
-        dxSlider: {
+        init_null: {
+            default: 0.0,
+        },
+        init_d: {
             default: 0.5,
         },
-        dySlider: {
-            default: 0.0,
-        },
-        dzSlider: {
-            default: 0.0,
-        },
-        uxSlider: {
-            default: 0.0,
-        },
-        uySlider: {
-            default: 0.0,
-        },
-        uzSlider: {
+        init_u: {
             default: 0.5,
         },
-        dotProduct: {
-          default: "0.00",
+        init_dot: {
+            default: "0.00",
         },
-        crossProduct: {
+        init_cross: {
           default: "0.79",
         }
     },

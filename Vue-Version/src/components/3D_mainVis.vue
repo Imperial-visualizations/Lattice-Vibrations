@@ -120,7 +120,8 @@ export default {
                 Vis.Nphase = 2*Vis.Nx;
 
                 Vis.canvasx = document.getElementById('main-vis').offsetWidth;
-                Vis.canvasy = document.getElementById('main-vis').offsetHeight;
+                //Vis.canvasy = document.getElementById('main-vis').offsetHeight;
+                Vis.canvasy = Vis.canvasx;
 
                 Vis.pointR = 0.10 * Vis.a;
             },

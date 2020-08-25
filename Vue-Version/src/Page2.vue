@@ -91,11 +91,17 @@ export default {
         FBZ,
         Dispersion
     },
+    data(){
+        return{
+            dSlider: this.init_d,
+            uSlider: this.init_u
+        }
+    },
     props:{
-        dSlider: {
+        init_d: {
             default: 0.1,
         },
-        uSlider: {
+        init_u: {
             default: 0.1,
         }
     },

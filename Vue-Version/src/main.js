@@ -1,7 +1,8 @@
 import Vue from 'vue'
+//import App from './App.vue'
 //import Page1 from './Page1.vue'
 //import Page2 from './Page2.vue'
-import Page3 from './Page3test.vue'
+import Page3 from './Page3.vue'
 //import Page4 from './Page4.vue'
 
 import ImpVis from "@impvis/components";

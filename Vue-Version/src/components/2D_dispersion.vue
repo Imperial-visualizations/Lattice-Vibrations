@@ -7,12 +7,18 @@
 import * as d3 from 'd3';
 
 export default {
-    props:{
-        dx: {
-            default: 0.1,
-        },
-        dy: {
-            default: 0.1,
+    data(){
+        return{
+            dx: 0.1,
+            dy: 0.1, 
+            ux: -0.5, 
+            uy: -0.5,
+        }
+    },
+    methods:{
+        emitSVG(){
+            console.log('hello');
+            this.$emit("SVGChanged", [this.dx, this.dy, this.ux, this.uy]);
         }
     },
     mounted(){
@@ -22,18 +28,14 @@ export default {
         let Vis = this;
 
         Vis.init = function() {
-            Vis.isRunning = false;
-
+            Vis.setup.initConsts();
+            Vis.setup.initData();
             Vis.setup.initGraph();
             Vis.setup.initDispersionDrag();
 
-            Vis.start();
+            Vis.core.frame();
         };
 
-        Vis.start = function() {
-            Vis.core.frame();
-            Vis.isRunning = true;
-        };
 
         Vis.core = {
             frame: function() {
@@ -52,22 +54,28 @@ export default {
         };
 
         Vis.setup = {
-            initGraph: function() {
-                //Code for dispersion graph
-                
+            initConsts: function() {
+
                 Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
                 //Vis.dispersionGraphHeight = document.getElementById('dispersion-graph').offsetHeight;
                 Vis.dispersionGraphHeight = Vis.dispersionGraphWidth;
+            
+            },
+            initData: function() {
 
-                var nx = Vis.dispersionGraphWidth+1, ny = Vis.dispersionGraphHeight+1, values = new Array(nx*ny);
-                for (var i = 0; i < nx; i++){
-                    for (var j = 0; j < ny ; j++){
-                        var k = i + nx*j;
-                        var dx = -1 + 2*i/nx;
-                        var dy = -1 + 2*j/ny;
-                        values[k] = Vis.workers.omega_k(dx, dy);
+                Vis.nx = Vis.dispersionGraphWidth+1, Vis.ny = Vis.dispersionGraphHeight+1, Vis.values = new Array(Vis.nx*Vis.ny);
+                for (var i = 0; i < Vis.nx; i++){
+                    for (var j = 0; j < Vis.ny ; j++){
+                        var k = i + Vis.nx*j;
+                        var dx = -1 + 2*i/Vis.nx;
+                        var dy = -1 + 2*j/Vis.ny;
+                        Vis.values[k] = Vis.workers.omega_k(dx, dy);
                     }
                 }
+
+            },
+            initGraph: function() {
+                //Code for dispersion graph
 
                 Vis.dispersionGraph = d3.select('#dispersion-graph')
                                         .append('canvas')
@@ -80,7 +88,7 @@ export default {
                 var color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
                 var path = d3.geoPath(null, Vis.dispersionContext);
                 var thresholds = d3.range(0, 2.82, 0.01);
-                var contours = d3.contours().size([nx, ny]);
+                var contours = d3.contours().size([Vis.nx, Vis.ny]);
                 
                 function fillGraph(geometry) {
                     Vis.dispersionContext.beginPath();
@@ -89,7 +97,7 @@ export default {
                     Vis.dispersionContext.fill();
                 }
                 
-                contours.thresholds(thresholds)(values).forEach(fillGraph);
+                contours.thresholds(thresholds)(Vis.values).forEach(fillGraph);
 
                 //Preparing SVG for dispersion dot and legend
                 Vis.dispersionSVG = d3.select('#dispersion-graph')
@@ -112,6 +120,7 @@ export default {
                 var legendYOffset = 0.1*Vis.dispersionGraphHeight;
                 var legendHeight = 0.8*Vis.dispersionGraphHeight;
                 var legendWidth = 0.15*Vis.dispersionGraphWidth;
+                
                 //Box for legend scale
                 Vis.legendSVG = Vis.dispersionSVG.append("rect")
                                     .attr("x", legendXOffset)
@@ -122,7 +131,7 @@ export default {
                                     .style("fill", "none")
                                     .style("stroke-width", 1);
                                     
-                for (i = 0; i < 14 ; i++){
+                for (var i = 0; i < 14 ; i++){
                     Vis.dispersionSVG.append("rect")
                     .attr("x", legendXOffset)
                     .attr("y", legendHeight*(14-i)/14)
@@ -152,6 +161,7 @@ export default {
 
                 Vis.dispersionDot = Vis.dispersionSVG
                                         .append('circle')
+                                        .attr(':v-on:mousemove', this.emitSVG)
                                         .attr("cx", 0)
                                         .attr("cy", 0)
                                         .attr("r", 5)
