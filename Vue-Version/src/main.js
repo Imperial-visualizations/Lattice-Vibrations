@@ -1,7 +1,7 @@
 import Vue from 'vue'
 //import Page1 from './Page1.vue'
-import Page2 from './Page2.vue'
-//import Page3 from './Page3test.vue'
+//import Page2 from './Page2.vue'
+import Page3 from './Page3test.vue'
 //import Page4 from './Page4.vue'
 
 import ImpVis from "@impvis/components";
@@ -11,5 +11,5 @@ Vue.config.productionTip = false
 Vue.use(ImpVis);
 
 new Vue({
-  render: h => h(Page2),
+  render: h => h(Page3),
 }).$mount('#app')

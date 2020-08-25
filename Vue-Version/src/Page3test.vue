@@ -6,7 +6,7 @@
       <template #hotspots>
 
         <iv-pane position="right" style="overflow-y: scroll" format="push">
-
+          <Dispersion v-bind:dx="dxSlider" v-bind:dy="dySlider"></Dispersion>
         </iv-pane>
         <iv-pane position="left" style="overflow-y: scroll" format="push">
 
@@ -68,6 +68,8 @@
       <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
       <iv-equation-box :stylise="false" :equation=crossProduct />
 
+      <SVGSliders @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></SVGSliders>
+
     </iv-visualisation>
   </div>
 </template>
@@ -75,12 +77,14 @@
 <script>
 import * as math from 'mathjs';
 import MainVis from './components/2D_mainVis.vue';
-
+import SVGSliders from './components/2D_SVGSliders.vue';
+import Dispersion from './components/2D_dispersion.vue';
 
 export default {
     components:{
         MainVis,
-
+        SVGSliders,
+        Dispersion
     },
     props:{
         dxSlider: {
@@ -103,6 +107,9 @@ export default {
         }
     },
     methods:{
+        updateAll(e){
+          console.log(e);
+        },
         dxChange(e){
             this.dxSlider = e;
             this.dotAndCrossProducts();
