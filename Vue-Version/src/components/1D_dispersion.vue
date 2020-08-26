@@ -1,5 +1,5 @@
 <template>
-    <div id="dispersion-graph" style="height: 25%; width:50%; padding:50px;">
+    <div @sliderChanged="change" id="dispersion-graph" style="height: 25%; width:50%; padding:50px;">
     </div>
 </template>
 

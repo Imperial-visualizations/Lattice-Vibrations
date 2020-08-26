@@ -7,12 +7,18 @@
 import * as d3 from 'd3';
 
 export default {
-    data(){
-        return{
-            dx: 0.1,
-            dy: 0.1, 
-            ux: -0.5, 
-            uy: -0.5,
+    props:{
+        dx: {
+            default: 0.1,
+        },
+        dy: {
+            default: 0.1,
+        },
+        ux: {
+            default: -0.5,
+        },
+        uy: {
+            default: -0.5,
         }
     },
     methods:{
@@ -31,7 +37,7 @@ export default {
             Vis.setup.initConsts();
             Vis.setup.initData();
             Vis.setup.initGraph();
-            Vis.setup.initDispersionDrag();
+            //Vis.setup.initDispersionDrag();
 
             Vis.core.frame();
         };
@@ -56,7 +62,8 @@ export default {
         Vis.setup = {
             initConsts: function() {
 
-                Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
+                Vis.dispersionGraphWidth = 250;
+                //Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
                 //Vis.dispersionGraphHeight = document.getElementById('dispersion-graph').offsetHeight;
                 Vis.dispersionGraphHeight = Vis.dispersionGraphWidth;
             

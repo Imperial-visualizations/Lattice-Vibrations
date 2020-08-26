@@ -1,5 +1,5 @@
 <template>
-    <div id="main-vis" style="height: 50%; width:50%; padding:50px;">
+    <div id="main-vis" style="height: 35%; width:35%; padding:50px;">
     </div>
 </template>
 

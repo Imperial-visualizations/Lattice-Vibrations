@@ -5,9 +5,6 @@
 
       <template #hotspots>
 
-        <iv-pane position="right" style="overflow-y: scroll" format="push">
-          <Dispersion @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></Dispersion>
-        </iv-pane>
         <iv-pane position="left" style="overflow-y: scroll" format="push">
 
           <p>
@@ -47,28 +44,25 @@
 
         </iv-pane>
 
-        <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
-          <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \end{bmatrix}"/>
-          <iv-equation-box :stylise="false" equation="d_x"/>
-          <iv-slider @sliderChanged="dxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dxSlider'" :unit="'test unit'" :step="0.01" />
-          <iv-equation-box :stylise="false" equation="d_y"/>
-          <iv-slider @sliderChanged="dyChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dySlider'" :unit="'test unit'" :step="0.01" />
-          <iv-equation-box :stylise="false" equation="u_{k_x}"/>
-          <iv-slider @sliderChanged="uxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uxSlider'" :unit="'test unit'" :step="0.01" />
-          <iv-equation-box :stylise="false" equation="u_{k_y}"/>
-          <iv-slider @sliderChanged="uyChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uySlider'" :unit="'test unit'" :step="0.01" />
-        </iv-toggle-hotspot>
-
       </template> 
 
-      <!--Main simulation-->
-      <MainVis v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></MainVis>
-      <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
-      <iv-equation-box :stylise="false" :equation=dotProduct />
-      <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
-      <iv-equation-box :stylise="false" :equation=crossProduct />
-
-      <SVGSliders @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></SVGSliders>
+      <div style="display: block;">      
+        <MainVis style="float:left; margin-right:10%;" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></MainVis>
+        <div style="display:grid;">
+          <div style="display: block;"> 
+            <div style="width: 50%; float: left;">
+              <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
+              <iv-equation-box :stylise="false" :equation=dotProduct />
+            </div>
+            <div style="width: 50%; float: left;">
+              <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
+              <iv-equation-box :stylise="false" :equation=crossProduct />
+            </div>
+          </div>
+          <SVGSliders @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></SVGSliders>
+          <Dispersion @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></Dispersion>
+        </div>
+      </div>
 
     </iv-visualisation>
   </div>
@@ -77,7 +71,7 @@
 <script>
 import * as math from 'mathjs';
 import MainVis from './components/2D_mainVis.vue';
-import SVGSliders from './components/2D_SVGSlidersTest.vue';
+import SVGSliders from './components/2D_SVGSliders.vue';
 import Dispersion from './components/2D_dispersion.vue';
 
 export default {
@@ -115,24 +109,8 @@ export default {
           this.dxSlider = e[0],
           this.dySlider = e[1],
           this.uxSlider = e[2],
-          this.uySlider = e[3]
-          this.$emit('sliderChanged');
-        },
-        dxChange(e){
-            this.dxSlider = e;
-            this.dotAndCrossProducts();
-        },
-        dyChange(e){
-            this.dySlider = e;
-            this.dotAndCrossProducts();
-        },
-        uxChange(e){
-            this.uxSlider = e;
-            this.dotAndCrossProducts();
-        },
-        uyChange(e){
-            this.uySlider = e;
-            this.dotAndCrossProducts();
+          this.uySlider = e[3],
+          this.dotAndCrossProducts();
         },
         dotAndCrossProducts(){
           let ukvec = [this.uxSlider, this.uySlider, 0];
