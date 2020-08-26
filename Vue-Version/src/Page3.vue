@@ -77,7 +77,7 @@
 <script>
 import * as math from 'mathjs';
 import MainVis from './components/2D_mainVis.vue';
-import SVGSliders from './components/2D_SVGSliders.vue';
+import SVGSliders from './components/2D_SVGSlidersTest.vue';
 import Dispersion from './components/2D_dispersion.vue';
 
 export default {
