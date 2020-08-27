@@ -47,20 +47,23 @@
       </template> 
 
       <div style="display: block;">      
-        <MainVis style="float:left; margin-right:10%;" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></MainVis>
+        <MainVis style="float:left; margin-right:10%;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
         <div style="display:grid;">
           <div style="display: block;"> 
-            <div style="width: 50%; float: left;">
+            <div style="width: 33%; float: left;">
+              <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \end{bmatrix}"/>
+            </div>
+            <div style="width: 33%; float: left;">
               <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
               <iv-equation-box :stylise="false" :equation=dotProduct />
             </div>
-            <div style="width: 50%; float: left;">
+            <div style="width: 33%; float: left;">
               <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
               <iv-equation-box :stylise="false" :equation=crossProduct />
             </div>
           </div>
-          <SVGSliders @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></SVGSliders>
-          <Dispersion @SVGChanged="updateAll" v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:ux="uxSlider" v-bind:uy="uySlider"></Dispersion>
+          <SVGSliders ref='SVGSliders' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></SVGSliders>
+          <Dispersion ref='DispersionSlider' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></Dispersion>
         </div>
       </div>
 
@@ -110,6 +113,8 @@ export default {
           this.dySlider = e[1],
           this.uxSlider = e[2],
           this.uySlider = e[3],
+          this.$refs.SVGSliders.refresh(e);
+          this.$refs.DispersionSlider.refresh(e);
           this.dotAndCrossProducts();
         },
         dotAndCrossProducts(){

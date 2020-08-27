@@ -1,5 +1,5 @@
 <template>
-    <svg id='box' :width="dimensionOfBox" :height="dimensionOfBox">
+    <svg :width="dimensionOfBox" :height="dimensionOfBox">
     
         <rect x="0" y="0" :height="dimensionOfBox" :width="dimensionOfBox" stroke="black" fill="none" stroke-width="1">
         </rect>
@@ -17,28 +17,45 @@
 
 <script>
 export default {
+    props: {
+        init_length: {
+            default: 250
+        }
+    },
     data(){
         return{
-            dimensionOfBox: 250,
+            dimensionOfBox: this.init_length,
             dx: 0.1,
             dy: 0.1, 
             ux: -0.5, 
             uy: -0.5,
-            dcx: (1+0.1)*300/2,
-            dcy: (1+0.1)*300/2,
-            ucx: (1-0.5)*300/2,
-            ucy: (1-0.5)*300/2,
-            dtextx: (1+0.1)*300/2 + 10,
-            dtexty: (1+0.1)*300/2 + 10,
+            dcx: (1+0.1)*this.init_length/2,
+            dcy: (1-0.1)*this.init_length/2,
+            ucx: (1-0.5)*this.init_length/2,
+            ucy: (1+0.5)*this.init_length/2,
+            dtextx: (1+0.1)*this.init_length/2 + 10,
+            dtexty: (1-0.1)*this.init_length/2 + 10,
             dtext: 'd (0.1, 0.1)',
-            utextx: (1-0.5)*300/2 + 10,
-            utexty: (1-0.5)*300/2 + 10,
+            utextx: (1-0.5)*this.init_length/2 + 10,
+            utexty: (1+0.5)*this.init_length/2 + 10,
             utext: 'u (-0.5, -0.5)',
             dragOffsetX: null,
             dragOffsetY: null
         }
     },
     methods:{
+        refresh(e){
+            this.dx = e[0],
+            this.dy = e[1],
+            this.ux = e[2],
+            this.uy = e[3],
+            this.dcx = (this.dx + 1)*this.dimensionOfBox/2;
+            this.dcy = (1 - this.dy)*this.dimensionOfBox/2;
+            this.ucx = (this.ux + 1)*this.dimensionOfBox/2;
+            this.ucy = (1 - this.uy)*this.dimensionOfBox/2;
+            this.update_dtext();
+            this.update_utext();
+        },
         convertCoords(cx, cy) {
             var x = 2*cx/this.dimensionOfBox - 1;
             var y = 1 - 2*cy/this.dimensionOfBox;
@@ -147,14 +164,6 @@ export default {
         emitSVG(){
             this.$emit("SVGChanged", [this.dx, this.dy, this.ux, this.uy]);
         }
-    },
-    mounted(){
-        var element = document.getElementById('box');
-        var bound = element.getBoundingClientRect();
-        var html = document.documentElement;
-
-        this.mainTopOffset = bound.top + window.pageYOffset - html.clientTop;
-        this.mainLeftOffset = bound.left + window.pageXOffset - html.clientLeft;
     }
 }
 </script>

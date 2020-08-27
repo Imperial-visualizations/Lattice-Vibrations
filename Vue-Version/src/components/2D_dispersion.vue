@@ -1,5 +1,13 @@
 <template>
-    <div id="dispersion-graph" style="height: 50%; width:50%; padding:50px;">
+    <div>
+        <canvas id="dispersion-graph" :width="dimensionOfBox" :height="dimensionOfBox"></canvas>
+        <svg id="dispersion-svg" :width="1.4*dimensionOfBox" :height="dimensionOfBox" :transform="SVGTranslation">
+            <rect x="0" y="0" :height="dimensionOfBox" :width="dimensionOfBox" stroke="black" fill="none" stroke-width="1"></rect>
+            <rect :x="1.175*dimensionOfBox" :y="0.1*dimensionOfBox" :height="0.8*dimensionOfBox" :width="0.15*dimensionOfBox" stroke="black" fill="none" stroke-width="1"></rect>
+
+            <text :x="dtextx" :y="dtexty" font-size="12" :text="dtext">{{dtext}}</text>
+            <circle @mousedown="startdSlider" @mouseup="stopdSlider" r="5" :cx="dcx" :cy="dcy"></circle>
+        </svg>
     </div>
 </template>
 
@@ -7,201 +15,182 @@
 import * as d3 from 'd3';
 
 export default {
-    props:{
-        dx: {
-            default: 0.1,
-        },
-        dy: {
-            default: 0.1,
-        },
-        ux: {
-            default: -0.5,
-        },
-        uy: {
-            default: -0.5,
+    props: {
+        init_length: {
+            default: 250
+        }
+    },
+    data(){
+        return{
+            dimensionOfBox: this.init_length,
+            dx: 0.1,
+            dy: 0.1, 
+            ux: -0.5, 
+            uy: -0.5,
+            dcx: (1+0.1)*this.init_length/2,
+            dcy: (1-0.1)*this.init_length/2,
+            ucx: (1-0.5)*this.init_length/2,
+            ucy: (1+0.5)*this.init_length/2,
+            dtextx: (1+0.1)*this.init_length/2 + 10,
+            dtexty: (1-0.1)*this.init_length/2 + 10,
+            dtext: 'd (0.1, 0.1)',
+            utextx: (1-0.5)*this.init_length/2 + 10,
+            utexty: (1+0.5)*this.init_length/2 + 10,
+            utext: 'u (-0.5, -0.5)',
+            SVGTranslation: "translate(0,"+ -1.025*this.init_length+")",
+            dragOffsetX: null,
+            dragOffsetY: null
         }
     },
     methods:{
+        refresh(e){
+            this.dx = e[0],
+            this.dy = e[1],
+            this.ux = e[2],
+            this.uy = e[3],
+            this.dcx = (this.dx + 1)*this.dimensionOfBox/2;
+            this.dcy = (1 - this.dy)*this.dimensionOfBox/2;
+            this.update_dtext();
+        },
+        convertCoords(cx, cy) {
+            var x = 2*cx/this.dimensionOfBox - 1;
+            var y = 1 - 2*cy/this.dimensionOfBox;
+            if (x > 1) {
+                x = 1;
+            } else if (x < -1){
+                x = -1;
+            }
+            if (y > 1) {
+                y = 1;
+            } else if (y < -1) {
+                y = -1;
+            }
+            return [x, y];
+        },
+        startdSlider() {
+            this.dragOffsetX = event.clientX - this.dcx;
+            this.dragOffsetY = event.clientY - this.dcy;
+            this.$parent.$el.addEventListener('mousemove', this.movedSlider);
+        },
+        movedSlider() {
+            var x = event.clientX - this.dragOffsetX;
+            var y = event.clientY - this.dragOffsetY;
+            if (x > this.dimensionOfBox) {
+                x = this.dimensionOfBox;
+            } else if (x < 0){
+                x = 0;
+            }
+            if (y > this.dimensionOfBox) {
+                y = this.dimensionOfBox;
+            } else if (y < 0) {
+                y = 0;
+            }
+            this.dcx = x;
+            this.dcy = y;
+            var xy = this.convertCoords(this.dcx, this.dcy);
+            this.dx = xy[0];
+            this.dy = xy[1];
+            this.update_dtext();
+            this.emitSVG();
+        },
+        stopdSlider() {
+            this.dragOffsetX = this.dragOffsetY = null;
+            this.$parent.$el.removeEventListener('mousemove', this.movedSlider);
+        },
+        update_dtext() {
+            this.dtext = 'd (' + Number(this.dx).toFixed(2) + ', ' + Number(this.dy).toFixed(2) + ')';
+            if (this.dcx < 0.33*this.dimensionOfBox) {
+                this.dtextx = this.dcx + 10;
+            } else if (this.dcx < 0.67*this.dimensionOfBox) {
+                this.dtextx = this.dcx - 50;
+            } else {
+                this.dtextx = this.dcx - 90;
+            }   
+            if (this.dcy < 0.33*this.dimensionOfBox) {
+                this.dtexty = this.dcy + 20;
+            } else {
+                this.dtexty = this.dcy - 20;
+            }  
+        },
         emitSVG(){
-            console.log('hello');
             this.$emit("SVGChanged", [this.dx, this.dy, this.ux, this.uy]);
+        },
+        omega_k(dx, dy) {
+            return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
         }
     },
     mounted(){
-        //--------------------//
-        //Code for main stage //
-        //--------------------//
-        let Vis = this;
 
-        Vis.init = function() {
-            Vis.setup.initConsts();
-            Vis.setup.initData();
-            Vis.setup.initGraph();
-            //Vis.setup.initDispersionDrag();
-
-            Vis.core.frame();
-        };
-
-
-        Vis.core = {
-            frame: function() {
-                //Update dot on the dispersion graph
-                var cx = Vis.dispersionGraphWidth*(Vis.dx+1)/2;
-                var cy = Vis.dispersionGraphHeight*(1-Vis.dy)/2;
-                Vis.dispersionDot.attr("cx", cx).attr("cy", cy);
-                window.requestAnimationFrame(Vis.core.frame);
+        var dispersionGraphWidth = this.dimensionOfBox;
+        var dispersionGraphHeight = this.dimensionOfBox;
+    
+        var nx = dispersionGraphWidth+1, ny = dispersionGraphHeight+1, values = new Array(nx*ny);
+        for (var i = 0; i < nx; i++){
+            for (var j = 0; j < ny ; j++){
+                var k = i + nx*j;
+                var dx = -1 + 2*i/nx;
+                var dy = -1 + 2*j/ny;
+                values[k] = this.omega_k(dx, dy);
             }
-        };
+        }
 
-        Vis.workers = {
-            omega_k: function(dx, dy) {
-                return Math.sqrt(4*1*(Math.pow(Math.sin(dx*Math.PI*1/2), 2) + Math.pow(Math.sin(dy*Math.PI*1/2), 2)));
-            }
-        };
+        //Code for dispersion graph
 
-        Vis.setup = {
-            initConsts: function() {
+        var dispersionGraph = d3.select('#dispersion-graph')
+        var dispersionContext = dispersionGraph.node().getContext('2d');  
 
-                Vis.dispersionGraphWidth = 250;
-                //Vis.dispersionGraphWidth = document.getElementById('dispersion-graph').offsetWidth;
-                //Vis.dispersionGraphHeight = document.getElementById('dispersion-graph').offsetHeight;
-                Vis.dispersionGraphHeight = Vis.dispersionGraphWidth;
-            
-            },
-            initData: function() {
+        //Making contour
+        var color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
+        var path = d3.geoPath(null, dispersionContext);
+        var thresholds = d3.range(0, 2.82, 0.01);
+        var contours = d3.contours().size([nx, ny]);
+        
+        function fillGraph(geometry) {
+            dispersionContext.beginPath();
+            path(geometry);
+            dispersionContext.fillStyle = color(geometry.value);
+            dispersionContext.fill();
+        }
+        
+        contours.thresholds(thresholds)(values).forEach(fillGraph);
 
-                Vis.nx = Vis.dispersionGraphWidth+1, Vis.ny = Vis.dispersionGraphHeight+1, Vis.values = new Array(Vis.nx*Vis.ny);
-                for (var i = 0; i < Vis.nx; i++){
-                    for (var j = 0; j < Vis.ny ; j++){
-                        var k = i + Vis.nx*j;
-                        var dx = -1 + 2*i/Vis.nx;
-                        var dy = -1 + 2*j/Vis.ny;
-                        Vis.values[k] = Vis.workers.omega_k(dx, dy);
-                    }
-                }
+        //Code for legend
+        var legendXOffset = 1.175*dispersionGraphWidth;
+        var legendYOffset = 0.1*dispersionGraphHeight;
+        var legendHeight = 0.8*dispersionGraphHeight;
+        var legendWidth = 0.15*dispersionGraphWidth;
+        
+        var dispersionSVG = d3.select('#dispersion-svg')
+    
+        //Add small boxes within legend
+        for (i = 0; i < 14 ; i++){
+            dispersionSVG.append("rect")
+            .attr("x", legendXOffset)
+            .attr("y", legendHeight*(14-i)/14)
+            .attr("transform", "translate(0," + legendYOffset/2.2 + ")")
+            .attr("height", legendHeight/14)
+            .attr("width", legendWidth)
+            .style("fill", color(2.82*i/14));
+        }
 
-            },
-            initGraph: function() {
-                //Code for dispersion graph
+        var legendScale = d3.scaleLinear()
+            .domain([0, 2.8])
+            .range([legendHeight+legendYOffset, legendYOffset]);
 
-                Vis.dispersionGraph = d3.select('#dispersion-graph')
-                                        .append('canvas')
-                                        .attr('width', Vis.dispersionGraphWidth)
-                                        .attr('height', Vis.dispersionGraphHeight);
+        //Legend scale axis
+        dispersionSVG.append('g')
+        .attr("transform", "translate("+ legendXOffset+ ", 0)")  // Position of x axis
+        .call(d3.axisLeft(legendScale));
 
-                Vis.dispersionContext = Vis.dispersionGraph.node().getContext('2d');  
-
-                //Making contour
-                var color = d3.scaleSequential(d3.interpolateTurbo).domain([0, 2.82]);
-                var path = d3.geoPath(null, Vis.dispersionContext);
-                var thresholds = d3.range(0, 2.82, 0.01);
-                var contours = d3.contours().size([Vis.nx, Vis.ny]);
+        //Legend scale title
+        dispersionSVG.append("text")
+        .attr("text-anchor", "end")
+        .attr("font-style", "italic")
+        .attr('font-size', 10*legendWidth/25)
+        .attr("x", legendXOffset+legendWidth)
+        .attr("y", legendYOffset/2)
+        .text("ω(k) = E/ħ");                    
                 
-                function fillGraph(geometry) {
-                    Vis.dispersionContext.beginPath();
-                    path(geometry);
-                    Vis.dispersionContext.fillStyle = color(geometry.value);
-                    Vis.dispersionContext.fill();
-                }
-                
-                contours.thresholds(thresholds)(Vis.values).forEach(fillGraph);
-
-                //Preparing SVG for dispersion dot and legend
-                Vis.dispersionSVG = d3.select('#dispersion-graph')
-                                    .append("svg")
-                                    .attr('width', 1.4*Vis.dispersionGraphWidth)
-                                    .attr('height', Vis.dispersionGraphHeight)
-                                    .attr('transform', "translate(0, "+ -1.025*Vis.dispersionGraphHeight + ")");
-
-                //Box to check if Canvas and SVG are aligned
-                Vis.dispersionSVG.append("rect")
-                                    .attr("x", 0)
-                                    .attr("y", 0)
-                                    .attr("height", Vis.dispersionGraphHeight)
-                                    .attr("width", Vis.dispersionGraphWidth)
-                                    .style("stroke", 'black')
-                                    .style("fill", "none")
-                                    .style("stroke-width", 1);
-            
-                var legendXOffset = 1.175*Vis.dispersionGraphWidth;
-                var legendYOffset = 0.1*Vis.dispersionGraphHeight;
-                var legendHeight = 0.8*Vis.dispersionGraphHeight;
-                var legendWidth = 0.15*Vis.dispersionGraphWidth;
-                
-                //Box for legend scale
-                Vis.legendSVG = Vis.dispersionSVG.append("rect")
-                                    .attr("x", legendXOffset)
-                                    .attr("y", legendYOffset)
-                                    .attr("height", legendHeight)
-                                    .attr("width", legendWidth)
-                                    .style("stroke", 'black')
-                                    .style("fill", "none")
-                                    .style("stroke-width", 1);
-                                    
-                for (var i = 0; i < 14 ; i++){
-                    Vis.dispersionSVG.append("rect")
-                    .attr("x", legendXOffset)
-                    .attr("y", legendHeight*(14-i)/14)
-                    .attr("transform", "translate(0," + legendYOffset/2.2 + ")")
-                    .attr("height", legendHeight/14)
-                    .attr("width", legendWidth)
-                    .style("fill", color(2.82*i/14));
-                }
-
-                var legendScale = d3.scaleLinear()
-                    .domain([0, 2.8])
-                    .range([legendHeight+legendYOffset, legendYOffset]);
-
-                //Legend scale axis
-                Vis.dispersionSVG.append('g')
-                .attr("transform", "translate("+ legendXOffset+ ", 0)")  // Position of x axis
-                .call(d3.axisLeft(legendScale));
-
-                //Legend scale title
-                Vis.dispersionSVG.append("text")
-                .attr("text-anchor", "end")
-                .attr("font-style", "italic")
-                .attr('font-size', 10*legendWidth/25)
-                .attr("x", legendXOffset+legendWidth)
-                .attr("y", legendYOffset/2)
-                .text("ω(k) = E/ħ");
-
-                Vis.dispersionDot = Vis.dispersionSVG
-                                        .append('circle')
-                                        .attr(':v-on:mousemove', this.emitSVG)
-                                        .attr("cx", 0)
-                                        .attr("cy", 0)
-                                        .attr("r", 5)
-                                        .attr("fill", "black");               
-            },
-
-            initDispersionDrag: function() {
-                function dispersionDragged() {
-                    return function() {
-                        var x = 2*d3.event.x/Vis.dispersionGraphWidth - 1;
-                        var y = 1 - 2*d3.event.y/Vis.dispersionGraphHeight;
-                        if (x > 1) {
-                            x = 1;
-                        } else if (x < -1){
-                            x = -1;
-                        }
-                        if (y > 1) {
-                            y = 1;
-                        } else if (y < -1) {
-                            y = -1;
-                        }
-                        Vis.dx = x;
-                        Vis.dy = y;
-                    };
-                }
-                Vis.dispersionDot.call(d3.drag().on('drag', dispersionDragged(Vis.dispersionDot)));
-            },
-        };
-
-        document.addEventListener('DOMContentLoaded', Vis.init);
-                
-                
-
     }
     
 }
