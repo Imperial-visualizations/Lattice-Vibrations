@@ -1,5 +1,5 @@
 <template>
-    <div @sliderChanged="change" id="dispersion-graph" style="height: 25%; width:50%; padding:50px;">
+    <div @sliderChanged="change" id="dispersion-graph" style="height: 50%; width:50%; padding:50px;">
     </div>
 </template>
 
@@ -39,7 +39,8 @@ export default {
         Vis.setup = {
             initConsts: function() {
                 Vis.dispersionWidth = document.getElementById('dispersion-graph').offsetWidth;
-                Vis.dispersionHeight = document.getElementById('dispersion-graph').offsetHeight;
+                //Vis.dispersionHeight = document.getElementById('dispersion-graph').offsetHeight;
+                Vis.dispersionHeight = 0.8*Vis.dispersionWidth;
                 // set the dimensions and margins of the graph
                 Vis.margin = {top: 0.1*Vis.dispersionHeight, right: 0.1*Vis.dispersionWidth, bottom: 0.2*Vis.dispersionHeight, left: 0.1*Vis.dispersionWidth},
                 Vis.width = 0.8*Vis.dispersionWidth,

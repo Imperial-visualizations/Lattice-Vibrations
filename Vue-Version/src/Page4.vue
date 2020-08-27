@@ -25,6 +25,58 @@
               The types of waves available are still longitudinal, transverse or a combination of both.
               This is indicated by <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k|"/> and <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k|"/>.
           </p>
+
+          <iv-dropdown-text-box buttonText="Derivation">
+                <p>
+                    <br>
+                    We first consider the one dimensional case of an infinite chain of identical atoms.
+                    Let us label the atoms by an integer index <iv-equation-box :stylise="false" equation="n"/>, with positions <iv-equation-box :stylise="false" equation="x_{n}(t)"/> at time <iv-equation-box :stylise="false" equation="t"/>.
+                    Let the mass of the individual atoms be <iv-equation-box :stylise="false" equation="m"/> and the equilibrium spacing be <iv-equation-box :stylise="false" equation="a"/> so that 
+                    their equilibrium positions are <iv-equation-box :stylise="false" equation="x^{eqm}_{n} = n a"/>.
+                    Denote the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom as <iv-equation-box :stylise="false" equation="u_{n}(t)"/> so that
+                    <iv-equation-box :stylise="true" equation="u_{n}(t) = x_{n}(t) - n a"/>
+
+                    There are two approximations that we are taking: <br>
+                    1. Small oscillations that allows simple harmonic approximation for the potential <br>
+                    2. Interactions with only the nearest neighbours
+                    <br><br>
+                    The potential is central so we can write the total potential energy in the system as
+                    <iv-equation-box :stylise="true" equation="V_{tot} = \frac{\kappa}{2} \sum_{n} (u_{n+1} - u_{n})^{2}"/>
+                    
+                    This can be interpreted as a chain of balls connected by springs obeying Hooke's Law with spring constant <iv-equation-box :stylise="false" equation="\kappa"/>.
+                    <br><br>
+                    The net force on the <iv-equation-box :stylise="false" equation="n^{th}"/> atom is 
+                    <iv-equation-box :stylise="true" equation="F_{n} = - \frac{\partial V_{tot}}{\partial x_{n}} = \kappa (u_{n+1} + u_{n-1} - 2u_n)"/>
+                    since, by chain rule, <iv-equation-box :stylise="false" equation="\frac{\partial }{\partial x_{n}} = \frac{d u_n}{d x_n} \frac{\partial }{\partial u_{n}} = \frac{\partial }{\partial u_{n}}"/>.
+                    <br><br>
+                    By Newton's second law, we have the equation of motion in terms of the displacement <iv-equation-box :stylise="false" equation="u_n"/>:
+                    <iv-equation-box :stylise="true" equation="m \frac{d^2 u_n}{d t^2} = \kappa (u_{n+1} + u_{n-1} - 2u_n)"/>
+                    for each <iv-equation-box :stylise="false" equation="n"/>.
+                    <br><br>
+                    This equation of motion takes the form of eigenfunction so we can try the solution
+                    <iv-equation-box :stylise="true" equation="u_n(t) = \tilde{u}_k e^{i(nka - \omega t)}"/>
+                    with the wavevector <iv-equation-box :stylise="false" equation="k"/> and frequency <iv-equation-box :stylise="false" equation="\omega"/>.
+                    We will later find out the relationship between <iv-equation-box :stylise="false" equation="k"/> and <iv-equation-box :stylise="false" equation="\omega"/> called the dispersion relation or frequency spectrum
+                    and hence label <iv-equation-box :stylise="false" equation="\omega = \omega_k"/>.
+                    <br><br>
+                    Due to the linearity of the equation of motion, we can make use of the Principle of Superposition to give a trial general solution
+                    <iv-equation-box :stylise="true" equation="u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)} "/>.
+                    
+                    Substituting the trial solution into the equation of motion gives 
+                    <iv-equation-box :stylise="true" equation="-m \omega^2 \tilde{u}_k e^{i(nka-\omega_kt)} = \kappa \tilde{u}_k e^{i(nka-\omega_kt)} (e^{ika} + e^{-ika} - 2)"/>.
+
+                    This must hold for all atoms <iv-equation-box :stylise="false" equation="n"/> and at all times <iv-equation-box :stylise="false" equation="t"/> so we can take out the common factor of <iv-equation-box :stylise="false" equation="e^{i(nka-\omega_kt)}"/>.
+                    Since <iv-equation-box :stylise="false" equation="\tilde{u}_k = 0"/> corresponds to no motion at all, we must have a non-zero <iv-equation-box :stylise="false" equation="\tilde{u}_k"/>, which we can divide out.
+                    We arrive at the dispersion relation for monatomic chain:
+                    <iv-equation-box :stylise="true" equation="\omega^2_k = \frac{2 \kappa}{m} (1-\cos ka) = 4 \omega^2_D \sin^2 \left( \frac{k a}{2} \right)"/>
+                    with
+                    <iv-equation-box :stylise="true" equation="\omega_D = \sqrt{\frac{\kappa}{m}}"/>.
+                    The dispersion relation is more conventionally written as 
+                    <iv-equation-box :stylise="true" equation="\omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|"/>
+                    This derivation can be extended to higher dimensions.
+                </p>
+
+          </iv-dropdown-text-box>
         </iv-pane>
 
         <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
@@ -45,12 +97,21 @@
 
       </template> 
 
-      <!--Main simulation-->
-      <MainVis v-bind:dx="dxSlider" v-bind:dy="dySlider" v-bind:dz="dzSlider" v-bind:ux="uxSlider" v-bind:uy="uySlider" v-bind:uz="uzSlider"></MainVis>
-      <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
-      <iv-equation-box :stylise="false" :equation=dotProduct />
-      <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
-      <iv-equation-box :stylise="false" :equation=crossProduct />
+      <div style="display: block;">      
+        <MainVis style="float:left; margin-right:10%;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
+        <div style="display:grid;">
+          <div style="display: block;"> 
+            <div style="width: 50%; float: left;">
+              <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
+              <iv-equation-box :stylise="false" :equation=dotProduct />
+            </div>
+            <div style="width: 50%; float: left;">
+              <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
+              <iv-equation-box :stylise="false" :equation=crossProduct />
+            </div>
+          </div>
+        </div>
+      </div>
 
     </iv-visualisation>
   </div>

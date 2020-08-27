@@ -4,10 +4,6 @@
     <iv-visualisation hotspotColumnHeight="100px">
 
       <template #hotspots>
-
-        <iv-pane position="right" style="overflow-y: scroll" format="push">
-          <Dispersion v-bind:d="dSlider"></Dispersion>
-        </iv-pane>
         <iv-pane position="left" style="overflow-y: scroll" format="push">
               We start with the one dimensional case: 
               imagine having a chain of identical atoms.
@@ -71,10 +67,20 @@
 
       </template> 
 
-      <!--Main simulation-->
-      <MainVis v-bind:d="dSlider" v-bind:u="uSlider"></MainVis>
-      <iv-equation-box :stylise="false" equation="k" /> in the first Brillouin Zone
-      <FBZ v-bind:d="dSlider"></FBZ>
+      <div style="display: block;">      
+        <MainVis style="float:left; margin-right:10%;" :d="dSlider" :u="uSlider"></MainVis>
+        <div style="display:grid;">
+          <div style="display: block; height: 30%"> 
+            <div style="float: left;">
+              <iv-equation-box :stylise="false" equation="k" /> in the first Brillouin Zone
+              <FBZ :d="dSlider"></FBZ>
+            </div>
+          </div>
+          <Dispersion :d="dSlider"></Dispersion>
+        </div>
+      </div>
+
+
 
     </iv-visualisation>
   </div>
