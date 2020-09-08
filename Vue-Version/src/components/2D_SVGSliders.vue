@@ -4,13 +4,13 @@
         <rect x="0" y="0" :height="dimensionOfBox" :width="dimensionOfBox" stroke="black" fill="none" stroke-width="1">
         </rect>
 
-        <text :x="dtextx" :y="dtexty" font-size="12" :text="dtext">{{dtext}}</text>
-        <line :x1="dimensionOfBox/2" :y1="dimensionOfBox/2" :x2="dcx" :y2="dcy" stroke-width="2" stroke='black'></line>
-        <circle @mousedown="startdSlider" @mouseup="stopdSlider" r="5" :cx="dcx" :cy="dcy"></circle>
+        <text :x="slider1_textx" :y="slider1_texty" font-size="12" :text="slider1_text">{{slider1_text}}</text>
+        <line :x1="dimensionOfBox/2" :y1="dimensionOfBox/2" :x2="slider1_cx" :y2="slider1_cy" stroke-width="2" stroke='black'></line>
+        <circle @mousedown="startSlider1" @mouseup="stopSlider1" r="5" :cx="slider1_cx" :cy="slider1_cy"></circle>
 
-        <text :x="utextx" :y="utexty" font-size="12" :text="utext">{{utext}}</text>
-        <line :x1="dimensionOfBox/2" :y1="dimensionOfBox/2" :x2="ucx" :y2="ucy" stroke-width="2" stroke='black'></line>
-        <circle @mousedown="startuSlider" @mouseup="stopuSlider" r="5" :cx="ucx" :cy="ucy"></circle>
+        <text :x="slider2_textx" :y="slider2_texty" font-size="12" :text="slider2_text">{{slider2_text}}</text>
+        <line :x1="dimensionOfBox/2" :y1="dimensionOfBox/2" :x2="slider2_cx" :y2="slider2_cy" stroke-width="2" stroke='black'></line>
+        <circle @mousedown="startSlider2" @mouseup="stopSlider2" r="5" :cx="slider2_cx" :cy="slider2_cy"></circle>
 
     </svg>
 </template>
@@ -18,43 +18,49 @@
 <script>
 export default {
     props: {
-        init_length: {
+        SVGBoxSize: {
             default: 250
+        },
+        slider1_name: {
+            default: 'd'
+        },
+        slider2_name: {
+            default: 'u'
         }
     },
     data(){
         return{
-            dimensionOfBox: this.init_length,
-            dx: 0.1,
-            dy: 0.1, 
-            ux: -0.5, 
-            uy: -0.5,
-            dcx: (1+0.1)*this.init_length/2,
-            dcy: (1-0.1)*this.init_length/2,
-            ucx: (1-0.5)*this.init_length/2,
-            ucy: (1+0.5)*this.init_length/2,
-            dtextx: (1+0.1)*this.init_length/2 + 10,
-            dtexty: (1-0.1)*this.init_length/2 + 10,
-            dtext: 'd (0.1, 0.1)',
-            utextx: (1-0.5)*this.init_length/2 + 10,
-            utexty: (1+0.5)*this.init_length/2 + 10,
-            utext: 'u (-0.5, -0.5)',
+            dimensionOfBox: this.SVGBoxSize,
+            slider1_x: 0.1,
+            slider1_y: 0.1, 
+            slider2_x: -0.5,
+            slider2_y: -0.5, 
+            slider1_cx: (1+0.1)*this.SVGBoxSize/2,
+            slider1_cy: (1-0.1)*this.SVGBoxSize/2,
+            slider2_cx: (1-0.5)*this.SVGBoxSize/2,
+            slider2_cy: (1+0.5)*this.SVGBoxSize/2,
+            slider1_textx: (1+0.1)*this.SVGBoxSize/2 + 10,
+            slider1_texty: (1-0.1)*this.SVGBoxSize/2 + 10,
+            slider1_text: this.slider1_name + ' (0.1, 0.1)',
+            slider2_textx: (1-0.5)*this.SVGBoxSize/2 + 10,
+            slider2_texty: (1+0.5)*this.SVGBoxSize/2 + 10,
+            slider2_text: this.slider2_name + ' (-0.5, -0.5)',
             dragOffsetX: null,
             dragOffsetY: null
         }
     },
     methods:{
         refresh(e){
-            this.dx = e[0],
-            this.dy = e[1],
-            this.ux = e[2],
-            this.uy = e[3],
-            this.dcx = (this.dx + 1)*this.dimensionOfBox/2;
-            this.dcy = (1 - this.dy)*this.dimensionOfBox/2;
-            this.ucx = (this.ux + 1)*this.dimensionOfBox/2;
-            this.ucy = (1 - this.uy)*this.dimensionOfBox/2;
-            this.update_dtext();
-            this.update_utext();
+            this.slider1_x = e[0],
+            this.slider1_y = e[1],
+            this.slider2_x = e[2],
+            this.slider2_y = e[3],
+            this.slider1_cx = (this.slider1_x + 1)*this.dimensionOfBox/2;
+            this.slider1_cy = (1 - this.slider1_y)*this.dimensionOfBox/2;
+            this.slider2_cx = (this.slider2_x + 1)*this.dimensionOfBox/2;
+            this.slider2_cy = (1 - this.slider2_y)*this.dimensionOfBox/2;
+            this.update_slider1_text();
+            this.update_slider2_text();
         },
         convertCoords(cx, cy) {
             var x = 2*cx/this.dimensionOfBox - 1;
@@ -71,12 +77,12 @@ export default {
             }
             return [x, y];
         },
-        startdSlider() {
-            this.dragOffsetX = event.clientX - this.dcx;
-            this.dragOffsetY = event.clientY - this.dcy;
-            this.$parent.$el.addEventListener('mousemove', this.movedSlider);
+        startSlider1() {
+            this.dragOffsetX = event.clientX - this.slider1_cx;
+            this.dragOffsetY = event.clientY - this.slider1_cy;
+            this.$parent.$el.addEventListener('mousemove', this.moveSlider1);
         },
-        movedSlider() {
+        moveSlider1() {
             var x = event.clientX - this.dragOffsetX;
             var y = event.clientY - this.dragOffsetY;
             if (x > this.dimensionOfBox) {
@@ -89,39 +95,39 @@ export default {
             } else if (y < 0) {
                 y = 0;
             }
-            this.dcx = x;
-            this.dcy = y;
-            var xy = this.convertCoords(this.dcx, this.dcy);
-            this.dx = xy[0];
-            this.dy = xy[1];
-            this.update_dtext();
+            this.slider1_cx = x;
+            this.slider1_cy = y;
+            var xy = this.convertCoords(this.slider1_cx, this.slider1_cy);
+            this.slider1_x = xy[0];
+            this.slider1_y = xy[1];
+            this.update_slider1_text();
             this.emitSVG();
         },
-        stopdSlider() {
+        stopSlider1() {
             this.dragOffsetX = this.dragOffsetY = null;
-            this.$parent.$el.removeEventListener('mousemove', this.movedSlider);
+            this.$parent.$el.removeEventListener('mousemove', this.moveSlider1);
         },
-        update_dtext() {
-            this.dtext = 'd (' + Number(this.dx).toFixed(2) + ', ' + Number(this.dy).toFixed(2) + ')';
-            if (this.dcx < 0.33*this.dimensionOfBox) {
-                this.dtextx = this.dcx + 10;
-            } else if (this.dcx < 0.67*this.dimensionOfBox) {
-                this.dtextx = this.dcx - 50;
+        update_slider1_text() {
+            this.slider1_text = this.slider1_name + ' (' + Number(this.slider1_x).toFixed(2) + ', ' + Number(this.slider1_y).toFixed(2) + ')';
+            if (this.slider1_cx < 0.33*this.dimensionOfBox) {
+                this.slider1_textx = this.slider1_cx + 10;
+            } else if (this.slider1_cx < 0.67*this.dimensionOfBox) {
+                this.slider1_textx = this.slider1_cx - 50;
             } else {
-                this.dtextx = this.dcx - 90;
+                this.slider1_textx = this.slider1_cx - 90;
             }   
-            if (this.dcy < 0.33*this.dimensionOfBox) {
-                this.dtexty = this.dcy + 20;
+            if (this.slider1_cy < 0.33*this.dimensionOfBox) {
+                this.slider1_texty = this.slider1_cy + 20;
             } else {
-                this.dtexty = this.dcy - 20;
+                this.slider1_texty = this.slider1_cy - 20;
             }  
         },
-        startuSlider() {
-            this.dragOffsetX = event.clientX - this.ucx;
-            this.dragOffsetY = event.clientY - this.ucy;
-            this.$parent.$el.addEventListener('mousemove', this.moveuSlider);
+        startSlider2() {
+            this.dragOffsetX = event.clientX - this.slider2_cx;
+            this.dragOffsetY = event.clientY - this.slider2_cy;
+            this.$parent.$el.addEventListener('mousemove', this.moveSlider2);
         },
-        moveuSlider() {
+        moveSlider2() {
             var x = event.clientX - this.dragOffsetX;
             var y = event.clientY - this.dragOffsetY;
             if (x > this.dimensionOfBox) {
@@ -134,35 +140,35 @@ export default {
             } else if (y < 0) {
                 y = 0;
             }
-            this.ucx = x;
-            this.ucy = y;
-            var xy = this.convertCoords(this.ucx, this.ucy);
-            this.ux = xy[0];
-            this.uy = xy[1];
-            this.update_utext();
+            this.slider2_cx = x;
+            this.slider2_cy = y;
+            var xy = this.convertCoords(this.slider2_cx, this.slider2_cy);
+            this.slider2_x = xy[0];
+            this.slider2_y = xy[1];
+            this.update_slider2_text();
             this.emitSVG();
         },
-        stopuSlider() {
+        stopSlider2() {
             this.dragOffsetX = this.dragOffsetY = null;
-            this.$parent.$el.removeEventListener('mousemove', this.moveuSlider);
+            this.$parent.$el.removeEventListener('mousemove', this.moveSlider2);
         },
-        update_utext() {
-            this.utext = 'u (' + Number(this.ux).toFixed(2) + ', ' + Number(this.uy).toFixed(2) + ')';
-            if (this.ucx < 0.33*this.dimensionOfBox) {
-                this.utextx = this.ucx + 10;
-            } else if (this.ucx < 0.67*this.dimensionOfBox) {
-                this.utextx = this.ucx - 50;
+        update_slider2_text() {
+            this.slider2_text = this.slider2_name + ' (' + Number(this.slider2_x).toFixed(2) + ', ' + Number(this.slider2_y).toFixed(2) + ')';
+            if (this.slider2_cx < 0.33*this.dimensionOfBox) {
+                this.slider2_textx = this.slider2_cx + 10;
+            } else if (this.slider2_cx < 0.67*this.dimensionOfBox) {
+                this.slider2_textx = this.slider2_cx - 50;
             } else {
-                this.utextx = this.ucx - 90;
+                this.slider2_textx = this.slider2_cx - 90;
             }   
-            if (this.ucy < 0.33*this.dimensionOfBox) {
-                this.utexty = this.ucy + 20;
+            if (this.slider2_cy < 0.33*this.dimensionOfBox) {
+                this.slider2_texty = this.slider2_cy + 20;
             } else {
-                this.utexty = this.ucy - 20;
+                this.slider2_texty = this.slider2_cy - 20;
             }  
         },
         emitSVG(){
-            this.$emit("SVGChanged", [this.dx, this.dy, this.ux, this.uy]);
+            this.$emit("SVGChanged", [this.slider1_x, this.slider1_y, this.slider2_x, this.slider2_y]);
         }
     }
 }

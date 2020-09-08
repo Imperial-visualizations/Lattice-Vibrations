@@ -79,7 +79,7 @@
           </iv-dropdown-text-box>
         </iv-pane>
 
-        <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
+        <iv-toggle-hotspot position="bottom" title="Sliders">
           <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/>
           <iv-equation-box :stylise="false" equation="d_x"/>
           <iv-slider @sliderChanged="dxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dxSlider'" :unit="'test unit'" :step="0.01" />
