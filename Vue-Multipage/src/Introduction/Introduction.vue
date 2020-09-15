@@ -29,7 +29,7 @@
 
       </template> 
 
-      <!--Main simulation-->
+       Main simulation
       <iv-legacy-wrapper :execute=execute id="Mie-graph" style="margin-left: 5%; width: 1000px; height: 500px;"></iv-legacy-wrapper>
 
     </iv-visualisation>
