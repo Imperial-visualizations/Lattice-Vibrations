@@ -4,7 +4,7 @@
     <iv-visualisation hotspotColumnHeight="100px">
 
       <template #hotspots>
-        <iv-pane position="left" style="overflow-y: scroll" format="push">
+        <iv-pane position="left" format="push">
           <p>
               Given some solid, how can we model sound waves moving through it?
           </p>
