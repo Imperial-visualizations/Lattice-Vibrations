@@ -1,5 +1,5 @@
 {
-  "name": "lattice-vibrations-vue",
+  "name": "test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,17 +10,16 @@
   "keywords": [
     "impvis"
   ],
-  "author": "Robert King",
+  "author": "Darren Lean",
   "license": "BSD-3-Clause",
   "dependencies": {
-    "@impvis/components": "^0.5.0-beta1",
-    "@impvis/threejscomponents": "^0.3.1",
+    "@impvis/components": "^0.3.0",
+    "@impvis/components-katex": "^0.2.0",
+    "@impvis/components-threejs": "^0.3.2",
     "core-js": "^3.6.5",
-    "d3": "^5.16.0",
-    "katex": "^0.12.0",
+    "d3": "^6.1.1",
     "mathjs": "^7.2.0",
-    "three": "^0.119.1",
-    "vue": "^2.6.12"
+    "vue": "^2.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.4",
@@ -30,7 +29,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.8.1",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
     "root": true,
