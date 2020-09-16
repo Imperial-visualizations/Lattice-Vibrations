@@ -5,7 +5,7 @@
 
       <template #hotspots>
 
-        <iv-pane position="left" style="overflow-y: scroll" format="push">
+        <iv-pane position="left" format="push">
           <p>
               Finally, we look at a three dimensional infinite crystal lattice.
               This simulation is meant for completeness. 

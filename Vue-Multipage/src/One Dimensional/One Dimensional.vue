@@ -4,7 +4,7 @@
     <iv-visualisation hotspotColumnHeight="100px">
 
       <template #hotspots>
-        <iv-pane position="left" style="overflow-y: scroll" format="push">
+        <iv-pane position="left" format="push">
               We start with the one dimensional case: 
               imagine having a chain of identical atoms.
               We then approximate their interactions to only be with nearest neighbours.

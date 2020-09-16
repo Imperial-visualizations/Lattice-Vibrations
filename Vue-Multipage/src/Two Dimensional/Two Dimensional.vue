@@ -5,7 +5,7 @@
 
       <template #hotspots>
 
-        <iv-pane position="left" style="overflow-y: scroll" format="push">
+        <iv-pane position="left" format="push">
 
           <p>
               Now consider an infinitely wide sheet of identical atoms.
