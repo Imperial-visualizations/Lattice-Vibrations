@@ -1,7 +1,6 @@
 <template>
   <div id="app">
-  <iv-title-bar> Lattice Vibrations - Three Dimensional </iv-title-bar>
-    <iv-visualisation hotspotColumnHeight="100px">
+    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Three Dimensional">
 
       <template #hotspots>
 

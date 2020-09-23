@@ -1,10 +1,8 @@
 <template>
   <div id="app">
-    <iv-title-bar> Lattice Vibrations - One Dimensional </iv-title-bar>
-    <iv-visualisation hotspotColumnHeight="100px">
-
+    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - 1 Dimensional">
       <template #hotspots>
-        <iv-pane position="left" format="push">
+        <iv-pane position="left" format="overlay">
               We start with the one dimensional case: 
               imagine having a chain of identical atoms.
               We then approximate their interactions to only be with nearest neighbours.

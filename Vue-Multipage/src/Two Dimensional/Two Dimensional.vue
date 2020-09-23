@@ -1,73 +1,72 @@
 <template>
   <div id="app">
-  <iv-title-bar> Lattice Vibrations - Two Dimensional </iv-title-bar>
-    <iv-visualisation hotspotColumnHeight="100px">
+  <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Two Dimensional">
 
-      <template #hotspots>
+    <template #hotspots>
 
-        <iv-pane position="left" format="push">
+      <iv-pane position="left" format="push">
 
-          <p>
-              Now consider an infinitely wide sheet of identical atoms.
-              The most general solution is
-              <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/>
-              where
-              <iv-equation-box :stylise="false" equation="\textbf{u}_n"/> is the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom and <iv-equation-box :stylise="false" equation="\textbf{R}_n"/> is the lattice site that atom,
-              and
-              <iv-equation-box :stylise="false" equation="\textbf{k}"/> is the wavevector of each incoming wave.
-          </p>
-          <p>
-              We simulate for a single <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
-              <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{R}_n - \omega_k t)"/>
+        <p>
+            Now consider an infinitely wide sheet of identical atoms.
+            The most general solution is
+            <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/>
+            where
+            <iv-equation-box :stylise="false" equation="\textbf{u}_n"/> is the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom and <iv-equation-box :stylise="false" equation="\textbf{R}_n"/> is the lattice site that atom,
+            and
+            <iv-equation-box :stylise="false" equation="\textbf{k}"/> is the wavevector of each incoming wave.
+        </p>
+        <p>
+            We simulate for a single <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
+            <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{R}_n - \omega_k t)"/>
 
-              For any given <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
-              <iv-equation-box :stylise="true" equation="\omega^2_{\mathbf{k}} = 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) \right]"/> 
-              where
-              <iv-equation-box :stylise="false" equation="\omega_D = \sqrt{\frac{\kappa}{m}}"/>,
-              <iv-equation-box :stylise="false" equation="\kappa"/> is the spring constant,
-              <iv-equation-box :stylise="false" equation="m"/> is the mass of a single atom,
-              <iv-equation-box :stylise="false" equation="a"/> is the atomic spacing
-              and
-              <iv-equation-box :stylise="false" equation="\omega_D"/> is also known as the Debye frequency.
-              We also assume <iv-equation-box :stylise="false" equation="a = \omega_D = 1"/> and <iv-equation-box :stylise="false" equation="\tilde{\textbf{u}}_\textbf{k}"/> has zero phase for simplicity.
-          </p>
-          <p>
-              We also trace the wave, which travels at phase velocity <iv-equation-box :stylise="false" equation="\mathbf{v}=\frac{\mathbf{k}}{w}"/>.
-          </p>
-          <p>
-              <iv-equation-box :stylise="false" equation="\textbf{u}_k"/> represents the response of the individual atoms to wave <iv-equation-box :stylise="false" equation="\textbf{k}"/>.
-              Notice that <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k|"/> and <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k|"/>
-              determine the type of wave: longitudinal, transverse or a combination of both. 
-              Try making <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = 0"/> or <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k = 0|"/>.
-              What are the types of wave you see in these respective cases?
-          </p>   
+            For any given <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
+            <iv-equation-box :stylise="true" equation="\omega^2_{\mathbf{k}} = 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) \right]"/> 
+            where
+            <iv-equation-box :stylise="false" equation="\omega_D = \sqrt{\frac{\kappa}{m}}"/>,
+            <iv-equation-box :stylise="false" equation="\kappa"/> is the spring constant,
+            <iv-equation-box :stylise="false" equation="m"/> is the mass of a single atom,
+            <iv-equation-box :stylise="false" equation="a"/> is the atomic spacing
+            and
+            <iv-equation-box :stylise="false" equation="\omega_D"/> is also known as the Debye frequency.
+            We also assume <iv-equation-box :stylise="false" equation="a = \omega_D = 1"/> and <iv-equation-box :stylise="false" equation="\tilde{\textbf{u}}_\textbf{k}"/> has zero phase for simplicity.
+        </p>
+        <p>
+            We also trace the wave, which travels at phase velocity <iv-equation-box :stylise="false" equation="\mathbf{v}=\frac{\mathbf{k}}{w}"/>.
+        </p>
+        <p>
+            <iv-equation-box :stylise="false" equation="\textbf{u}_k"/> represents the response of the individual atoms to wave <iv-equation-box :stylise="false" equation="\textbf{k}"/>.
+            Notice that <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k|"/> and <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k|"/>
+            determine the type of wave: longitudinal, transverse or a combination of both. 
+            Try making <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = 0"/> or <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k = 0|"/>.
+            What are the types of wave you see in these respective cases?
+        </p>   
 
-        </iv-pane>
+      </iv-pane>
 
-      </template> 
+    </template> 
 
-      <div style="display: block;">      
-        <MainVis style="float:left; margin-right:10%;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
-        <div style="display:grid;">
-          <div style="display: block;"> 
-            <div style="width: 33%; float: left;">
-              <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \end{bmatrix}"/>
-            </div>
-            <div style="width: 33%; float: left;">
-              <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
-              <iv-equation-box :stylise="false" :equation=dotProduct />
-            </div>
-            <div style="width: 33%; float: left;">
-              <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
-              <iv-equation-box :stylise="false" :equation=crossProduct />
-            </div>
+    <div style="display: block;">      
+      <MainVis style="float:left; margin-right:10%;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
+      <div style="display:grid;">
+        <div style="display: block;"> 
+          <div style="width: 33%; float: left;">
+            <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \end{bmatrix}"/>
           </div>
-          <SVGSliders ref='SVGSliders' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></SVGSliders>
-          <Dispersion ref='DispersionSlider' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></Dispersion>
+          <div style="width: 33%; float: left;">
+            <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
+            <iv-equation-box :stylise="false" :equation=dotProduct />
+          </div>
+          <div style="width: 33%; float: left;">
+            <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
+            <iv-equation-box :stylise="false" :equation=crossProduct />
+          </div>
         </div>
+        <SVGSliders ref='SVGSliders' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></SVGSliders>
+        <Dispersion ref='DispersionSlider' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></Dispersion>
       </div>
+    </div>
 
-    </iv-visualisation>
+  </iv-visualisation>
   </div>
 </template>
 
