@@ -5,16 +5,19 @@
     <template #hotspots>
 
       <iv-pane position="left" format="push">
-
-        <p>
-            Now consider an infinitely wide sheet of identical atoms.
-            The most general solution is
-            <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/>
-            where
-            <iv-equation-box :stylise="false" equation="\textbf{u}_n"/> is the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom and <iv-equation-box :stylise="false" equation="\textbf{R}_n"/> is the lattice site that atom,
-            and
-            <iv-equation-box :stylise="false" equation="\textbf{k}"/> is the wavevector of each incoming wave.
-        </p>
+        <iv-sidebar-content>
+          <iv-sidebar-section title="Introduction">
+            <p>
+                Now consider an infinitely wide sheet of identical atoms.
+                The most general solution is
+                <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/>
+                where
+                <iv-equation-box :stylise="false" equation="\textbf{u}_n"/> is the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom and <iv-equation-box :stylise="false" equation="\textbf{R}_n"/> is the lattice site that atom,
+                and
+                <iv-equation-box :stylise="false" equation="\textbf{k}"/> is the wavevector of each incoming wave.
+            </p>
+          </iv-sidebar-section>
+          <iv-sidebar-section title="Derivation" icon="calculator" theme="Purple">
         <p>
             We simulate for a single <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
             <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{R}_n - \omega_k t)"/>
@@ -33,6 +36,8 @@
         <p>
             We also trace the wave, which travels at phase velocity <iv-equation-box :stylise="false" equation="\mathbf{v}=\frac{\mathbf{k}}{w}"/>.
         </p>
+          </iv-sidebar-section>
+          <iv-sidebar-section title="Instructions" theme="Lime" highlight icon="question">
         <p>
             <iv-equation-box :stylise="false" equation="\textbf{u}_k"/> represents the response of the individual atoms to wave <iv-equation-box :stylise="false" equation="\textbf{k}"/>.
             Notice that <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k|"/> and <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k|"/>
@@ -40,7 +45,8 @@
             Try making <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = 0"/> or <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k = 0|"/>.
             What are the types of wave you see in these respective cases?
         </p>   
-
+          </iv-sidebar-section>
+        </iv-sidebar-content>
       </iv-pane>
 
     </template> 
@@ -77,7 +83,7 @@ import SVGSliders from './2D_SVGSliders.vue';
 import Dispersion from './2D_dispersion.vue';
 
 export default {
-    name: 'Two Dimensional',
+    name: 'TwoDimensional',
     components:{
         MainVis,
         SVGSliders,

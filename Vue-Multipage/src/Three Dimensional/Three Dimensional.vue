@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Three Dimensional">
-
       <template #hotspots>
-
         <iv-pane position="left" format="push">
-          <p>
+          <iv-sidebar-content>
+            <iv-sidebar-section title="Introduction">
               Finally, we look at a three dimensional infinite crystal lattice.
               This simulation is meant for completeness. 
               The colour coding here is to track layers of atoms.
               If this looks confusing for you, you may wish to return to the two dimensional case as it encompasses all the essentials of physics involved.
-          </p>
+
+
           <p>A reminder of the general solution:
               <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/>
               For a single <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
@@ -24,8 +24,8 @@
               The types of waves available are still longitudinal, transverse or a combination of both.
               This is indicated by <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k|"/> and <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k|"/>.
           </p>
-
-          <iv-dropdown-text-box buttonText="Derivation">
+            </iv-sidebar-section>
+          <iv-sidebar-section title="Derivation" icon="calculator" theme="Purple">
                 <p>
                     <br>
                     We first consider the one dimensional case of an infinite chain of identical atoms.
@@ -74,24 +74,24 @@
                     <iv-equation-box :stylise="true" equation="\omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|"/>
                     This derivation can be extended to higher dimensions.
                 </p>
-
-          </iv-dropdown-text-box>
+          </iv-sidebar-section>
+          </iv-sidebar-content>
         </iv-pane>
 
         <iv-toggle-hotspot position="bottom" title="Sliders">
           <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/>
           <iv-equation-box :stylise="false" equation="d_x"/>
-          <iv-slider @sliderChanged="dxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dxSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="dxChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'dxSlider'" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="d_y"/>
-          <iv-slider @sliderChanged="dyChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dySlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="dyChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'dySlider'" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="d_z"/>
-          <iv-slider @sliderChanged="dzChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'dzSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="dzChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'dzSlider'" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="u_{k_x}"/>
-          <iv-slider @sliderChanged="uxChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uxSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uxChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'uxSlider'" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="u_{k_y}"/>
-          <iv-slider @sliderChanged="uyChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uySlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uyChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'uySlider'" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="u_{k_z}"/>
-          <iv-slider @sliderChanged="uzChange" :colorBlock="green" :min="-1" :max="1" :init_val="0.1" :sliderName="'uzSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uzChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'uzSlider'" :unit="'test unit'" :step="0.01" />
         </iv-toggle-hotspot>
 
       </template> 
