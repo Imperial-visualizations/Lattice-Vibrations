@@ -41,7 +41,7 @@ export default {
             Vis.setup.initConsts();
             Vis.setup.initVars();
 
-            Vis.setup.initGraph();
+            //Vis.setup.initGraph();
             Vis.setup.initScene();
 
             Vis.start();
@@ -143,20 +143,20 @@ export default {
                 Vis.spheres = new Array(Vis.N);
             },
 
-            initGraph: function() {
-                Vis.canvas = d3.select('#main-vis')
-                            .append('canvas')
-                                .attr('width', Vis.canvasx)
-                                .attr('height', Vis.canvasy);
-                Vis.context = Vis.canvas.node().getContext('2d');
+            // initGraph: function() {
+            //     Vis.canvas = d3.select('#main-vis')
+            //                 .append('canvas')
+            //                     .attr('width', Vis.canvasx)
+            //                     .attr('height', Vis.canvasy);
+            //     Vis.context = Vis.canvas.node().getContext('2d');
 
-                Vis.convertCanvasX = d3.scaleLinear()
-                                        .domain([0, Vis.Nx*Vis.a])
-                                        .range([0, Vis.canvasx]);
-                Vis.convertCanvasY = d3.scaleLinear()
-                                        .domain([0, Vis.Ny*Vis.a])
-                                        .range([Vis.canvasy, 0]);
-            },
+            //     Vis.convertCanvasX = d3.scaleLinear()
+            //                             .domain([0, Vis.Nx*Vis.a])
+            //                             .range([0, Vis.canvasx]);
+            //     Vis.convertCanvasY = d3.scaleLinear()
+            //                             .domain([0, Vis.Ny*Vis.a])
+            //                             .range([Vis.canvasy, 0]);
+            // },
 
             initScene: function() {
                 Vis.scene = new THREE.Scene();

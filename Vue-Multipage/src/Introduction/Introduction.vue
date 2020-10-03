@@ -28,8 +28,6 @@
             </iv-sidebar-section>
           </iv-sidebar-content>
         </iv-pane>
-        <iv-toggle-hotspot position="bottom" title="Demo hotspot"></iv-toggle-hotspot>
-        <iv-fixed-hotspot transparent position="topright">Hello world</iv-fixed-hotspot>
       </template> 
       <iv-legacy-wrapper :execute=execute id="Mie-graph" style="margin-left: 5%; width: 1000px; height: 500px;"></iv-legacy-wrapper>
     </iv-visualisation>

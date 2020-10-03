@@ -1,4 +1,5 @@
 module.exports = {
+    publicPath:'./',
     pages:{
             introduction:{
                 entry:'src/Introduction/main.js',
