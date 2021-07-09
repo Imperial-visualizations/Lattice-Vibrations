@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="display:block;">
         <canvas id="dispersion-graph" :width="dimensionOfBox" :height="dimensionOfBox"></canvas>
         <svg id="dispersion-svg" :width="1.4*dimensionOfBox" :height="dimensionOfBox" :transform="SVGTranslation">
             <rect x="0" y="0" :height="dimensionOfBox" :width="dimensionOfBox" stroke="black" fill="none" stroke-width="1"></rect>
