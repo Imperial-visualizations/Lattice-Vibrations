@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-  <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Two Dimensional">
+  <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Two Dimensional" :vue_config="vue_config" :page_number="3">
 
     <template #hotspots>
 
@@ -82,6 +82,7 @@ import * as math from 'mathjs';
 import MainVis from './2D_mainVis.vue';
 import SVGSliders from './2D_SVGSliders.vue';
 import Dispersion from './2D_dispersion.vue';
+import vue_config from '../../vue.config.js'
 
 export default {
     name: 'TwoDimensional',
@@ -98,6 +99,7 @@ export default {
             uySlider: this.init_u,
             dotProduct: this.init_dot,
             crossProduct: this.init_cross,
+            vue_config
         }
     },
     props:{

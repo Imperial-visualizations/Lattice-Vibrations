@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Three Dimensional">
+    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Three Dimensional" :vue_config="vue_config" :page_number="4">
       <template #hotspots>
         <iv-pane position="left" format="push" :width="600">
           <iv-sidebar-content>
@@ -109,7 +109,7 @@
               <iv-equation-box :stylise="false" :equation=crossProduct />
             </div>
           </div>
-          
+
     </iv-visualisation>
   </div>
 </template>
@@ -117,6 +117,7 @@
 <script>
 import * as math from 'mathjs';
 import MainVis from './3D_mainVis.vue';
+import vue_config from '../../vue.config.js'
 
 export default {
     name: 'Three Dimensional',
@@ -133,6 +134,7 @@ export default {
             uzSlider: this.init_u,
             dotProduct: this.init_dot,
             crossProduct: this.init_cross,
+            vue_config
         }
     },
     props:{

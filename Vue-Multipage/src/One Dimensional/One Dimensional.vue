@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - 1 Dimensional">
+    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - 1 Dimensional" :vue_config="vue_config" :page_number="2">
       <template #hotspots>
         <iv-pane position="left" format="overlay">
           <iv-sidebar-content>
@@ -103,6 +103,7 @@
 import MainVis from './1D_mainVis.vue';
 import FBZ from './1D_FBZ.vue';
 import Dispersion from './1D_dispersion.vue';
+import vue_config from '../../vue.config.js'
 
 export default {
     name: 'One-Dimensional',
@@ -114,7 +115,8 @@ export default {
     data(){
         return{
             dSlider: this.init_d,
-            uSlider: this.init_u
+            uSlider: this.init_u,
+            vue_config
         }
     },
     props:{
