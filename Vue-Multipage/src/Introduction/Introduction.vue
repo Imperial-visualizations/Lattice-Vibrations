@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Introduction">
+    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Introduction" :vue_config="vue_config" :page_number="1">
       <template #hotspots>
         <iv-pane position="left" format="push">
           <iv-sidebar-content>
@@ -36,15 +36,19 @@
 
 <script>
 import execute from './Mie_d3SVG.js';
+import vue_config from '../../vue.config.js'
 
 export default {
     name: 'Introduction',
     data(){
-    return {execute}
+    return {execute,
+    vue_config}
   }
 }
 </script>
 
 <style>
-
+html{
+  overflow:hidden;
+}
 </style>

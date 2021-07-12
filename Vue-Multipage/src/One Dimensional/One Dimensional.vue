@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - 1 Dimensional">
+    <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - 1 Dimensional" :vue_config="vue_config" :page_number="2">
       <template #hotspots>
         <iv-pane position="left" format="overlay">
           <iv-sidebar-content>
@@ -20,7 +20,7 @@
             <iv-sidebar-section title="Derivation" theme="Purple" icon="calculator">
               <p>
               The most general solution is
-              <iv-equation-box :stylise="true" equation="u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)}"/>.
+              <iv-equation-box :stylise="true" equation="u_n(t) = Re \sum_{k}\tilde{u}_k e^{i(nka-\omega_kt)}"/>.<br>
           
               This is a sum of an arbitrary number of waves, each with their own wavevector.                
               <iv-equation-box :stylise="false" equation="u_n"/> is the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom from its equilibrium position
@@ -29,11 +29,11 @@
               (Derivation is available at the end of this suite under the 'Derivation' button.)
               </p>
               <p>
-              Here we simulate for a single <iv-equation-box :stylise="false" equation="k"/>:
-              <iv-equation-box :stylise="false" equation="u_n(t) = u_k \cos(nka-\omega_kt)"/>
+              Here we simulate for a single <iv-equation-box :stylise="false" equation="k"/>:<br>
+              <iv-equation-box :stylise="false" equation="u_n(t) = u_k \cos(nka-\omega_kt)"/><br>
           
-              For any given <iv-equation-box :stylise="false" equation="k"/>:
-              <iv-equation-box :stylise="true" equation="\omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|"/>
+              For any given <iv-equation-box :stylise="false" equation="k"/>:<br>
+              <iv-equation-box :stylise="true" equation="\omega_k = 2 \omega_D \left| \sin \left( \frac{k a}{2} \right) \right|"/><br>
               where
               <iv-equation-box :stylise="false" equation="\omega_D = \sqrt{\frac{\kappa}{m}}"/>
               <iv-equation-box :stylise="false" equation="\kappa"/> is the spring constant,
@@ -62,7 +62,7 @@
               <iv-equation-box :stylise="false" equation="-\pi \lt ka \leqslant \pi"/>, known as the first Brillouin Zone. 
               This applies to components in the higher dimensions too.
               </p><p>                 
-              Also notice that when <iv-equation-box :stylise="false" equation="k \to \pm \pi"/> (i.e. <iv-equation-box :stylise="false" equation="d \to \pm 1"/>), there are two standing waves. 
+              Also notice that when <iv-equation-box :stylise="false" equation="k \to \pm \pi"/> <br>(i.e. <iv-equation-box :stylise="false" equation="d \to \pm 1"/>), there are two standing waves. 
               Neighbouring atoms move in anti-phase.
               (Reduce <iv-equation-box :stylise="false" equation="u_k"/> to see this effect better.)
               </p>
@@ -70,12 +70,12 @@
           </iv-sidebar-content>
         </iv-pane>
 
-        <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders">
+        <iv-toggle-hotspot id="iv-toggle-hotspot-bottom" position="bottom" title="Sliders" style="z-index:1; width:25%; margin-left: -50px;">
           <iv-equation-box :stylise="false" equation="k = \frac{\pi}{a} d"/>
           <iv-equation-box :stylise="false" equation="d" />
-          <iv-slider @sliderChanged="dChange" theme="Lime" :min="-10" :max="10" :init_val="0.1" sliderName="dSlider" unit="test unit" :step="0.01" />
+          <iv-slider @sliderChanged="dChange" theme="Lime" :min="-10" :max="10" :init_val="0.1" name="" :step="0.01" :tick_step=5></iv-slider>
           <iv-equation-box :stylise="false" equation="u_k"/>
-          <iv-slider @sliderChanged="uChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" sliderName="uSlider" unit="test unit" :step="0.01" />
+          <iv-slider @sliderChanged="uChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :step="0.01" :tick_step=1 ></iv-slider>
         </iv-toggle-hotspot>
 
       </template> 
@@ -103,6 +103,7 @@
 import MainVis from './1D_mainVis.vue';
 import FBZ from './1D_FBZ.vue';
 import Dispersion from './1D_dispersion.vue';
+import vue_config from '../../vue.config.js'
 
 export default {
     name: 'One-Dimensional',
@@ -114,7 +115,8 @@ export default {
     data(){
         return{
             dSlider: this.init_d,
-            uSlider: this.init_u
+            uSlider: this.init_u,
+            vue_config
         }
     },
     props:{
@@ -137,5 +139,7 @@ export default {
 </script>
 
 <style>
-
+html{
+  overflow:hidden;
+}
 </style>
