@@ -77,41 +77,39 @@
           </iv-sidebar-section>
           </iv-sidebar-content>
         </iv-pane>
-
-        <iv-toggle-hotspot position="bottom" title="Sliders">
-          <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/>
+        <iv-toggle-hotspot position="right" title="Sliders" glass style="width:25%; z-index:3;height:100%;">
+          <div style="overflow-x:hidden;position:relative">
+          <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \\ d_z \end{bmatrix}"/><br>
           <iv-equation-box :stylise="false" equation="d_x"/>
-          <iv-slider @sliderChanged="dxChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'dxSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="dxChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="d_y"/>
-          <iv-slider @sliderChanged="dyChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'dySlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="dyChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="d_z"/>
-          <iv-slider @sliderChanged="dzChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'dzSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="dzChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="u_{k_x}"/>
-          <iv-slider @sliderChanged="uxChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'uxSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uxChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="u_{k_y}"/>
-          <iv-slider @sliderChanged="uyChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'uySlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uyChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :unit="'test unit'" :step="0.01" />
           <iv-equation-box :stylise="false" equation="u_{k_z}"/>
-          <iv-slider @sliderChanged="uzChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" :sliderName="'uzSlider'" :unit="'test unit'" :step="0.01" />
+          <iv-slider @sliderChanged="uzChange" theme="Lime" :min="-1" :max="1" :init_val="0.1" name="" :unit="'test unit'" :step="0.01" />
+          </div>
         </iv-toggle-hotspot>
-
       </template> 
 
       <div style="display: block; margin-bottom:-100%;">      
-        <MainVis style="float:left; margin-right:10%;height:auto; margin-bottom:-50%;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
-        <div style="display:grid;">
-          <div style="display: block;"> 
-            <div style="width: 50%; float: left;">
+        <MainVis style="float:left; margin-right:10%;height:auto; margin-bottom:-10px;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
+        </div>
+          <div style="display: block;padding-left:70px;"> 
+            <div style="width: 40%; float: left;">
               <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
               <iv-equation-box :stylise="false" :equation=dotProduct />
             </div>
-            <div style="width: 50%; float: left;">
+            <div style="width: 40%; float: left; margin-right:-100%">
               <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
               <iv-equation-box :stylise="false" :equation=crossProduct />
             </div>
           </div>
-        </div>
-      </div>
-
+          
     </iv-visualisation>
   </div>
 </template>
