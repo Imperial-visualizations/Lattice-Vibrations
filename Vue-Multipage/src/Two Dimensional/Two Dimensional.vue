@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-  <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Two Dimensional">
+  <iv-visualisation hotspotColumnHeight="100px" title="Lattice Vibrations - Two Dimensional" :vue_config="vue_config" :page_number="3">
 
     <template #hotspots>
 
-      <iv-pane position="left" format="push">
+      <iv-pane position="left" format="push" :width="470">
         <iv-sidebar-content>
           <iv-sidebar-section title="Introduction">
             <p>
                 Now consider an infinitely wide sheet of identical atoms.
-                The most general solution is
-                <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/>
+                The most general solution is<br>
+                <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = Re \sum_{\textbf{k}}\tilde{\textbf{u}}_\textbf{k} e^{i(\textbf{k} \cdot \textbf{R}_n - \omega_\textbf{k} t)}"/><br>
                 where
                 <iv-equation-box :stylise="false" equation="\textbf{u}_n"/> is the displacement of the <iv-equation-box :stylise="false" equation="n^{th}"/> atom and <iv-equation-box :stylise="false" equation="\textbf{R}_n"/> is the lattice site that atom,
                 and
@@ -19,11 +19,11 @@
           </iv-sidebar-section>
           <iv-sidebar-section title="Derivation" icon="calculator" theme="Purple">
         <p>
-            We simulate for a single <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
-            <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{R}_n - \omega_k t)"/>
+            We simulate for a single <iv-equation-box :stylise="false" equation="\textbf{k}"/>:<br>
+            <iv-equation-box :stylise="true" equation="\textbf{u}_n(t) = \textbf{u}_\textbf{k} \cos(\textbf{k} \cdot \textbf{R}_n - \omega_k t)"/><br>
 
-            For any given <iv-equation-box :stylise="false" equation="\textbf{k}"/>:
-            <iv-equation-box :stylise="true" equation="\omega^2_{\mathbf{k}} = 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) \right]"/> 
+            For any given <iv-equation-box :stylise="false" equation="\textbf{k}"/>:<br>
+            <iv-equation-box :stylise="true" equation="\omega^2_{\mathbf{k}} = 4 \omega^2_D \left[ \sin^2 \left(\frac{k_x a}{2} \right) + \sin^2 \left(\frac{k_y a}{2} \right) \right]"/><br> 
             where
             <iv-equation-box :stylise="false" equation="\omega_D = \sqrt{\frac{\kappa}{m}}"/>,
             <iv-equation-box :stylise="false" equation="\kappa"/> is the spring constant,
@@ -51,20 +51,21 @@
 
     </template> 
 
-    <div style="display: block;">      
+    <div style="display: block; overflow:hidden; height:auto;">      
       <MainVis style="float:left; margin-right:10%;" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></MainVis>
-      <div style="display:grid;">
-        <div style="display: block;"> 
-          <div style="width: 33%; float: left;">
+      <div style="width: 15%; float: left;">
             <iv-equation-box :stylise="false" equation="\textbf{k} = \frac{\pi}{a} \begin{bmatrix} d_x \\ d_y \end{bmatrix}"/>
           </div>
-          <div style="width: 33%; float: left;">
+      <div style="display:grid; overflow:hidden; height:auto; margin-bottom:-250px">
+        <div style="display: block; overflow:hidden; height:auto;"> 
+          
+          <div style="width: 248px; float: left; border-style:none; border-color:navy; border-width:thin;">
             <iv-equation-box :stylise="false" equation="|\textbf{k} \cdot \textbf{u}_k| = "/>
-            <iv-equation-box :stylise="false" :equation=dotProduct />
+            <iv-equation-box :stylise="false" :equation="dotProduct" />
           </div>
-          <div style="width: 33%; float: left;">
+          <div style="width: 248px; float: left; border-style:none; border-color:navy; border-width:thin;">
             <iv-equation-box :stylise="false" equation="|\textbf{k} \times \textbf{u}_k| = "/>
-            <iv-equation-box :stylise="false" :equation=crossProduct />
+            <iv-equation-box :stylise="false" :equation="crossProduct" />
           </div>
         </div>
         <SVGSliders ref='SVGSliders' @SVGChanged="updateAll" :dx="dxSlider" :dy="dySlider" :ux="uxSlider" :uy="uySlider"></SVGSliders>
@@ -81,6 +82,7 @@ import * as math from 'mathjs';
 import MainVis from './2D_mainVis.vue';
 import SVGSliders from './2D_SVGSliders.vue';
 import Dispersion from './2D_dispersion.vue';
+import vue_config from '../../vue.config.js'
 
 export default {
     name: 'TwoDimensional',
@@ -97,6 +99,7 @@ export default {
             uySlider: this.init_u,
             dotProduct: this.init_dot,
             crossProduct: this.init_cross,
+            vue_config
         }
     },
     props:{
@@ -138,5 +141,7 @@ export default {
 </script>
 
 <style>
-
+html{
+  overflow: hidden;
+}
 </style>

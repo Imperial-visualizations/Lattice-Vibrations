@@ -1,5 +1,5 @@
 <template>
-    <div id="main-vis" style="height: 50%; width:50%; padding:50px;">
+    <div id="main-vis" style="height: 50%; width:50%; padding:5px 50px 0px 70px;">
         <canvas id="canvas-div"></canvas>
     </div>
 </template>
@@ -163,8 +163,8 @@ export default {
                 Vis.scene.background = new THREE.Color( 0xffffff );
                 
                 Vis.camera = new THREE.PerspectiveCamera( 75, Vis.canvasx/Vis.canvasy, 0.1, 1000 );
-                Vis.camera.position.set(-0.8, -0.6, -0.8);
-                Vis.camera.lookAt(new THREE.Vector3(0,0,0));
+                Vis.camera.position.set(-0.8, 0, -0.8);
+                Vis.camera.lookAt(new THREE.Vector3(0,0.6,0));
 
                 Vis.renderer = new THREE.WebGLRenderer({ 
                     antialias: true,
@@ -197,5 +197,7 @@ export default {
 </script>
 
 <style>
-
+html{
+    overflow:hidden;
+}
 </style>

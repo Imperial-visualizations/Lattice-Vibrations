@@ -1,6 +1,10 @@
 module.exports = {
     publicPath:'./',
     pages:{
+            index:{
+                entry:'src/main.js',
+                title:'Index'
+            },
             introduction:{
                 entry:'src/Introduction/main.js',
                 title:'Introduction',

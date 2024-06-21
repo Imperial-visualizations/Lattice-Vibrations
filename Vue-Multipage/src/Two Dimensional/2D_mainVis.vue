@@ -1,5 +1,5 @@
 <template>
-    <div id="main-vis" style="height: 35%; width:35%; padding:50px;">
+    <div id="main-vis" style="height: 35%; width:35%; padding:50px 0px 0px 50px;">
     </div>
 </template>
 
@@ -185,7 +185,7 @@ export default {
 
                 Vis.Nphase = 2*Vis.Nx;
 
-                Vis.canvasx = document.getElementById('main-vis').offsetWidth;
+                Vis.canvasx = document.getElementById('main-vis').offsetWidth + 50;
                 //Vis.canvasy = document.getElementById('main-vis').offsetHeight;
                 Vis.canvasy = Vis.canvasx;
 

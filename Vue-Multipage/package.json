@@ -15,7 +15,7 @@
   "license": "BSD-3-Clause",
   "dependencies": {
     "@impvis/components": "^1.0.0",
-    "@impvis/components-katex":"^0.2.3",
+    "@impvis/components-katex": "^0.2.3",
     "@impvis/components-threejs": "^0.3.2",
     "core-js": "^3.6.5",
     "d3": "^6.1.1",
